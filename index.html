@@ -7,26 +7,30 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Forged365">
-
 <style>
-  :root {
-  /* Base materials */
+
+/* 1. Variables (palette) */
+:root {
   --iron-black: #0b0b0b;
-  --coal-black: #131313;
   --steel-dark: #1e1e1e;
   --steel-mid: #2a2a2a;
 
-  /* Text */
   --text-primary: #f2f2f2;
   --text-secondary: #c6c6c6;
   --text-tertiary: #9a9a9a;
 
-  /* Ember accents */
-  --ember-main: #ff7a2f;
   --ember-hot: #ff9a4d;
   --ember-dim: #c94f11;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* 2. Resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Page background */
 body {
   font-family: system-ui, -apple-system, sans-serif;
   min-height: 100vh;
@@ -34,16 +38,86 @@ body {
   background:
     radial-gradient(
       circle at top,
-      rgba(255, 140, 70, 0.18) 0%,
+      rgba(255, 140, 70, 0.18),
       var(--iron-black) 55%
     ),
     radial-gradient(
       circle at bottom,
-      rgba(255, 140, 70, 0.1),
+      rgba(255, 140, 70, 0.10),
       #050505 70%
     );
 }
 
+/* 4. Ember lighting */
+.ember-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    radial-gradient(circle at 20% 80%, rgba(255,140,70,0.18), transparent 45%),
+    radial-gradient(circle at 80% 30%, rgba(255,140,70,0.14), transparent 50%);
+
+  animation: emberFlow 22s linear infinite alternate;
+}
+
+@keyframes emberFlow {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50px); }
+}
+
+/* 5. App container */
+.shell {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* 6. Intro screen */
+#forge-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+}
+
+/* rest of your styles… */
+
+</style>
+
+<body>
+
+  <!-- Ambient ember lighting (background layer) -->
+  <div class="ember-field"></div>
+
+  <!-- Intro screen (sits above everything) -->
+  <div id="forge-intro">
+    <div class="forge-intro-inner">
+      <div class="forge-logo">
+        <!-- Placeholder for logo image later -->
+        <span class="anvil-mark">⚒️</span>
+      </div>
+
+      <h1>Forged365</h1>
+
+      <p class="forge-manifesto">
+        The year is not consumed.<br>
+        It is forged — one strike per day.
+      </p>
+
+      <button class="enter-forge-btn" onclick="enterForge()">
+        Enter the Forge
+      </button>
+    </div>
+  </div>
+
+  <!-- Main application -->
+  <div class="shell">
+    <!-- ALL your existing app UI lives here -->
+  </div>
+
+</body>
 .shell{max-width:680px;margin:0 auto}
 .topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .logo{font-size:18px;font-weight:500;letter-spacing:-0.3px}
@@ -183,6 +257,59 @@ body {
 .week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .week-nav button{background:none;border:0.5px solid var(--color-border-secondary);border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;color:var(--color-text-primary)}
 .week-nav-label{font-size:13px;font-weight:500}
+  #forge-intro {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at top, rgba(255,140,70,0.25), #0b0b0b 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.forge-intro-inner {
+  text-align: center;
+  max-width: 420px;
+  padding: 32px;
+}
+
+.forge-logo {
+  font-size: 64px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 20px rgba(255,140,70,0.6));
+}
+
+.forge-intro-inner h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.forge-manifesto {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.enter-forge-btn {
+  background: linear-gradient(
+    to bottom,
+    var(--ember-hot),
+    var(--ember-dim)
+  );
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #120600;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    0 12px 28px rgba(0,0,0,0.7);
+}
+``
 </style>
 </head>
 <body>
@@ -657,6 +784,16 @@ renderHome();
 renderPlan();
 renderLibrary();
 renderRecovery();
+  function enterForge() {
+  localStorage.setItem('forged_entered', 'yes');
+  document.getElementById('forge-intro').style.display = 'none';
+}
+
+if (localStorage.getItem('forged_entered') === 'yes') {
+  const intro = document.getElementById('forge-intro');
+  if (intro) intro.style.display = 'none';
+}
+
 </script>
 </body>
 </html>
