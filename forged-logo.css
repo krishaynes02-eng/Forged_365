@@ -1,0 +1,95 @@
+/* =========================
+   Forged Logo Animation
+   ========================= */
+
+.forged-logo {
+  background: radial-gradient(
+    circle at center,
+    #5a3a26 0%,
+    #120a06 70%
+  );
+}
+
+/* Hammer swing animation */
+#hammer-group {
+  transform-origin: center top;
+  animation: hammerSwing 1.6s ease-in-out infinite;
+}
+
+/* Sparks / embers */
+#sparks {
+  fill: #ffb347;
+  opacity: 0;
+  animation: sparkBurst 1.6s ease-in-out infinite;
+}
+
+/* Anvil heat glow */
+#anvil {
+  animation: anvilGlow 1.6s ease-in-out infinite;
+}
+
+/* =========================
+   Keyframes
+   ========================= */
+
+@keyframes hammerSwing {
+  0% {
+    transform: translate(256px, 160px) rotate(-70deg);
+  }
+
+  55% {
+    transform: translate(256px, 160px) rotate(-10deg);
+  }
+
+  /* Impact moment */
+  60% {
+    transform: translate(256px, 160px) rotate(0deg);
+  }
+
+  /* Small recoil */
+  65% {
+    transform: translate(256px, 160px) rotate(-4deg);
+  }
+
+  100% {
+    transform: translate(256px, 160px) rotate(-70deg);
+  }
+}
+
+@keyframes sparkBurst {
+  0%,
+  54% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes anvilGlow {
+  0%,
+  54% {
+    filter: none;
+  }
+
+  60% {
+    filter: url(#glow);
+  }
+
+  80%,
+  100% {
+    filter: none;
+  }
+}
