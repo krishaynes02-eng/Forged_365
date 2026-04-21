@@ -9,15 +9,41 @@
 <meta name="apple-mobile-web-app-title" content="Forged365">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:system-ui,-apple-system,sans-serif;
-  min-height:100vh;
-  color:var(--color-text-primary);
-  background:
-    radial-gradient(circle at top, rgba(255,120,40,0.08) 0%, #0b0b0b 55%),
-    radial-gradient(circle at bottom, rgba(90,110,255,0.05), #050505 70%);
+  :root {
+  /* Base materials */
+  --iron-black: #0b0b0b;
+  --coal-black: #131313;
+  --steel-dark: #1e1e1e;
+  --steel-mid: #2a2a2a;
+
+  /* Text */
+  --text-primary: #f2f2f2;
+  --text-secondary: #c6c6c6;
+  --text-tertiary: #9a9a9a;
+
+  /* Ember accents */
+  --ember-main: #ff7a2f;
+  --ember-hot: #ff9a4d;
+  --ember-dim: #c94f11;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  color: var(--text-primary);
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255, 140, 70, 0.18) 0%,
+      var(--iron-black) 55%
+    ),
+    radial-gradient(
+      circle at bottom,
+      rgba(255, 140, 70, 0.1),
+      #050505 70%
+    );
+}
+
 .shell{max-width:680px;margin:0 auto}
 .topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .logo{font-size:18px;font-weight:500;letter-spacing:-0.3px}
@@ -29,16 +55,21 @@ body{
 .page.active{display:block}
 .sec-label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px;margin-top:18px}
 .sec-label:first-child{margin-top:0}
-.card{
-  background:linear-gradient(to bottom, #181818, #121212);
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:10px;
+.card {
+  background: linear-gradient(
+    to bottom,
+    var(--steel-mid),
+    var(--steel-dark)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.03),
-    0 8px 24px rgba(0,0,0,0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 28px rgba(0, 0, 0, 0.65);
 }
+
 .phase-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
 .ph-tile{border-radius:10px;padding:12px 10px;cursor:pointer;border:1.5px solid transparent;transition:all 0.12s;text-align:center}
 .ph-tile.active-phase{border-color:var(--color-text-primary)}
@@ -207,7 +238,7 @@ body{
       <span class="badge" id="today-badge"></span>
     </div>
     <div id="today-ex-list"></div>
-    <button class="start-btn" id="today-start-btn" onclick="openWorkout()">tStrike the Iron →</button>
+    <button class="start-btn" id="today-start-btn" onclick="openWorkout()">Strike the Iron →</button>
   </div>
 </div>
 
