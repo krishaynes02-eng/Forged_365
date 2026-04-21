@@ -337,17 +337,22 @@ function resetTimer(){
 }
   /* ================= ENTER THE FORGE LOGIC ================= */
 
+// CHANGE THIS VERSION STRING if you want the intro to show again
+const FORGE_INTRO_VERSION = 'v1';
+
 function enterForge() {
-  localStorage.setItem('forged_entered', 'yes');
+  localStorage.setItem('forged_intro_seen', FORGE_INTRO_VERSION);
   document.getElementById('forge-intro').classList.add('hidden');
 }
 
-window.addEventListener('load', () => {
-  if (localStorage.getItem('forged_entered') === 'yes') {
+window.addEventListener('DOMContentLoaded', () => {
+  const seenVersion = localStorage.getItem('forged_intro_seen');
+  if (seenVersion === FORGE_INTRO_VERSION) {
     const intro = document.getElementById('forge-intro');
     if (intro) intro.classList.add('hidden');
   }
 });
+
 </script>
 
 </body>
