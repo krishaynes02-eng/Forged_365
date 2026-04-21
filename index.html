@@ -1,162 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Forged365</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Forged365">
 
 <style>
-/* ================= CORE TOKENS ================= */
-:root {
-  --bg-main: #0b0b0b;
-  --bg-card: #1a1a1a;
-  --bg-card-soft: #222;
-  --border-soft: #2c2c2c;
+:root{
+  --bg-main:#0b0b0b;
+  --bg-card:#161616;
+  --bg-soft:#1f1f1f;
+  --border:#2b2b2b;
 
-  --text-primary: #f2f2f2;
-  --text-secondary: #cfcfcf;
-  --text-tertiary: #9a9a9a;
+  --text-primary:#f2f2f2;
+  --text-secondary:#cfcfcf;
+  --text-tertiary:#9a9a9a;
 
-  --ember-main: #ff7a2f;
-  --ember-dark: #c94f11;
+  --ember:#ff7a2f;
+  --ember-dark:#c94f11;
 }
 
-/* ================= RESET ================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  min-height:100vh;
+  background:radial-gradient(circle at top, rgba(255,122,47,.15), var(--bg-main) 55%);
+  color:var(--text-primary);
 }
 
-/* ================= PAGE ================= */
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  min-height: 100vh;
-  background: radial-gradient(circle at top, rgba(255,122,47,0.15), var(--bg-main) 55%);
-  color: var(--text-primary);
+.shell{max-width:680px;margin:0 auto}
+
+.topbar{
+  background:var(--bg-card);
+  border-bottom:1px solid var(--border);
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-/* ================= LAYOUT ================= */
-.shell {
-  max-width: 680px;
-  margin: 0 auto;
+.logo{font-size:18px;font-weight:600}
+.logo em{color:var(--ember);font-style:normal}
+
+.nav{
+  display:flex;
+  gap:4px;
+  background:var(--bg-main);
+  border-radius:10px;
+  padding:3px;
+}
+.nav button{
+  background:none;
+  border:none;
+  padding:6px 12px;
+  border-radius:7px;
+  font-size:12px;
+  color:var(--text-secondary);
+  cursor:pointer;
+}
+.nav button.active{
+  background:var(--bg-card);
+  color:var(--text-primary);
 }
 
-/* ================= TOP BAR ================= */
-.topbar {
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-soft);
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.page{display:none;padding:16px}
+.page.active{display:block}
+
+.sec-label{
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text-tertiary);
+  margin-bottom:10px;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: 600;
+.card{
+  background:linear-gradient(to bottom,var(--bg-soft),var(--bg-card));
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:12px;
 }
 
-.logo em {
-  color: var(--ember-main);
-  font-style: normal;
+.start-btn{
+  width:100%;
+  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
+  color:#120600;
+  border:none;
+  border-radius:10px;
+  padding:14px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:12px;
 }
 
-.nav {
-  display: flex;
-  gap: 4px;
-  background: var(--bg-main);
-  border-radius: 10px;
-  padding: 3px;
+.modal-wrap{
+  display:none;
+  background:rgba(0,0,0,.85);
+  position:fixed;
+  inset:0;
+  z-index:20;
+  padding:16px;
+}
+.modal-wrap.open{display:block}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px
+}
+.modal-title{font-size:18px;font-weight:600}
+
+.close-btn{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:7px;
+  padding:5px 12px;
+  cursor:pointer;
+  color:var(--text-secondary);
 }
 
-.nav button {
-  background: none;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 7px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  cursor: pointer;
+.timer-box{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  text-align:center;
+  margin-bottom:12px;
 }
+.timer-big{font-size:36px;font-variant-numeric:tabular-nums}
+.timer-lbl{font-size:11px;color:var(--text-secondary);margin-top:4px}
 
-.nav button.active {
-  background: var(--bg-card);
-  color: var(--text-primary);
+.tbtn{
+  border-radius:9px;
+  padding:9px 18px;
+  font-size:13px;
+  cursor:pointer;
 }
-
-/* ================= SECTIONS ================= */
-.page {
-  display: none;
-  padding: 16px;
+.tbtn-solid{
+  background:var(--ember);
+  border:none;
 }
-
-.page.active {
-  display: block;
-}
-
-.sec-label {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: 10px;
-}
-
-/* ================= CARDS ================= */
-.card {
-  background: linear-gradient(to bottom, var(--bg-card-soft), var(--bg-card));
-  border: 1px solid var(--border-soft);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-/* ================= BUTTON ================= */
-.start-btn {
-  width: 100%;
-  background: linear-gradient(to bottom, var(--ember-main), var(--ember-dark));
-  color: #120600;
-  border: none;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 12px;
-}
-
-/* ================= BADGES ================= */
-.badge {
-  font-size: 11px;
-  padding: 3px 9px;
-  border-radius: 20px;
-}
-
-/* ================= HIDE ACCESSIBILITY ================= */
-.sr-only {
-  position:absolute;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
+.tbtn-outline{
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text-primary);
 }
 </style>
 </head>
 
 <body>
 
-<h2 class="sr-only">Forged365 — Year-long strength training program</h2>
-
 <div class="shell">
 
-  <!-- TOP BAR -->
   <div class="topbar">
     <div class="logo">Forged<em>365</em></div>
     <div class="nav">
@@ -167,28 +169,24 @@ body {
     </div>
   </div>
 
-  <!-- TODAY -->
   <div id="page-home" class="page active">
-    <div class="sec-label">Today's Session</div>
+    <div class="sec-label">Today's session</div>
     <div class="card">
-      <div id="today-session-title">Loading…</div>
+      <div id="today-session-title">Push session</div>
       <button class="start-btn" onclick="openWorkout()">Strike the Iron →</button>
     </div>
   </div>
 
-  <!-- PLAN -->
   <div id="page-plan" class="page">
-    <div class="sec-label">Year Plan</div>
+    <div class="sec-label">Year plan</div>
     <div class="card">Plan view restored</div>
   </div>
 
-  <!-- LIBRARY -->
   <div id="page-library" class="page">
     <div class="sec-label">Exercises</div>
-    <div class="card">Library restored</div>
+    <div class="card">Exercise library restored</div>
   </div>
 
-  <!-- RECOVERY -->
   <div id="page-recovery" class="page">
     <div class="sec-label">Recovery</div>
     <div class="card">Recovery guidance restored</div>
@@ -196,19 +194,69 @@ body {
 
 </div>
 
+<div class="modal-wrap" id="workout-modal">
+  <div style="max-width:640px;margin:0 auto">
+    <div class="modal-header">
+      <div class="modal-title">Workout Session</div>
+      <button class="close-btn" onclick="closeWorkout()">Close</button>
+    </div>
+
+    <div class="timer-box">
+      <div class="timer-big" id="timer-disp">1:30</div>
+      <div class="timer-lbl" id="timer-lbl">Rest timer</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+        <button class="tbtn tbtn-outline" onclick="resetTimer()">Reset</button>
+        <button class="tbtn tbtn-solid" id="timer-tog" onclick="toggleTimer()">Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
 }
 
-function openWorkout() {
-  alert('Workout flow intact — next step is restoring modal once UI is stable.');
+let timerSec=90,timerRunning=false,timerInterval=null;
+
+function openWorkout(){
+  document.getElementById('workout-modal').classList.add('open');
+  resetTimer();
+}
+
+function closeWorkout(){
+  document.getElementById('workout-modal').classList.remove('open');
+  stopTimer();
+}
+
+function pad(n){return String(n).padStart(2,'0')}
+function updateTimer(){
+  document.getElementById('timer-disp').textContent=
+    Math.floor(timerSec/60)+':'+pad(timerSec%60);
+}
+function toggleTimer(){timerRunning?stopTimer():startTimer()}
+function startTimer(){
+  timerRunning=true;
+  document.getElementById('timer-tog').textContent='Pause';
+  timerInterval=setInterval(()=>{
+    timerSec--;updateTimer();
+    if(timerSec<=0){stopTimer();}
+  },1000);
+}
+function stopTimer(){
+  timerRunning=false;
+  clearInterval(timerInterval);
+  document.getElementById('timer-tog').textContent='Start';
+}
+function resetTimer(){
+  stopTimer();
+  timerSec=90;
+  updateTimer();
 }
 </script>
 
 </body>
 </html>
-
