@@ -4,9 +4,20 @@
 <meta charset="UTF-8">
 <title>Forged365</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Forged365">
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:var(--color-background-secondary);color:var(--color-text-primary);min-height:100vh}
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  min-height:100vh;
+  color:var(--color-text-primary);
+  background:
+    radial-gradient(circle at top, rgba(255,120,40,0.08) 0%, #0b0b0b 55%),
+    radial-gradient(circle at bottom, rgba(90,110,255,0.05), #050505 70%);
+}
 .shell{max-width:680px;margin:0 auto}
 .topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .logo{font-size:18px;font-weight:500;letter-spacing:-0.3px}
@@ -18,7 +29,16 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--color-backg
 .page.active{display:block}
 .sec-label{font-size:10px;font-weight:500;letter-spacing:0.09em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px;margin-top:18px}
 .sec-label:first-child{margin-top:0}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px;margin-bottom:10px}
+.card{
+  background:linear-gradient(to bottom, #181818, #121212);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:10px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    0 8px 24px rgba(0,0,0,0.6);
+}
 .phase-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
 .ph-tile{border-radius:10px;padding:12px 10px;cursor:pointer;border:1.5px solid transparent;transition:all 0.12s;text-align:center}
 .ph-tile.active-phase{border-color:var(--color-text-primary)}
@@ -56,8 +76,27 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--color-backg
 .ex-info{flex:1;min-width:0}
 .ex-name{font-size:13px;font-weight:500}
 .ex-sets{font-size:11px;color:var(--color-text-secondary)}
-.start-btn{width:100%;background:var(--color-text-primary);color:var(--color-background-primary);border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:12px;transition:opacity 0.12s}
-.start-btn:hover{opacity:0.85}
+.start-btn{
+  width:100%;
+  background:linear-gradient(to bottom, #ff7a2f, #c94f11);
+  color:#0b0b0b;
+  border:none;
+  border-radius:10px;
+  padding:14px;
+  font-size:15px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+  margin-top:12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    0 8px 20px rgba(0,0,0,0.6);
+}
+
+.start-btn:hover{
+  transform:translateY(-1px);
+}
+
 .prog-meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
 .meta-chip{background:var(--color-background-secondary);border-radius:8px;padding:10px;text-align:center}
 .meta-val{font-size:18px;font-weight:500;margin-bottom:2px}
@@ -168,7 +207,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--color-backg
       <span class="badge" id="today-badge"></span>
     </div>
     <div id="today-ex-list"></div>
-    <button class="start-btn" id="today-start-btn" onclick="openWorkout()">Start session →</button>
+    <button class="start-btn" id="today-start-btn" onclick="openWorkout()">tStrike the Iron →</button>
   </div>
 </div>
 
