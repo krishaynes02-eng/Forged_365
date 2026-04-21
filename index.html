@@ -152,10 +152,89 @@ body{
   border:1px solid var(--border);
   color:var(--text-primary);
 }
+  /* ================= ENTER THE FORGE INTRO ================= */
+
+.forge-intro {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(255,122,47,0.25),
+    #0b0b0b 60%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.forge-intro.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.forge-intro-inner {
+  text-align: center;
+  max-width: 420px;
+  padding: 32px;
+}
+
+.forge-symbol {
+  font-size: 64px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 20px rgba(255,122,47,0.6));
+}
+
+.forge-intro h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.forge-manifesto {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.enter-forge-btn {
+  background: linear-gradient(
+    to bottom,
+    var(--ember),
+    var(--ember-dark)
+  );
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #120600;
+}
 </style>
 </head>
 
 <body>
+
+<!-- ENTER THE FORGE INTRO (GOES HERE) -->
+  <div id="forge-intro" class="forge-intro">
+    <div class="forge-intro-inner">
+      <div class="forge-symbol">⚒️</div>
+
+      <h1>Forged365</h1>
+
+      <p class="forge-manifesto">
+        The year is not consumed.<br>
+        It is forged — one strike per day.
+      </p>
+
+      <button class="enter-forge-btn" onclick="enterForge()">
+        Enter the Forge
+      </button>
+    </div>
+  </div>
 
 <div class="shell">
 
@@ -256,7 +335,21 @@ function resetTimer(){
   timerSec=90;
   updateTimer();
 }
+  /* ================= ENTER THE FORGE LOGIC ================= */
+
+function enterForge() {
+  localStorage.setItem('forged_entered', 'yes');
+  document.getElementById('forge-intro').classList.add('hidden');
+}
+
+window.addEventListener('load', () => {
+  if (localStorage.getItem('forged_entered') === 'yes') {
+    const intro = document.getElementById('forge-intro');
+    if (intro) intro.classList.add('hidden');
+  }
+});
 </script>
 
 </body>
 </html>
+
