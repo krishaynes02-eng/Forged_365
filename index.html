@@ -101,13 +101,15 @@ body{
 
 
 .sec-label {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #e6e6e6; /* strong neutral, high contrast on warm bg */
+
+  /* High-contrast off-white */
+  color: #f2f2f2;
+
   margin-bottom: 10px;
 }
-
 
 .card{
   background:linear-gradient(to bottom,var(--bg-soft),var(--bg-card));
@@ -370,16 +372,18 @@ body{
   text-decoration: line-through;
 }
 
-
-
 #phase-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 122, 47, 0.7); /* ember, but softened */
-  font-weight: 500;
+
+  /* Clean ember with strong contrast */
+  color: #ff8f3f;
+
+  font-weight: 600;
   margin-bottom: 6px;
 }
+
 .sec-label {
   font-size: 11px;
   letter-spacing: 0.12em;
@@ -403,11 +407,6 @@ body{
   margin-bottom: 6px;
 }
 
-/* Improve legibility on warm gradient background */
-.sec-label,
-#phase-label {
-  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
-}
 </style>
 </head>
 
