@@ -356,7 +356,8 @@ body{
   <div id="page-home" class="page active">
     <div class="sec-label">Today's session</div>
     <div class="card">
-      <div id="today-session-title">Push session</div>
+      <div id="today-session-title"></div>
+<div id="today-session-list"></div>
       <button class="start-btn" onclick="openWorkout()">Strike the Iron →</button>
     </div>
   </div>
@@ -397,6 +398,53 @@ body{
 </div>
 
 <script>
+  /* ================= WORKOUT PROGRAM ================= */
+
+// Basic weekly split (Day 1 = Monday)
+const WEEK_SPLIT = [
+  'Push',
+  'Pull',
+  'Legs',
+  'Mobility',
+  'Push',
+  'Pull',
+  'Rest'
+];
+
+const WORKOUTS = {
+  Push: [
+    'Push-ups — 3×12',
+    'Incline push-ups — 3×10',
+    'Shoulder taps — 3×20',
+    'Bench dips — 3×10'
+  ],
+  Pull: [
+    'Inverted rows — 3×10',
+    'Band pull-aparts — 3×15',
+    'Negative pull-ups — 3×5',
+    'Dead hangs — 3×30s'
+  ],
+  Legs: [
+    'Bodyweight squats — 4×15',
+    'Reverse lunges — 3×10/side',
+    'Glute bridges — 3×15',
+    'Calf raises — 3×20'
+  ],
+  Mobility: [
+    'Hip mobility flow — 10 min',
+    'Thoracic rotations — 3×10',
+    'Hamstring stretch — 3×30s',
+    'Ankle mobility — 3×20'
+  ],
+  Rest: []
+};
+
+function getTodayWorkoutType() {
+  const today = new Date();
+  const dayIndex = (today.getDay() + 6) % 7; // Make Monday = 0
+  return WEEK_SPLIT[dayIndex];
+}
+
 function showPage(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
@@ -471,8 +519,36 @@ document.addEventListener('DOMContentLoaded', () => {
     intro.style.display = 'none';
   }
 });
+function renderTodaySession() {
+  const type = getTodayWorkoutType();
+  const titleEl = document.getElementById('today-session-title');
+  const listEl = document.getElementById('today-session-list');
 
+  titleEl.textContent =
+    type === 'Rest'
+      ? 'Rest Day'
+      : `${type} Session`;
 
+  listEl.innerHTML = '';
+
+  if (type === 'Rest') {
+    listEl.innerHTML =
+      '<p style="color:var(--text-secondary); font-size:14px;">Active recovery, walking, and light mobility.</p>';
+    return;
+  }
+
+  const exercises = WORKOUTS[type];
+
+  exercises.forEach(ex => {
+    const row = document.createElement('div');
+    row.className = 'card';
+    row.style.marginTop = '8px';
+    row.style.fontSize = '14px';
+    row.textContent = ex;
+    listEl.appendChild(row);
+  });
+}
+renderTodaySession();
 </script>
 
 </body>
