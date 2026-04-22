@@ -330,7 +330,23 @@ body{
   color: var(--text-primary);
   cursor: pointer;
 }
+.week-header {
+  position: relative;
+}
 
+.week-header::before {
+  content: "";
+  position: absolute;
+  inset: -4px 0;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 0;
+}
+
+.week-header > * {
+  position: relative;
+  z-index: 1;
+}
 
 /* ================= WEEK VIEW ================= */
 
@@ -378,13 +394,18 @@ body{
   margin-bottom: 6px;
 }
 
+
 .sec-label {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #e6e6e6;
+
+  /* Critical: true white for warm backgrounds */
+  color: #ffffff;
+
   margin-bottom: 10px;
 }
+
 
 /* Ensure Current Week matches other section headers */
 
@@ -447,7 +468,7 @@ body{
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
 <div class="sec-label" id="phase-label"></d
-<div class="sec-label">This Week</div>
+<div class="sec-label">This Week</div><div``
 <div id="week-view" class="week-grid"></div>
 
   <div id="page-home" class="page active">
