@@ -336,6 +336,14 @@ body{
   background: rgba(255,122,47,0.15);
   color: var(--text-primary);
 }
+  
+/* ================= COMPLETION ================= */
+
+.complete-ex {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
 </style>
 </head>
 
@@ -631,12 +639,6 @@ function checkDayCompletion(dayIndex) {
   renderWeekView();
 }
 
-/* ================= COMPLETION ================= */
-
-.complete-ex {
-  opacity: 0.6;
-  text-decoration: line-through;
-}
 
 renderTodaySession();
   renderWeekView();
