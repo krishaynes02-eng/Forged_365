@@ -37,7 +37,27 @@ body{
 }
 
 .shell{max-width:680px;margin:0 auto}
+/* ================= TOP BAR BRAND ================= */
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Static logo for header (no animation) */
+.brand-logo {
+  width: 22px;
+  height: 22px;
+
+  /* Use same asset as intro, but static */
+  background: center / contain no-repeat;
+  background: url('forged-logo.png');
+
+  /* Subtle ember presence */
+  filter:
+    drop-shadow(0 0 4px rgba(255,122,47,0.5));
+}
 .topbar{
   background:var(--bg-card);
   border-bottom:1px solid var(--border);
@@ -317,9 +337,15 @@ body{
 
 <div class="shell">
 
-  <div class="topbar">
-    <div class="logo">Forged<em>365</em></div>
-    <div class="nav">
+ 
+<div class="topbar"><div class="top>
+  </div>
+
+  <div class="nav">
+
+  <div class="brand">
+    <div class="brand-logo"></div>
+
       <button class="active" onclick="showPage('home',this)">Today</button>
       <button onclick="showPage('plan',this)">Year plan</button>
       <button onclick="showPage('library',this)">Exercises</button>
