@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Forged365">Week navigation fixed — add training phases.
+<meta name="apple-mobile-web-app-title" content="Forged365"
 
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
@@ -462,9 +462,6 @@ body{
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
 
-
-<div class="week-header">...</div>
-
 <div id="phase-label" class="sec-label"></div>
 <div id="weekly-summary"></div>
 
@@ -878,7 +875,8 @@ function renderPhaseInfo() {
   label.textContent = `${phase.name} Phase — ${phase.description}`;
 }
   
-function renderWeeklySummary() {function renderWeeklySummary = document.getElementById('weekly-summary');
+function renderWeeklySummary() {
+  const summaryEl = document.getElementById('weekly-summary');
   if (!summaryEl) return;
 
   let completedDays = 0;
@@ -892,7 +890,6 @@ function renderWeeklySummary() {function renderWeeklySummary = document.getEleme
 
   summaryEl.textContent = `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
 }
-
 renderPhaseInfo();
 renderWeeklySummary();
 renderTodaySession();
