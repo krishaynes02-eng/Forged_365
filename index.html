@@ -5,8 +5,7 @@
 
   <link rel="stylesheet" href="forged-logo.css">
 
-<meta charset="UTF-8">
-<title>Forged365 </title>
+<meta name="apple-mobile-web-app-title" content="Forged365">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -786,13 +785,6 @@ const exercises = WORKOUTS[type][phase.name];
 const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
 
-
-exerciseState[todayKey] = {
-  completed,
-  timestamp: Date.now()
-}
-
-
 exercises.forEach((ex, i) => {
   const row = document.createElement('div');
   row.className = 'card';
@@ -888,25 +880,13 @@ function setExerciseCompletion(state) {
 }
 
 function getWeekStartDate(weekOffset = 0) {
-const now = new Date();
-const completedTime = now.getTime();
-
-if (streak.lastCompletedDate) {
-  const last = new Date(streak.lastCompletedDate);
-  const diffMs = completedTime - last.getTime();
-  const diffHours = diffMs / (1000 * 60 * 60);
-
-  if (diffHours <= 48) {
-    // Allow late completion to preserve streak
-    streak.current += 1;
-  } else {
-    streak.current = 1;
-  }
-} else {
-  streak.current = 1;
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - day + weekOffset * 7);
+  monday.setHours(0,0,0,0);
+  return monday;
 }
-
-
 
 function changeWeek(delta) {
   currentWeekOffset += delta;
@@ -945,18 +925,16 @@ function renderWeeklySummary() {
   let completedDays = 0;
   let totalTrainingDays = 0;
 
-function renderStreakSummary() {
-  const streakEl = document.getElementById('streak-summary');
-  if (!streakEl) return;
+  WEEK_SPLIT.forEach((type, dayIndex) => {
+    if (type === 'Rest') return;
+    totalTrainingDays++;
+    if (isDayComplete(dayIndex)) completedDays++;
+  });
 
-  const streak = getStreakState();
-
-  if (streak.current === 0) {
-    streakEl.textContent = `🔥 Start your streak today`;
-  } else {
-    streakEl.textContent = `🔥 ${streak.current}-day streak (Best: ${streak.best})`;
-  }
+  summaryEl.textContent =
+    `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
 }
+
 
   WEEK_SPLIT.forEach((type, dayIndex) => {
     if (type === 'Rest') return;
@@ -996,7 +974,7 @@ renderWeeklySummary();
 renderStreakSummary();
 renderTodaySession();
 renderWeekView();
-  renderViewingIndicator();
+renderViewingIndicator();
 
 </script>
 
