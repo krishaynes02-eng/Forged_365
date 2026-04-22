@@ -311,11 +311,12 @@ body{
 }
   /* ================= WEEK NAV ================= */
 
+
 .week-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 8px 0 4px;
+  margin: 6px 0 2px;
 }
 
 .week-nav-btn {
@@ -368,9 +369,14 @@ body{
   text-decoration: line-through;
 }
 
+
 #phase-label {
   color: var(--ember);
-  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.9;
   margin-bottom: 6px;
 }
 
@@ -420,7 +426,7 @@ body{
 
 <div class="week-header">
   <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
-  <div id="week-label">Week 1</div>
+ <div id="week-label" class="sec-label">Current Week</div>
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
 <div class="sec-label" id="phase-label"></d
