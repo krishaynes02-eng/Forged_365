@@ -443,6 +443,35 @@ body{
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+  .exercise-details {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+
+  font-size: 13px;
+  color: var(--text-secondary);
+
+  display: none;
+}
+
+.exercise-details.show {
+  display: block;
+}
+
+.exercise-details .tempo {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.exercise-details ul {
+  padding-left: 16px;
+  margin: 0;
+}
+
+.exercise-details li {
+  margin-bottom: 4px;
+}
+
 </style>
 </head>
 
@@ -565,6 +594,12 @@ function snapBackToTodayIfNeeded() {
   localStorage.setItem('forged_last_seen', todayKey);
 }
 
+function getExerciseDetail(exerciseText) {
+  const name = Object.keys(EXERCISE_DETAILS).find(key =>
+    exerciseText.startsWith(key)
+  );
+  return name ? EXERCISE_DETAILS[name] : null;
+}
   
 function updateStreakIfNeeded(dayIndex) {
   const today = new Date();
@@ -823,11 +858,30 @@ const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
 
 exercises.forEach((ex, i) => {
-  const row = document.createElement('div');
-  row.className = 'card';
-  row.style.cursor = 'pointer';
-  row.textContent = ex;
+ const row = document.createElement('div');
+row.className = 'card';
+row.style.cursor = 'pointer';
 
+const title = document.createElement('div');
+title.textContent = ex;
+
+const detail = getExerciseDetail(ex);
+let detailsEl = null;
+
+if (detail) {
+  detailsEl = document.createElement('div');
+  detailsEl.className = 'exercise-details';
+
+  detailsEl.innerHTML = `
+    <div class="tempo">Tempo: ${detail.tempo}</div>
+    <ul>
+      ${detail.cues.map(c => `<li>${c}</li>`).join('')}
+    </ul>
+  `;
+}
+
+row.appendChild(title);
+if (detailsEl) row.appendChild(detailsEl);
   // Restore completion state
   if (exerciseState[todayKey]?.includes(i)) {
     row.classList.add('complete-ex');
@@ -1027,6 +1081,49 @@ function setStreakState(state) {
 
   el.textContent = `Viewing: ${dayName} ${suffix}`.trim();
 }
+
+const EXERCISE_DETAILS = {
+  'Push-ups': {
+    tempo: '2–1–1',
+    cues: [
+      'Brace your core before each rep',
+      'Elbows at ~45°',
+      'Full lockout at the top'
+    ]
+  },
+  'Incline push-ups': {
+    tempo: '2–1–1',
+    cues: [
+      'Maintain a straight body line',
+      'Lower chest to hands',
+      'Control the descent'
+    ]
+  },
+  'Tempo push-ups': {
+    tempo: '3–1–1',
+    cues: [
+      'Slow, controlled descent',
+      'Pause briefly at the bottom',
+      'Explode up with control'
+    ]
+  },
+  'Inverted rows': {
+    tempo: '2–1–1',
+    cues: [
+      'Squeeze shoulder blades first',
+      'Keep body rigid',
+      'Pull chest to bar'
+    ]
+  },
+  'Bodyweight squats': {
+    tempo: '3–1–1',
+    cues: [
+      'Sit between your hips',
+      'Knees track over toes',
+      'Drive through mid‑foot'
+    ]
+  }
+};
 
 snapBackToTodayIfNeeded();
   
