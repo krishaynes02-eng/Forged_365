@@ -761,10 +761,14 @@ document.addEventListener('DOMContentLoaded', () => {
     intro.style.display = 'none';
   }
 });
+
 function renderTodaySession() {
-  const type = getWorkoutTypeForDay(selectedDayIndex)
+  const type = getWorkoutTypeForDay(selectedDayIndex);
   const titleEl = document.getElementById('today-session-title');
   const listEl = document.getElementById('today-session-list');
+
+  const exerciseState = getExerciseCompletion();
+  const todayKey = `week-${currentWeekOffset}-day-${selectedDayIndex}
 
   titleEl.textContent =
     type === 'Rest'
@@ -917,7 +921,19 @@ function renderPhaseInfo() {
 
   label.textContent = `${phase.name} Phase — ${phase.description}`;
 }
-  
+  function renderStreakSummary() {
+  const streakEl = document.getElementById('streak-summary');
+  if (!streakEl) return;
+
+  const streak = getStreakState();
+
+  if (streak.current === 0) {
+    streakEl.textContent = '🔥 Start your streak today';
+  } else {
+    streakEl.textContent = `🔥 ${streak.current}-day streak (Best: ${streak.best})`;
+  }
+}
+
 function renderWeeklySummary() {
   const summaryEl = document.getElementById('weekly-summary');
   if (!summaryEl) return;
