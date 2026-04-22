@@ -469,7 +469,7 @@ body{
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
 <div class="sec-label" id="phase-label"></d
-<div class="sec-label">This Week</div><div``
+<div class="sec-label">This Week</div><div
 <div id="week-view" class="week-grid"></div>
 
   <div id="page-home" class="page active">
@@ -552,31 +552,89 @@ const WEEK_SPLIT = [
 ];
 
 const WORKOUTS = {
-  Push: [
-    'Push-ups — 3×12',
-    'Incline push-ups — 3×10',
-    'Shoulder taps — 3×20',
-    'Bench dips — 3×10'
-  ],
-  Pull: [
-    'Inverted rows — 3×10',
-    'Band pull-aparts — 3×15',
-    'Negative pull-ups — 3×5',
-    'Dead hangs — 3×30s'
-  ],
-  Legs: [
-    'Bodyweight squats — 4×15',
-    'Reverse lunges — 3×10/side',
-    'Glute bridges — 3×15',
-    'Calf raises — 3×20'
-  ],
-  Mobility: [
-    'Hip mobility flow — 10 min',
-    'Thoracic rotations — 3×10',
-    'Hamstring stretch — 3×30s',
-    'Ankle mobility — 3×20'
-  ],
-  Rest: []
+  Push: {
+    Foundation: [
+      'Push-ups — 3×10',
+      'Incline push-ups — 3×8',
+      'Shoulder taps — 3×20',
+      'Bench dips — 3×8'
+    ],
+    Strength: [
+      'Push-ups — 4×15',
+      'Decline push-ups — 3×10',
+      'Pike push-ups — 3×8',
+      'Bench dips — 4×12'
+    ],
+    Hypertrophy: [
+      'Tempo push-ups — 4×12 (3–1–1)',
+      'Incline push-ups — 4×15',
+      'Shoulder taps — 4×30',
+      'Bench dips — 4×15'
+    ]
+  },
+
+  Pull: {
+    Foundation: [
+      'Inverted rows — 3×8',
+      'Band pull-aparts — 3×15',
+      'Dead hangs — 3×20s'
+    ],
+    Strength: [
+      'Inverted rows — 4×12',
+      'Negative pull-ups — 4×5',
+      'Dead hangs — 3×45s'
+    ],
+    Hypertrophy: [
+      'Inverted rows — 4×15',
+      'Band pull-aparts — 4×20',
+      'Dead hangs — 4×60s'
+    ]
+  },
+
+  Legs: {
+    Foundation: [
+      'Bodyweight squats — 4×12',
+      'Reverse lunges — 3×8/side',
+      'Glute bridges — 3×12',
+      'Calf raises — 3×20'
+    ],
+    Strength: [
+      'Squats — 5×15',
+      'Walking lunges — 4×10/side',
+      'Single-leg glute bridges — 3×8/side',
+      'Calf raises — 4×25'
+    ],
+    Hypertrophy: [
+      'Tempo squats — 4×15 (3–1–1)',
+      'Reverse lunges — 4×12/side',
+      'Glute bridges — 4×20',
+      'Calf raises — 5×30'
+    ]
+  },
+
+  Mobility: {
+    Foundation: [
+      'Hip mobility flow — 10 min',
+      'Thoracic rotations — 3×10',
+      'Hamstring stretch — 3×30s'
+    ],
+    Strength: [
+      'Hip mobility flow — 12 min',
+      'Thoracic rotations — 3×12',
+      'Ankle mobility — 3×20'
+    ],
+    Hypertrophy: [
+      'Full mobility flow — 15 min',
+      'Hamstring stretch — 4×30s',
+      'Ankle mobility — 4×25'
+    ]
+  },
+
+  Rest: {
+    Foundation: [],
+    Strength: [],
+    Hypertrophy: []
+  }
 };
 
 
@@ -679,7 +737,9 @@ function renderTodaySession() {
 
   
 const phase = getCurrentPhase();
-const exercises = WORKOUTS[type];
+
+const phase = getCurrentPhase();
+const exercises = WORKOUTS[type][phase.name];
 
 const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
