@@ -104,10 +104,7 @@ body{
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-
-  /* High-contrast off-white */
   color: #f2f2f2;
-
   margin-bottom: 10px;
 }
 
@@ -385,16 +382,15 @@ body{
 }
 
 
+
 #phase-label {
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #ff8f3f;
   font-weight: 500;
   margin-bottom: 6px;
 }
-
-
 
 .sec-label {
   font-size: 12px;
@@ -463,13 +459,16 @@ body{
   </div>
  </div>
 
+
 <div class="week-header">
   <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
- <div id="week-label" class="sec-label">Current Week</div>
+  <div id="week-label" class="sec-label">Current Week</div>
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
-<div class="sec-label" id="phase-label"></d
-<div class="sec-label">This Week</div><div
+
+<div id="phase-label"></div>
+
+<div class="sec-label">This Week</div>
 <div id="week-view" class="week-grid"></div>
 
   <div id="page-home" class="page active">
@@ -734,9 +733,6 @@ function renderTodaySession() {
       '<p style="color:var(--text-secondary); font-size:14px;">Active recovery, walking, and light mobility.</p>';
     return;
   }
-
-  
-const phase = getCurrentPhase();
 
 const phase = getCurrentPhase();
 const exercises = WORKOUTS[type][phase.name];
