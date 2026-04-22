@@ -649,27 +649,34 @@ exercises.forEach((ex, i) => {
 
 function renderWeekView() {
   const weekEl = document.getElementById('week-view');
-  if (!weekEl) return;
+  const labelEl = document.getElementById('week-label');
+  if (!weekEl || !labelEl) return;
 
-const dayIndex = selectedDayIndex;
+  labelEl.textContent =
+    currentWeekOffset === 0
+      ? 'Current Week'
+      : `Week ${currentWeekOffset > 0 ? '+' : ''}${currentWeekOffset}`;
 
   weekEl.innerHTML = '';
 
   WEEK_SPLIT.forEach((type, i) => {
     const day = document.createElement('div');
     day.className = 'week-day';
- day.textContent =
-  isDayComplete(i)
-    ? `${type} ✓`
-    : type;
+    day.textContent = isDayComplete(i) ? `${type} ✓` : type;
 
-
-    if (i === todayIndex) day.classList.add('today');
+    if (i === selectedDayIndex) day.classList.add('today');
     if (isDayComplete(i)) day.classList.add('complete');
+
+    day.addEventListener('click', () => {
+      selectedDayIndex = i;
+      renderWeekView();
+      renderTodaySession();
+    });
 
     weekEl.appendChild(day);
   });
 }
+
   
 function getCompletionState() {
   return JSON.parse(localStorage.getItem('forged_completion') || '{}');
@@ -717,8 +724,6 @@ function changeWeek(delta) {
   renderWeekView();
   renderTodaySession();
 }
-  document.getElementById('week-label').textContent =
-  `Week ${currentWeekOffset === 0 ? 'Current' : currentWeekOffset > 0 ? '+' + currentWeekOffset : currentWeekOffset}`;
 
 renderTodaySession();
   renderWeekView();
