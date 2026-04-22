@@ -221,42 +221,35 @@ body{
   color: #120600;
 }
   
-/* ============ INTRO LOGO LIGHT INTEGRATION ============ */
+/* ============ INTRO LOGO GLOW (WRAPPER-BASED) ============ */
 
 .forge-symbol {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-}
 
-.forged-logo {
-  width: 140px;
-  height: 140px;
-
-  /* Ember glow */
   filter:
     drop-shadow(0 0 18px rgba(255,122,47,0.55))
     drop-shadow(0 0 36px rgba(255,122,47,0.35));
 
-  /* Very subtle heat pulse */
-  animation: forge-glow 3.5s ease-in-out infinite;
+  animation: forge-glow-wrapper 3.5s ease-in-out infinite;
 }
 
-@keyframes forge-glow {
+@keyframes forge-glow-wrapper {
   0% {
     filter:
-      drop-shadow(0 0 14px rgba(255,122,47,0.45))
-      drop-shadow(0 0 28px rgba(255,122,47,0.25));
+      drop-shadow(0 0 12px rgba(255,122,47,0.4))
+      drop-shadow(0 0 24px rgba(255,122,47,0.25));
   }
   50% {
     filter:
-      drop-shadow(0 0 22px rgba(255,122,47,0.7))
-      drop-shadow(0 0 42px rgba(255,122,47,0.45));
+      drop-shadow(0 0 26px rgba(255,122,47,0.75))
+      drop-shadow(0 0 52px rgba(255,122,47,0.45));
   }
   100% {
     filter:
-      drop-shadow(0 0 14px rgba(255,122,47,0.45))
-      drop-shadow(0 0 28px rgba(255,122,47,0.25));
+      drop-shadow(0 0 12px rgba(255,122,47,0.4))
+      drop-shadow(0 0 24px rgba(255,122,47,0.25));
   }
 }
 
