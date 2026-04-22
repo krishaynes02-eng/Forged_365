@@ -424,13 +424,20 @@ function enterForge() {
   document.getElementById('forge-intro').classList.add('hidden');
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+
+// SHOW INTRO ONLY IF USER HAS NOT DISMISSED IT
+document.addEventListener('DOMContentLoaded', () => {
+  const intro = document.getElementById('forge-intro');
   const seenVersion = localStorage.getItem('forged_intro_seen');
+
+  if (!intro) return;
+
   if (seenVersion === FORGE_INTRO_VERSION) {
-    const intro = document.getElementById('forge-intro');
-    if (intro) intro.classList.add('hidden');
+    // User already entered the forge before — never show intro
+    intro.style.display = 'none';
   }
 });
+
 
 </script>
 
