@@ -37,7 +37,19 @@ body{
 }
 
 .shell{max-width:680px;margin:0 auto}
-/* ================= TOP BAR BRAND ================= */
+
+.topbar{
+  background:var(--bg-card);
+  border-bottom:1px solid var(--border);
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+  /* ================= TOP BAR BRAND ================= */
 
 .brand {
   display: flex;
@@ -57,17 +69,6 @@ body{
   /* Subtle ember presence */
   filter:
     drop-shadow(0 0 4px rgba(255,122,47,0.5));
-}
-.topbar{
-  background:var(--bg-card);
-  border-bottom:1px solid var(--border);
-  padding:14px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:10;
 }
 
 .logo{font-size:18px;font-weight:600}
