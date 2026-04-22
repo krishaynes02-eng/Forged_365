@@ -408,7 +408,41 @@ body{
   color: var(--text-secondary);
   margin-bottom: 12px;
 }
+/* ================= COMPLETION CELEBRATION ================= */
 
+#completion-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+
+  background: linear-gradient(
+    to bottom,
+    var(--ember),
+    var(--ember-dark)
+  );
+  color: #120600;
+
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+
+  opacity: 0;
+  pointer-events: none;
+
+  box-shadow:
+    0 0 20px rgba(255,122,47,0.6);
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+#completion-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 </style>
 </head>
 
@@ -865,15 +899,25 @@ function isDayComplete(dayIndex) {
 }
 
 function checkDayCompletion(dayIndex) {
+  const state = getCompletionState();
+  const wasComplete = state[dayIndex] === 'complete';
+
   const cards = document.querySelectorAll('#today-session-list .card');
   const allDone = [...cards].every(c => c.classList.contains('complete-ex'));
 
-  const state = getCompletionState();
   state[dayIndex] = allDone ? 'complete' : 'incomplete';
   setCompletionState(state);
 
+  if (allDone && !wasComplete) {
+    showCompletionToast(); // ✅ trigger only on first completion
+    updateStreakIfNeeded(dayIndex);
+  }
+
   renderWeekView();
+  renderWeeklySummary();
+  renderStreakSummary();
 }
+
 function getExerciseCompletion() {
   return JSON.parse(localStorage.getItem('forged_exercises') || '{}');
 }
@@ -950,6 +994,17 @@ function renderWeeklySummary() {
     `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
 }
 
+function showCompletionToast() {
+  const toast = document.getElementById('completion-toast');
+  if (!toast) return;
+
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 1600);
+}
+
   
 function getStreakState() {
   return JSON.parse(localStorage.getItem('forged_streak') || '{"current":0,"best":0,"lastCompletedDate":null}');
@@ -983,7 +1038,7 @@ renderWeekView();
 renderViewingIndicator();
 
 </script>
-
+<div id="completion-toast">Session Forged.</div
 </body>
 </html>
 
