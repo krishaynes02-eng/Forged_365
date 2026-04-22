@@ -9,7 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Forged365"
 
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
@@ -768,7 +767,7 @@ function renderTodaySession() {
   const listEl = document.getElementById('today-session-list');
 
   const exerciseState = getExerciseCompletion();
-  const todayKey = `week-${currentWeekOffset}-day-${selectedDayIndex}
+  const todayKey = `week-${currentWeekOffset}-day-${selectedDayIndex}`;
 
   titleEl.textContent =
     type === 'Rest'
@@ -951,15 +950,6 @@ function renderWeeklySummary() {
     `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
 }
 
-
-  WEEK_SPLIT.forEach((type, dayIndex) => {
-    if (type === 'Rest') return;
-    totalTrainingDays++;
-    if (isDayComplete(dayIndex)) completedDays++;
-  });
-
-  summaryEl.textContent = `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
-}
   
 function getStreakState() {
   return JSON.parse(localStorage.getItem('forged_streak') || '{"current":0,"best":0,"lastCompletedDate":null}');
