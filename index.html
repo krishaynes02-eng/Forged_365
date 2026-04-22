@@ -99,11 +99,12 @@ body{
 .page{display:none;padding:16px}
 .page.active{display:block}
 
+
 .sec-label {
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-secondary); /* stronger contrast */
+  color: #e6e6e6; /* strong neutral, high contrast on warm bg */
   margin-bottom: 10px;
 }
 
@@ -332,7 +333,7 @@ body{
   font-size: 12px;
   color: var(--text-secondary);
 }
-``
+
 /* ================= WEEK VIEW ================= */
 
 .week-grid {
@@ -370,16 +371,43 @@ body{
 }
 
 
+
 #phase-label {
-  color: var(--ember);
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  color: rgba(255, 122, 47, 0.7); /* ember, but softened */
   font-weight: 500;
-  opacity: 0.9;
+  margin-bottom: 6px;
+}
+.sec-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e6e6e6;
+  margin-bottom: 10px;
+}
+
+/* Ensure Current Week matches other section headers */
+#week-label.sec-label {
+  margin: 0;
+  padding: 0;
+}
+
+#phase-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 122, 47, 0.7);
+  font-weight: 500;
   margin-bottom: 6px;
 }
 
+/* Improve legibility on warm gradient background */
+.sec-label,
+#phase-label {
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
 </style>
 </head>
 
