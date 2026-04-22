@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <meta charset="UTF-8">
+  <title>Forged365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="forged-logo.cssur app styles */
+
 <meta charset="UTF-8">
 <title>Forged365</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -213,6 +220,46 @@ body{
   cursor: pointer;
   color: #120600;
 }
+  
+/* ============ INTRO LOGO LIGHT INTEGRATION ============ */
+
+.forge-symbol {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.forged-logo {
+  width: 140px;
+  height: 140px;
+
+  /* Ember glow */
+  filter:
+    drop-shadow(0 0 18px rgba(255,122,47,0.55))
+    drop-shadow(0 0 36px rgba(255,122,47,0.35));
+
+  /* Very subtle heat pulse */
+  animation: forge-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes forge-glow {
+  0% {
+    filter:
+      drop-shadow(0 0 14px rgba(255,122,47,0.45))
+      drop-shadow(0 0 28px rgba(255,122,47,0.25));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 22px rgba(255,122,47,0.7))
+      drop-shadow(0 0 42px rgba(255,122,47,0.45));
+  }
+  100% {
+    filter:
+      drop-shadow(0 0 14px rgba(255,122,47,0.45))
+      drop-shadow(0 0 28px rgba(255,122,47,0.25));
+  }
+}
+
   /* ================= EMBER BACKGROUND ================= */
 
 .ember-field {
@@ -261,7 +308,9 @@ body{
 <!-- ENTER THE FORGE INTRO (GOES HERE) -->
   <div id="forge-intro" class="forge-intro">
     <div class="forge-intro-inner">
-      <div class="forge-symbol">⚒️</div>
+     <div class="forge-symbol">
+  <div class="forged-logo"></div>
+</div>
 
       <h1>Forged365</h1>
 
