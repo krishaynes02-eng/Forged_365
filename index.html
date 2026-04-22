@@ -405,6 +405,12 @@ body{
   margin-bottom: 6px;
 }
 
+#weekly-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
 </style>
 </head>
 
@@ -456,7 +462,11 @@ body{
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
 
+
+<div class="week-header">...</div>
+
 <div id="phase-label" class="sec-label"></div>
+<div id="weekly-summary"></div>
 
 <div class="sec-label">This Week</div>
 <div id="week-view" class="week-grid"></div>
@@ -837,12 +847,14 @@ function getWeekStartDate(weekOffset = 0) {
 }
 
 
+
 function changeWeek(delta) {
   currentWeekOffset += delta;
   selectedDayIndex = 0;
   renderWeekView();
   renderTodaySession();
   renderPhaseInfo();
+  renderWeeklySummary();
 }
 
 function getCurrentPhase() {
@@ -865,10 +877,26 @@ function renderPhaseInfo() {
 
   label.textContent = `${phase.name} Phase — ${phase.description}`;
 }
+  
+function renderWeeklySummary() {function renderWeeklySummary = document.getElementById('weekly-summary');
+  if (!summaryEl) return;
 
+  let completedDays = 0;
+  let totalTrainingDays = 0;
+
+  WEEK_SPLIT.forEach((type, dayIndex) => {
+    if (type === 'Rest') return;
+    totalTrainingDays++;
+    if (isDayComplete(dayIndex)) completedDays++;
+  });
+
+  summaryEl.textContent = `✅ ${completedDays} of ${totalTrainingDays} sessions completed this week`;
+}
+
+renderPhaseInfo();
+renderWeeklySummary();
 renderTodaySession();
-  renderWeekView();
-  renderWeekView();
+renderWeekView();
 </script>
 
 </body>
