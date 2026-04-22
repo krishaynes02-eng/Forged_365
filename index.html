@@ -308,6 +308,29 @@ body{
   position: relative;
   z-index: 2;
 }
+  /* ================= WEEK NAV ================= */
+
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 4px;
+}
+
+.week-nav-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+#week-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+``
 /* ================= WEEK VIEW ================= */
 
 .week-grid {
@@ -388,6 +411,12 @@ body{
   </div>
  </div>
 
+<div class="week-header">
+  <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
+  <div id="week-label">Week 1</div>
+  <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
+</div>
+
 <div class="sec-label">This Week</div>
 <div id="week-view" class="week-grid"></div>
 
@@ -437,6 +466,7 @@ body{
 
 <script>
   let selectedDayIndex = (new Date().getDay() + 6) % 7;
+  let currentWeekOffset = 0; // 0 = this week
 
   /* ================= WORKOUT PROGRAM ================= */
 
@@ -479,11 +509,11 @@ const WORKOUTS = {
   Rest: []
 };
 
-function getTodayWorkoutType() {
-  const today = new Date();
-  const dayIndex = (today.getDay() + 6) % 7; // Make Monday = 0
-  return WEEK_SPLIT[selectedDayIndex];
+
+function getWorkoutTypeForDay(dayIndex) {
+  return WEEK_SPLIT[dayIndex];
 }
+
 
 function showPage(id,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -560,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 function renderTodaySession() {
-  const type = getTodayWorkoutType();
+  const type = getWorkoutTypeForDay(selectedDayIndex)
   const titleEl = document.getElementById('today-session-title');
   const listEl = document.getElementById('today-session-list');
 
@@ -583,7 +613,7 @@ const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
 
 const exerciseState = getExerciseCompletion();
-const todayKey = `day-${dayIndex}`;
+const todayKey = `week-${currentWeekOffset}-day-${dayIndex}`;
 
 exercises.forEach((ex, i) => {
   const row = document.createElement('div');
@@ -621,8 +651,7 @@ function renderWeekView() {
   const weekEl = document.getElementById('week-view');
   if (!weekEl) return;
 
-  const today = new Date();
-  const todayIndex = (today.getDay() + 6) % 7;
+const dayIndex = selectedDayIndex;
 
   weekEl.innerHTML = '';
 
@@ -673,6 +702,23 @@ function setExerciseCompletion(state) {
   localStorage.setItem('forged_exercises', JSON.stringify(state));
 }
 
+function getWeekStartDate(weekOffset = 0) {
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7; // Monday = 0
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - day + weekOffset * 7);
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+
+function changeWeek(delta) {
+  currentWeekOffset += delta;
+  selectedDayIndex = 0; // Reset to Monday
+  renderWeekView();
+  renderTodaySession();
+}
+  document.getElementById('week-label').textContent =
+  `Week ${currentWeekOffset === 0 ? 'Current' : currentWeekOffset > 0 ? '+' + currentWeekOffset : currentWeekOffset}`;
 
 renderTodaySession();
   renderWeekView();
