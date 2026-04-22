@@ -461,7 +461,7 @@ body{
   <div id="week-label" class="sec-label">Current Week</div>
   <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
 </div>
-
+<div id="viewing-indicator"></div>
 <div id="phase-label" class="sec-label"></div>
 <div id="weekly-summary"></div>
   <div id="streak-summary"></div>
@@ -516,6 +516,24 @@ body{
 <script>
   let selectedDayIndex = (new Date().getDay() + 6) % 7;
   let currentWeekOffset = 0; // 0 = this week
+  function getTodayIndex() {
+  return (new Date().getDay() + 6) % 7; // Monday = 0
+}
+
+function snapBackToTodayIfNeeded() {
+  const todayKey = new Date().toISOString().split('T')[0];
+  const lastSeen = localStorage.getItem('forged_last_seen');
+
+  if (lastSeen !== todayKey) {
+    // New calendar day → reset view to Today
+    selectedDayIndex = getTodayIndex();
+    currentWeekOffset = 0;
+  }
+
+  localStorage.setItem('forged_last_seen', todayKey);
+}
+
+  
 function updateStreakIfNeeded(dayIndex) {
   const today = new Date();
   const todayKey = today.toISOString().split('T')[0];
@@ -768,8 +786,12 @@ const exercises = WORKOUTS[type][phase.name];
 const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
 
-const exerciseState = getExerciseCompletion();
-const todayKey = `week-${currentWeekOffset}-day-${dayIndex}`;
+
+exerciseState[todayKey] = {
+  completed,
+  timestamp: Date.now()
+}
+
 
 exercises.forEach((ex, i) => {
   const row = document.createElement('div');
@@ -785,7 +807,7 @@ exercises.forEach((ex, i) => {
   row.addEventListener('click', () => {
     row.classList.toggle('complete-ex');
 
-    const completed = exerciseState[todayKey] || [];
+    const completed = exerciseState[todayKey]?.completed || [];
     if (row.classList.contains('complete-ex')) {
       if (!completed.includes(i)) completed.push(i);
     } else {
@@ -866,12 +888,22 @@ function setExerciseCompletion(state) {
 }
 
 function getWeekStartDate(weekOffset = 0) {
-  const now = new Date();
-  const day = (now.getDay() + 6) % 7; // Monday = 0
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - day + weekOffset * 7);
-  monday.setHours(0,0,0,0);
-  return monday;
+const now = new Date();
+const completedTime = now.getTime();
+
+if (streak.lastCompletedDate) {
+  const last = new Date(streak.lastCompletedDate);
+  const diffMs = completedTime - last.getTime();
+  const diffHours = diffMs / (1000 * 60 * 60);
+
+  if (diffHours <= 48) {
+    // Allow late completion to preserve streak
+    streak.current += 1;
+  } else {
+    streak.current = 1;
+  }
+} else {
+  streak.current = 1;
 }
 
 
@@ -942,12 +974,29 @@ function getStreakState() {
 function setStreakState(state) {
   localStorage.setItem('forged_streak', JSON.stringify(state));
 }
+  function renderViewingIndicator() {
+  const el = document.getElementById('viewing-indicator');
+  if (!el) return;
 
+  const todayIndex = getTodayIndex();
+  const dayName = WEEK_SPLIT[selectedDayIndex];
+
+  let suffix = '';
+  if (currentWeekOffset === 0 && selectedDayIndex === todayIndex) {
+    suffix = '(Today)';
+  }
+
+  el.textContent = `Viewing: ${dayName} ${suffix}`.trim();
+}
+
+snapBackToTodayIfNeeded();
+  
 renderPhaseInfo();
 renderWeeklySummary();
 renderStreakSummary();
 renderTodaySession();
 renderWeekView();
+  renderViewingIndicator();
 
 </script>
 
