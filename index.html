@@ -308,7 +308,34 @@ body{
   position: relative;
   z-index: 2;
 }
+/* ================= WEEK VIEW ================= */
 
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.week-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 4px;
+  font-size: 10px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.week-day.today {
+  border-color: var(--ember);
+  color: var(--text-primary);
+}
+
+.week-day.complete {
+  background: rgba(255,122,47,0.15);
+  color: var(--text-primary);
+}
 </style>
 </head>
 
@@ -352,6 +379,9 @@ body{
     <button onclick="showPage('recovery',this)">Recovery</button>
   </div>
  </div>
+
+<div class="sec-label">This Week</div>
+<div id="week-view" class="week-grid"></div>
 
   <div id="page-home" class="page active">
     <div class="sec-label">Today's session</div>
@@ -539,16 +569,77 @@ function renderTodaySession() {
 
   const exercises = WORKOUTS[type];
 
-  exercises.forEach(ex => {
-    const row = document.createElement('div');
-    row.className = 'card';
-    row.style.marginTop = '8px';
-    row.style.fontSize = '14px';
-    row.textContent = ex;
-    listEl.appendChild(row);
+const today = new Date();
+const dayIndex = (today.getDay() + 6) % 7;
+
+exercises.forEach((ex, i) => {
+  const row = document.createElement('div');
+  row.className = 'card';
+  row.style.cursor = 'pointer';
+  row.textContent = ex;
+
+  row.addEventListener('click', () => {
+    row.classList.toggle('complete-ex');
+    checkDayCompletion(dayIndex);
+  });
+
+  listEl.appendChild(row);
+});
+}
+  function renderWeekView() {
+  const weekEl = document.getElementById('week-view');
+  if (!weekEl) return;
+
+  const today = new Date();
+  const todayIndex = (today.getDay() + 6) % 7;
+
+  weekEl.innerHTML = '';
+
+  WEEK_SPLIT.forEach((type, i) => {
+    const day = document.createElement('div');
+    day.className = 'week-day';
+    day.textContent = type;
+
+    if (i === todayIndex) day.classList.add('today');
+    if (isDayComplete(i)) day.classList.add('complete');
+
+    weekEl.appendChild(day);
   });
 }
+  
+function getCompletionState() {
+  return JSON.parse(localStorage.getItem('forged_completion') || '{}');
+}
+
+function setCompletionState(state) {
+  localStorage.setItem('forged_completion', JSON.stringify(state));
+}
+
+function isDayComplete(dayIndex) {
+  const state = getCompletionState();
+  return state[dayIndex] === 'complete';
+}
+
+function checkDayCompletion(dayIndex) {
+  const cards = document.querySelectorAll('#today-session-list .card');
+  const allDone = [...cards].every(c => c.classList.contains('complete-ex'));
+
+  const state = getCompletionState();
+  state[dayIndex] = allDone ? 'complete' : 'incomplete';
+  setCompletionState(state);
+
+  renderWeekView();
+}
+
+/* ================= COMPLETION ================= */
+
+.complete-ex {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
 renderTodaySession();
+  renderWeekView();
 </script>
 
 </body>
