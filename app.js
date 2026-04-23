@@ -1,7 +1,12 @@
 /* ----------------------------------
    IMPORTS
 ---------------------------------- */
-import { PHASES, WEEK_SPLIT, WORKOUTS, EXERCISE_DETAILS } from './workouts.js';
+import {
+  PHASES,
+  WEEK_SPLIT,
+  WORKOUTS,
+  EXERCISE_DETAILS
+} from './workouts.js';
 
 /* ----------------------------------
    STATE
@@ -12,20 +17,26 @@ let selectedDayIndex = (new Date().getDay() + 6) % 7; // Monday = 0
 /* ----------------------------------
    DOM REFERENCES
 ---------------------------------- */
-const prevWeekBtn = document.getElementById('prev-week');
-const nextWeekBtn = document.getElementById('next-week');
-const weekLabelEl = document.getElementById('week-label');
-
 const intro = document.getElementById('forge-intro');
 const enterBtn = document.getElementById('enter-forge-btn');
+
 const listEl = document.getElementById('today-session-list');
 const titleEl = document.getElementById('today-session-title');
 const toast = document.getElementById('completion-toast');
 
+const prevWeekBtn = document.getElementById('prev-week');
+const nextWeekBtn = document.getElementById('next-week');
+const weekLabelEl = document.getElementById('week-label');
+
+const dayPickerEl = document.getElementById('day-picker');
+const dayButtons = [...dayPickerEl.querySelectorAll('button')];
+
 /* ----------------------------------
    INTRO
 ---------------------------------- */
-enterBtn.onclick = () => intro.style.display = 'none';
+enterBtn.onclick = () => {
+  intro.style.display = 'none';
+};
 
 /* ----------------------------------
    PHASE + WORKOUT RESOLUTION
@@ -71,6 +82,13 @@ function renderWeekLabel() {
   }
 }
 
+function renderDayPicker() {
+  dayButtons.forEach(btn => {
+    const day = Number(btn.dataset.day);
+    btn.classList.toggle('active', day === selectedDayIndex);
+  });
+}
+
 function showToast() {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 1200);
@@ -93,6 +111,7 @@ function renderToday() {
     const header = document.createElement('div');
     header.style.display = 'flex';
     header.style.justifyContent = 'space-between';
+    header.style.alignItems = 'center';
 
     const exerciseTitle = document.createElement('div');
     exerciseTitle.textContent = ex;
@@ -106,7 +125,10 @@ function renderToday() {
     header.append(exerciseTitle, check);
     row.append(header);
 
-    const key = Object.keys(EXERCISE_DETAILS).find(k => ex.startsWith(k));
+    const key = Object.keys(EXERCISE_DETAILS).find(k =>
+      ex.startsWith(k)
+    );
+
     if (key) {
       const d = EXERCISE_DETAILS[key];
       const details = document.createElement('div');
@@ -117,14 +139,16 @@ function renderToday() {
       `;
       row.append(details);
 
-      exerciseTitle.onclick = () => details.classList.toggle('show');
+      exerciseTitle.onclick = () =>
+        details.classList.toggle('show');
     }
 
     if (completed.includes(i)) row.classList.add('complete-ex');
 
     check.onclick = () => {
       row.classList.toggle('complete-ex');
-      check.style.opacity = row.classList.contains('complete-ex') ? '1' : '.3';
+      check.style.opacity =
+        row.classList.contains('complete-ex') ? '1' : '.3';
 
       const idx = completed.indexOf(i);
       idx === -1 ? completed.push(i) : completed.splice(idx, 1);
@@ -137,17 +161,33 @@ function renderToday() {
 }
 
 /* ----------------------------------
+   DAY PICKER HANDLING
+---------------------------------- */
+dayPickerEl.onclick = (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+
+  selectedDayIndex = Number(btn.dataset.day);
+  renderDayPicker();
+  renderToday();
+};
+
+/* ----------------------------------
    WEEK NAVIGATION
 ---------------------------------- */
 prevWeekBtn.onclick = () => {
   currentWeekOffset -= 1;
+  selectedDayIndex = 0; // Monday
   renderWeekLabel();
+  renderDayPicker();
   renderToday();
 };
 
 nextWeekBtn.onclick = () => {
   currentWeekOffset += 1;
+  selectedDayIndex = 0; // Monday
   renderWeekLabel();
+  renderDayPicker();
   renderToday();
 };
 
@@ -155,4 +195,6 @@ nextWeekBtn.onclick = () => {
    INIT
 ---------------------------------- */
 renderWeekLabel();
+renderDayPicker();
 renderToday();
+``
