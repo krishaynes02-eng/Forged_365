@@ -1,6 +1,3 @@
-/* ----------------------------------
-   IMPORTS
----------------------------------- */
 import {
   PHASES,
   WEEK_SPLIT,
@@ -8,21 +5,17 @@ import {
   EXERCISE_DETAILS
 } from './workouts.js';
 
-/* ----------------------------------
-   STATE
----------------------------------- */
-let currentWeekOffset = 0; // 0 = this week
-let selectedDayIndex = (new Date().getDay() + 6) % 7; // Monday = 0
+/* ---------------- STATE ---------------- */
+let currentWeekOffset = 0;
+let selectedDayIndex = (new Date().getDay() + 6) % 7;
 
-/* ----------------------------------
-   DOM REFERENCES
----------------------------------- */
+/* ------------- DOM REFS --------------- */
 const intro = document.getElementById('forge-intro');
 const enterBtn = document.getElementById('enter-forge-btn');
-
 const listEl = document.getElementById('today-session-list');
 const titleEl = document.getElementById('today-session-title');
 const toast = document.getElementById('completion-toast');
+const streakEl = document.getElementById('streak-summary');
 
 const prevWeekBtn = document.getElementById('prev-week');
 const nextWeekBtn = document.getElementById('next-week');
@@ -30,149 +23,93 @@ const weekLabelEl = document.getElementById('week-label');
 
 const dayPickerEl = document.getElementById('day-picker');
 const dayButtons = [...dayPickerEl.querySelectorAll('button')];
-const streakEl = document.getElementById('streak-summary');
 
-/* ----------------------------------
-   INTRO
----------------------------------- */
+/* ------------- INTRO ------------------ */
 enterBtn.onclick = () => {
   intro.style.display = 'none';
 };
 
-/* ----------------------------------
-   STORAGE HELPERS
----------------------------------- */
-function getExerciseState() {
-  return JSON.parse(localStorage.getItem('forged_exercises') || '{}');
-}
+/* -------- STORAGE HELPERS ------------- */
+const getExerciseState = () =>
+  JSON.parse(localStorage.getItem('forged_exercises') || '{}');
 
-function setExerciseState(state) {
-  localStorage.setItem('forged_exercises', JSON.stringify(state));
-}
+const setExerciseState = (s) =>
+  localStorage.setItem('forged_exercises', JSON.stringify(s));
 
-function getStreakState() {
-  return JSON.parse(
-    localStorage.getItem('forged_streak') ||
-    '{"current":0,"best":0,"lastCompletedDate":null}'
-  );
-}
+const getStreakState = () =>
+  JSON.parse(localStorage.getItem('forged_streak') ||
+    '{"current":0,"best":0,"lastCompletedDate":null}');
 
-function setStreakState(state) {
-  localStorage.setItem('forged_streak', JSON.stringify(state));
-}
+const setStreakState = (s) =>
+  localStorage.setItem('forged_streak', JSON.stringify(s));
 
-/* ----------------------------------
-   PHASE + WORKOUT RESOLUTION
----------------------------------- */
+/* -------- PHASE RESOLUTION ------------ */
 function getCurrentPhase() {
-  const absoluteWeek = Math.abs(currentWeekOffset);
-  let accumulated = 0;
-
+  let total = 0;
   for (const phase of PHASES) {
-    accumulated += phase.weeks;
-    if (absoluteWeek < accumulated) return phase;
+    total += phase.weeks;
+    if (Math.abs(currentWeekOffset) < total) return phase;
   }
-
-  return PHASES[PHASES.length - 1];
+  return PHASES.at(-1);
 }
 
 function getTodayWorkout() {
   const phase = getCurrentPhase();
-  const dayType = WEEK_SPLIT[selectedDayIndex];
+  const type = WEEK_SPLIT[selectedDayIndex];
 
-  if (dayType === 'Rest') {
-    return { title: 'Rest Day', exercises: [] };
-  }
+  if (type === 'Rest') return { title: 'Rest Day', exercises: [] };
 
   return {
-    title: `${dayType} — ${phase.name} Phase`,
-    exercises: WORKOUTS[dayType]?.[phase.id] || []
+    title: `${type} — ${phase.name} Phase`,
+    exercises: WORKOUTS[type][phase.id]
   };
 }
 
-/* ----------------------------------
-   UI HELPERS
----------------------------------- */
+/* -------- UI HELPERS ------------------ */
 function renderWeekLabel() {
-  if (currentWeekOffset === 0) {
-    weekLabelEl.textContent = 'Current Week';
-  } else {
-    const sign = currentWeekOffset > 0 ? '+' : '';
-    weekLabelEl.textContent = `Week ${sign}${currentWeekOffset}`;
-  }
+  weekLabelEl.textContent =
+    currentWeekOffset === 0
+      ? 'Current Week'
+      : `Week ${currentWeekOffset > 0 ? '+' : ''}${currentWeekOffset}`;
 }
 
 function renderDayPicker() {
-  const exerciseState = getExerciseState();
+  const state = getExerciseState();
   const weekKey = `week-${currentWeekOffset}`;
 
   dayButtons.forEach(btn => {
-    const day = Number(btn.dataset.day);
-    btn.classList.toggle('active', day === selectedDayIndex);
-
-    const dayKey = `${weekKey}-day-${day}`;
+    const d = Number(btn.dataset.day);
+    btn.classList.toggle('active', d === selectedDayIndex);
     btn.classList.toggle(
       'completed',
-      exerciseState[dayKey]?.completed === true
+      state[`${weekKey}-day-${d}`]?.completed
     );
   });
 }
 
-function showToast(msg = 'Session Forged.') {
+function renderStreak() {
+  const s = getStreakState();
+  streakEl.textContent =
+    s.current === 0
+      ? '🔥 Start your streak today'
+      : `🔥 ${s.current}-day streak (Best: ${s.best})`;
+}
+
+function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 1400);
 }
 
-function renderStreak() {
-  const streak = getStreakState();
-  streakEl.textContent =
-    streak.current === 0
-      ? '🔥 Start your streak today'
-      : `🔥 ${streak.current}-day streak (Best: ${streak.best})`;
-}
-
-/* ----------------------------------
-   STREAK UPDATE LOGIC
----------------------------------- */
-function updateStreakForDay(dateKey) {
-  const streak = getStreakState();
-  const today = new Date(dateKey);
-  const last = streak.lastCompletedDate
-    ? new Date(streak.lastCompletedDate)
-    : null;
-
-  if (last) {
-    const diffDays = Math.round(
-      (today - last) / (1000 * 60 * 60 * 24)
-    );
-
-    if (diffDays === 1) {
-      streak.current += 1;
-    } else {
-      streak.current = 1;
-    }
-  } else {
-    streak.current = 1;
-  }
-
-  streak.best = Math.max(streak.best, streak.current);
-  streak.lastCompletedDate = dateKey;
-  setStreakState(streak);
-}
-
-/* ----------------------------------
-   RENDERING
----------------------------------- */
+/* ---------- RENDER TODAY -------------- */
 function renderToday() {
   const { title, exercises } = getTodayWorkout();
   titleEl.textContent = title;
   listEl.innerHTML = '';
 
-  const exerciseState = getExerciseState();
-  const weekKey = `week-${currentWeekOffset}`;
-  const dayKey = `${weekKey}-day-${selectedDayIndex}`;
-  const completedList = exerciseState[dayKey]?.items || [];
+  const state = getExerciseState();
+  const key = `week-${currentWeekOffset}-day-${selectedDayIndex}`;
+  const done = state[key]?.items || [];
 
   exercises.forEach((ex, i) => {
     const row = document.createElement('div');
@@ -182,81 +119,72 @@ function renderToday() {
     header.style.display = 'flex';
     header.style.justifyContent = 'space-between';
 
-    const exerciseTitle = document.createElement('div');
-    exerciseTitle.textContent = ex;
-    exerciseTitle.style.cursor = 'pointer';
+    const label = document.createElement('div');
+    label.textContent = ex;
 
     const check = document.createElement('div');
     check.textContent = '✓';
-    check.style.cursor = 'pointer';
-    check.style.opacity = completedList.includes(i) ? '1' : '.3';
+    check.style.opacity = done.includes(i) ? '1' : '.3';
 
-    header.append(exerciseTitle, check);
+    header.append(label, check);
     row.append(header);
 
-    const key = Object.keys(EXERCISE_DETAILS).find(k =>
-      ex.startsWith(k)
-    );
-
-    if (key) {
-      const d = EXERCISE_DETAILS[key];
+    const k = Object.keys(EXERCISE_DETAILS).find(x => ex.startsWith(x));
+    if (k) {
+      const d = EXERCISE_DETAILS[k];
       const details = document.createElement('div');
       details.className = 'exercise-details';
       details.innerHTML =
-        `<strong>Tempo:</strong> ${d.tempo}
-         <ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>`;
+        `<strong>Tempo:</strong> ${d.tempo}<ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>`;
       row.append(details);
-
-      exerciseTitle.onclick = () =>
-        details.classList.toggle('show');
+      label.onclick = () => details.classList.toggle('show');
     }
 
-    if (completedList.includes(i)) row.classList.add('complete-ex');
+    if (done.includes(i)) row.classList.add('complete-ex');
 
     check.onclick = () => {
-      const idx = completedList.indexOf(i);
-      idx === -1 ? completedList.push(i) : completedList.splice(idx, 1);
+      const idx = done.indexOf(i);
+      idx === -1 ? done.push(i) : done.splice(idx, 1);
+      state[key] = { items: done, completed: done.length === exercises.length };
+      setExerciseState(state);
 
-      exerciseState[dayKey] = {
-        items: completedList,
-        completed: completedList.length === exercises.length
-      };
+      if (state[key].completed) {
+        const today = new Date().toISOString().split('T')[0];
+        const streak = getStreakState();
+        const last = streak.lastCompletedDate
+          ? new Date(streak.lastCompletedDate)
+          : null;
 
-      setExerciseState(exerciseState);
+        if (!last || Math.round((new Date(today) - last) / 86400000) === 1)
+          streak.current++;
+        else streak.current = 1;
 
-      check.style.opacity = completedList.includes(i) ? '1' : '.3';
-      row.classList.toggle('complete-ex');
-
-      if (exerciseState[dayKey].completed) {
-        updateStreakForDay(new Date().toISOString().split('T')[0]);
+        streak.best = Math.max(streak.best, streak.current);
+        streak.lastCompletedDate = today;
+        setStreakState(streak);
         showToast('Day Forged.');
       }
 
       renderDayPicker();
       renderStreak();
+      renderToday();
     };
 
     listEl.append(row);
   });
 }
 
-/* ----------------------------------
-   DAY PICKER
----------------------------------- */
-dayPickerEl.onclick = (e) => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-
-  selectedDayIndex = Number(btn.dataset.day);
+/* -------- EVENTS --------------------- */
+dayPickerEl.onclick = e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  selectedDayIndex = Number(b.dataset.day);
   renderDayPicker();
   renderToday();
 };
 
-/* ----------------------------------
-   WEEK NAVIGATION
----------------------------------- */
 prevWeekBtn.onclick = () => {
-  currentWeekOffset -= 1;
+  currentWeekOffset--;
   selectedDayIndex = 0;
   renderWeekLabel();
   renderDayPicker();
@@ -264,16 +192,14 @@ prevWeekBtn.onclick = () => {
 };
 
 nextWeekBtn.onclick = () => {
-  currentWeekOffset += 1;
+  currentWeekOffset++;
   selectedDayIndex = 0;
   renderWeekLabel();
   renderDayPicker();
   renderToday();
 };
 
-/* ----------------------------------
-   INIT
----------------------------------- */
+/* -------- INIT ----------------------- */
 renderWeekLabel();
 renderDayPicker();
 renderToday();
