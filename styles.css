@@ -66,6 +66,36 @@
   border-top:1px solid var(--border);
   color:var(--text-secondary);
 }
+.day-picker {
+ -picker button.completed {  display: grid;
+  background: rgba(255,122,47,0.15);
+  color: var(--text-primary);
+}
+``
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.day-picker button {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 4px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.day-picker button.active {
+  border-color: var(--ember);
+  color: var(--text-primary);
+  background: linear-gradient(
+    to bottom,
+    rgba(255,122,47,0.2),
+    rgba(255,122,47,0.05)
+  );
+}
 
 .exercise-details.show { display:block; }
 .complete-ex { opacity:.6; text-decoration:line-through; }
