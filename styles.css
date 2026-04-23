@@ -1,247 +1,228 @@
 :root {
- 2;  --bg-main: #0b0b0b;
-  --text-secondary: #cfcfcf;
-  --text-muted: #9a9a9a;
+  --bg-main:#0b0b0b;
+  --bg-card:#171717;
+  --bg-soft:#222;
+  --border:#333;
 
-  --ember: #ff7a2f;
-  --ember-dark: #c94f11;
+  --text-primary:#f4f4f4;
+  --text-secondary:#d2d2d2;
+  --text-muted:#a5a5a5;
+
+  --ember:#ff7a2f;
+  --ember-dark:#c94f11;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: var(--text-primary);
+  margin:0;
+  min-height:100vh;
+  font-family:system-ui,-apple-system,sans-serif;
+  color:var(--text-primary);
 
   background:
     radial-gradient(
-      circle at top,
-      rgba(255, 122, 47, 0.18),
-      var(--bg-main) 55%
+      circle at center 20%,
+      rgba(255,122,47,0.28),
+      rgba(255,122,47,0.10) 35%,
+      var(--bg-main) 70%
     );
 }
 
-/* ---------- LAYOUT ---------- */
+/* ---------------- TOP BAR ---------------- */
+
+.topbar {
+  background: linear-gradient(to bottom, #141414, #0d0d0d);
+  border-bottom:1px solid var(--border);
+  padding:14px 18px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.topbar-inner {
+  max-width:680px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-mark {
+  width:22px;
+  height:22px;
+  background:radial-gradient(circle, var(--ember), var(--ember-dark));
+  border-radius:50%;
+  box-shadow:0 0 6px rgba(255,122,47,.7);
+}
+
+.logo-text {
+  font-weight:700;
+  font-size:18px;
+}
+
+.logo-text span { color:var(--ember); }
+
+/* ---------------- LAYOUT ---------------- */
 
 .shell {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 16px;
-  position: relative;
-  z-index: 2;
+  max-width:680px;
+  margin:0 auto;
+  padding:16px;
 }
 
-/* ---------- INTRO ---------- */
+/* ---------------- INTRO ---------------- */
 
 .forge-intro {
-  position: fixed;
-  inset: 0;
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:
-    radial-gradient(
-      circle at top,
-      rgba(255, 122, 47, 0.25),
-      #0b0b0b 60%
-    );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
+    radial-gradient(circle at top,
+      rgba(255,122,47,0.30),
+      #0b0b0b 60%);
+  z-index:100;
 }
 
 .forge-intro-inner {
-  text-align: center;
-  max-width: 420px;
-  padding: 32px;
+  text-align:center;
+  padding:32px;
 }
-
-.forge-intro h1 {
-  font-size: 36px;
-  margin-bottom: 12px;
-}
-
-.forge-intro p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  margin-bottom: 28px;
-}
-
-/* ---------- PRIMARY CTA ---------- */
 
 .start-btn {
-  background: linear-gradient(
-    to bottom,
-    var(--ember),
-    var(--ember-dark)
-  );
-  color: #120600;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 28px;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-
-  box-shadow:
-    0 0 18px rgba(255, 122, 47, 0.6);
+  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
+  color:#120600;
+  border:none;
+  border-radius:12px;
+  padding:14px 28px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 0 18px rgba(255,122,47,.6);
 }
 
-.start-btn:hover {
-  filter: brightness(1.06);
-}
-
-/* ---------- WEEK NAV ---------- */
+/* ---------------- WEEK NAV ---------------- */
 
 .week-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin-bottom: 10px;
-  padding: 6px 10px;
-
-  border-radius: 10px;
-  background: rgba(0,0,0,0.35);
+  background:rgba(0,0,0,.35);
+  border-radius:10px;
+  padding:6px 10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
 }
 
 .week-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 12px;
-  color: var(--text-primary);
-  cursor: pointer;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:6px 12px;
+  color:var(--text-primary);
+  cursor:pointer;
 }
 
-/* ---------- DAY PICKER ---------- */
+/* ---------------- DAY PICKER ---------------- */
 
 .day-picker {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  margin-bottom: 14px;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+  margin-bottom:14px;
 }
 
 .day-picker button {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 4px;
-  font-size: 11px;
-  color: var(--text-muted);
-  cursor: pointer;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:8px 4px;
+  font-size:11px;
+  color:var(--text-muted);
 }
 
-.day-picker button.active {
-  border-color: var(--ember);
-  color: var(--text-primary);
-  background: rgba(255,122,47,0.18);
+.day-picker .active {
+  border-color:var(--ember);
+  background:rgba(255,122,47,.18);
+  color:var(--text-primary);
 }
 
-.day-picker button.completed {
-  background: rgba(255,122,47,0.28);
-  color: var(--text-primary);
+.day-picker .completed {
+  background:rgba(255,122,47,.28);
 }
 
-/* ---------- TEXT & LABELS ---------- */
+/* ---------------- TEXT ---------------- */
 
 .sec-label {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:10px;
 }
 
 .streak-summary {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
+  font-size:13px;
+  color:var(--text-secondary);
+  margin-bottom:10px;
 }
 
-/* ---------- CARDS ---------- */
+/* ---------------- CARDS ---------------- */
 
 .card {
-  background: linear-gradient(
-    to bottom,
-    var(--bg-soft),
-    var(--bg-card)
-  );
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  background:linear-gradient(to bottom,var(--bg-soft),var(--bg-card));
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:12px;
 }
 
-/* Weekly summary emphasis */
 .weekly-summary {
-  border-left: 4px solid var(--ember);
-  background: linear-gradient(
-    to right,
-    rgba(255,122,47,0.18),
-    var(--bg-card)
-  );
+  border-left:4px solid var(--ember);
+  background:linear-gradient(to right,rgba(255,122,47,.2),var(--bg-card));
 }
 
-#weekly-summary-text {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
+/* ---------------- EXERCISES ---------------- */
+
+.exercise-row {
+  cursor:pointer;
+  padding:8px 0;
+  display:flex;
+  justify-content:space-between;
 }
 
-/* ---------- EXERCISES ---------- */
-
-.complete-ex {
-  opacity: 0.6;
-  text-decoration: line-through;
+.exercise-row.completed {
+  text-decoration:line-through;
+  opacity:.55;
 }
 
 .exercise-details {
-  display: none;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
+  display:none;
+  font-size:13px;
+  color:var(--text-secondary);
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid var(--border);
 }
 
-.exercise-details.show {
-  display: block;
-}
+.exercise-details.show { display:block; }
 
-/* ---------- TOAST ---------- */
+/* ---------------- TOAST ---------------- */
 
 #completion-toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  opacity: 0;
-
-  background: linear-gradient(
-    to bottom,
-    var(--ember),
-    var(--ember-dark)
-  );
-  color: #120600;
-
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-weight: 800;
-
-  transition: 0.35s ease;
-  box-shadow:
-    0 0 18px rgba(255,122,47,0.6);
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  opacity:0;
+  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
+  padding:12px 18px;
+  border-radius:12px;
+  transition:.35s;
 }
 
 #completion-toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
-
-  --bg-card: #161616;
-  --bg-soft: #1f1f1f;
-  --border: #2b2b2b;
-
+``
