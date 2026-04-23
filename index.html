@@ -849,45 +849,59 @@ const exercises = WORKOUTS[type][phase.name];
 
 const today = new Date();
 const dayIndex = (today.getDay() + 6) % 7;
-
 exercises.forEach((ex, i) => {
- const row = document.createElement('div');
-row.className = 'card';
-row.style.cursor = 'pointer';
+  const row = document.createElement('div');
+  row.className = 'card';
+  row.style.cursor = 'pointer';
 
-const title = document.createElement('div');
-title.textContent = ex;
+  const title = document.createElement('div');
+  title.textContent = ex;
 
-const detail = getExerciseDetail(ex);
-let detailsEl = null;
+  const detail = getExerciseDetail(ex);
+  let detailsEl = null;
 
-if (detail) {
-  detailsEl = document.createElement('div');
-  detailsEl.className = 'exercise-details';
+  if (detail) {
+    detailsEl = document.createElement('div');
+    detailsEl.className = 'exercise-details';
+    detailsEl.innerHTML = `
+      <div class="tempo">Tempo: ${detail.tempo}</div>
+      <ul>
+        ${detail.cues.map(c => `<li>${c}</li>`).join('')}
+      </ul>
+    `;
+  }
 
-  detailsEl.innerHTML = `
-    <div class="tempo">Tempo: ${detail.tempo}</div>
-    <ul>
-      ${detail.cues.map(c => `<li>${c}</li>`).join('')}
-    </ul>
-  `;
-}
+  row.appendChild(title);
+  if (detailsEl) row.appendChild(detailsEl);
 
-row.appendChild(title);
-if (detailsEl) row.appendChild(detailsEl);
   // Restore completion state
   if (exerciseState[todayKey]?.includes(i)) {
     row.classList.add('complete-ex');
   }
 
+  row.addEventListener('click', () => {
+    // ✅ toggle details
+    if (detailsEl) {
+      detailsEl.classList.toggle('show');
+    }
 
-row.addEventListener('click', () => {
-  if (detailsEl) {
-    detailsEl.classList.toggle('show');
-  }
+    // ✅ toggle completion
+    row.classList.toggle('complete-ex');
 
-  row.classList.toggle('complete-ex');
-  ...
+    const completed = exerciseState[todayKey] || [];
+    if (row.classList.contains('complete-ex')) {
+      if (!completed.includes(i)) completed.push(i);
+    } else {
+      const idx = completed.indexOf(i);
+      if (idx > -1) completed.splice(idx, 1);
+    }
+
+    exerciseState[todayKey] = completed;
+    setExerciseCompletion(exerciseState);
+    checkDayCompletion(dayIndex);
+  });
+
+  listEl.appendChild(row);
 });
 
     const completed = exerciseState[todayKey]?.completed || [];
@@ -1130,48 +1144,6 @@ function getExerciseDetail(exerciseText) {
   );
   return name ? EXERCISE_DETAILS[name] : null;
 }
-const EXERCISE_DETAILS = {
-  'Push-ups': {
-    tempo: '2–1–1',
-    cues: [
-      'Brace your core before each rep',
-      'Elbows at ~45°',
-      'Full lockout at the top'
-    ]
-  },
-  'Incline push-ups': {
-    tempo: '2–1–1',
-    cues: [
-      'Maintain a straight body line',
-      'Lower chest to hands',
-      'Control the descent'
-    ]
-  },
-  'Tempo push-ups': {
-    tempo: '3–1–1',
-    cues: [
-      'Slow, controlled descent',
-      'Pause briefly at the bottom',
-      'Explode up with control'
-    ]
-  },
-  'Inverted rows': {
-    tempo: '2–1–1',
-    cues: [
-      'Squeeze shoulder blades first',
-      'Keep body rigid',
-      'Pull chest to bar'
-    ]
-  },
-  'Bodyweight squats': {
-    tempo: '3–1–1',
-    cues: [
-      'Sit between your hips',
-      'Knees track over toes',
-      'Drive through mid‑foot'
-    ]
-  }
-};
 
 snapBackToTodayIfNeeded();
   
