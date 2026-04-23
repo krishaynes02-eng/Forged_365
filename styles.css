@@ -1,50 +1,101 @@
 :root {
-  --bg-main:# var(--bg-main) 55%);  --bg-main:#0b0b0b;
+  --bg-main: #0b0b0b;
+  --bg-card: #161616;
+  --bg-soft: #1f1f1f;
+  --border: #2b2b2b;
+
+  --text-primary: #f2f2f2;
+  --text-secondary: #cfcfcf;
+  --text-muted: #9a9a9a;
+
+  --ember: #ff7a2f;
+  --ember-dark: #c94f11;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 122, 47, 0.12),
+    var(--bg-main) 55%
+  );
   color: var(--text-primary);
 }
 
-.shell { max-width:680px; margin:0 auto; padding:16px; }
+/* ---------- LAYOUT ---------- */
 
-.topbar {
-  padding:14px;
-  font-weight:700;
+.shell {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
-.logo span { color: var(--ember); }
+/* ---------- INTRO ---------- */
 
-.sec-label {
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin-bottom:10px;
+.forge-intro {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 }
 
-.card {
-  background: linear-gradient(to bottom, var(--bg-soft), var(--bg-card));
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:12px;
+.forge-intro-inner {
+  text-align: center;
+  max-width: 420px;
 }
 
+.forge-intro h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.forge-intro p {
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-size: 15px;
+}
+
+/* ✅ FIXED CTA BUTTON */
 .start-btn {
-  width:100%;
-  margin-top:12px;
-  padding:14px;
-  font-weight:700;
-  border:none;
-  border-radius:10px;
-  background: linear-gradient(to bottom, var(--ember), var(--ember-dark));
-  cursor:pointer;
+  background: linear-gradient(
+    to bottom,
+    var(--ember),
+    var(--ember-dark)
+  );
+  color: #120600;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow:
+    0 0 16px rgba(255, 122, 47, 0.6);
 }
+
+.start-btn:hover {
+  filter: brightness(1.05);
+}
+
+/* ---------- WEEK NAV ---------- */
+
 .week-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 12px 0 6px;
-  padding: 6px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  background: rgba(0,0,0,0.35);
   border-radius: 10px;
-  background: rgba(0,0,0,0.25);
+  padding: 6px 8px;
 }
 
 .week-btn {
@@ -56,25 +107,13 @@
   cursor: pointer;
 }
 
-.week-btn:hover {
-  border-color: var(--ember);
-}
-.exercise-details {
-  display:none;
-  margin-top:10px;
-  padding-top:8px;
-  border-top:1px solid var(--border);
-  color:var(--text-secondary);
-}
+/* ---------- DAY PICKER ---------- */
+
 .day-picker {
- -picker button.completed {  display: grid;
-  background: rgba(255,122,47,0.15);
-  color: var(--text-primary);
-}
-``
+  display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .day-picker button {
@@ -83,64 +122,92 @@
   border-radius: 8px;
   padding: 8px 4px;
   font-size: 11px;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   cursor: pointer;
 }
 
 .day-picker button.active {
   border-color: var(--ember);
   color: var(--text-primary);
-  background: linear-gradient(
-    to bottom,
-    rgba(255,122,47,0.2),
-    rgba(255,122,47,0.05)
-  );
+  background: rgba(255, 122, 47, 0.15);
 }
 
-.exercise-details.show { display:block; }
-.complete-ex { opacity:.6; text-decoration:line-through; }
+.day-picker button.completed {
+  background: rgba(255, 122, 47, 0.25);
+  color: var(--text-primary);
+}
+
+/* ---------- TEXT ---------- */
+
+.sec-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.streak-summary {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* ---------- CARD ---------- */
+
+.card {
+  background: linear-gradient(
+    to bottom,
+    var(--bg-soft),
+    var(--bg-card)
+  );
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.complete-ex {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.exercise-details {
+  display: none;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.exercise-details.show {
+  display: block;
+}
+
+/* ---------- TOAST ---------- */
 
 #completion-toast {
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%) translateY(20px);
-  opacity:0;
-  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
-  padding:12px 18px;
-  border-radius:12px;
-  transition:.4s;
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--ember),
+    var(--ember-dark)
+  );
+  color: #120600;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  transition: 0.35s ease;
+  box-shadow:
+    0 0 18px rgba(255, 122, 47, 0.6);
 }
 
 #completion-toast.show {
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
-
-/* Intro */
-.forge-intro {
-  position:fixed;
-  inset:0;
-  background:#0b0b0b;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.forge-intro-inner {
-  text-align:center;
-}
-``
-  --bg-card:#161616;
-  --bg-soft:#1f1f1f;
-  --border:#2b2b2b;
-  --text-primary:#f2f2f2;
-  --text-secondary:#cfcfcf;
-  --ember:#ff7a2f;
-  --ember-dark:#c94f11;
-}
-
-* { box-sizing:border-box; margin:0; padding:0; }
-
-body {
-  font-family: system-ui, -apple-system, sans-serif;
