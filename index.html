@@ -1,46 +1,5 @@
 <!DOCTYPE html>
-    <p>The year is forged — one strike per day.</p><html lang="en">
-    <button id="enter-forge-btn">Enter the Forge</button>
-  </div>
-</div>
-
-<div class="shell">
-  <header class="topbar">
-    <div class="logo">Forged<span>365</span></div>
-  </header>
-<!-- WEEK NAVIGATION -->
-<div class="week-header">
-  <button id="prev-week" class="week-btn">←</button>
-  <div id="week-label" class="sec-label">Current Week</div>
-  <button id="next-week" class="week-btn">→</button>
-</div>
-    <!-- DAY PICKER -->
-<div id="day-picker" class="day-picker">
-  <button data-day="0">Mon</button>
-  <button data-day="1">Tue</button>
-  <button data-day="2">Wed</button>
-  <button data-day="3">Thu</button>
-  <button data-day="4">Fri</button>
-  <button data-day="5">Sat</button>
-  <button data-day="6">Sun</button>
-</div>
-  <section>
-    <div class="sec-label">Today’s Session</div>
-    <div class="card">
-      <div id="today-session-title"></div>
-      <div id="today-session-list"></div>
-      <button class="start-btn">Strike the Iron →</button>
-    </div>
-  </section>
-</div>
-
-<div id="completion-toast">Session Forged.</div>
-
-<script src="workouts.js"></script>
-<script src="app.js"></script>
-</body>
-</html>
-
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Forged365</title>
@@ -50,14 +9,55 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="Forged365" />
 
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
 
-<!-- INTRO -->
+<!-- INTRO OVERLAY -->
 <div id="forge-intro" class="forge-intro">
   <div class="forge-intro-inner">
-    <img src="assets/forged-logo.png" class="forge-logo" />
     <h1>Forged365</h1>
+    <p>The year is forged — one strike per day.</p>
+    <button id="enter-forge-btn" class="start-btn">Enter the Forge</button>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- WEEK NAV -->
+  <div class="week-header">
+    <button id="prev-week" class="week-btn">←</button>
+    <div id="week-label" class="sec-label">Current Week</div>
+    <button id="next-week" class="week-btn">→</button>
+  </div>
+
+  <!-- DAY PICKER -->
+  <div id="day-picker" class="day-picker">
+    <button data-day="0">Mon</button>
+    <button data-day="1">Tue</button>
+    <button data-day="2">Wed</button>
+    <button data-day="3">Thu</button>
+    <button data-day="4">Fri</button>
+    <button data-day="5">Sat</button>
+    <button data-day="6">Sun</button>
+  </div>
+
+  <!-- STREAK -->
+  <div id="streak-summary" class="streak-summary"></div>
+
+  <!-- TODAY -->
+  <div class="sec-label">Today's Session</div>
+  <div class="card">
+    <div id="today-session-title"></div>
+    <div id="today-session-list"></div>
+  </div>
+</div>
+
+<div id="completion-toast">Session Forged.</div>
+
+<!-- ✅ THIS IS THE CRITICAL FIX -->
+<script type="module" src="./app.js"></script>
+
+</body>
+</html>
