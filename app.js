@@ -1,4 +1,37 @@
-import { PHASES, WEEK_SPLIT, WORKOUTS, EXERCISE_DETAILS } from './workouts.js';import { PHASES = Math.abs(currentWeekOffset);
+/* ----------------------------------
+   IMPORTS
+---------------------------------- */
+import { PHASES, WEEK_SPLIT, WORKOUTS, EXERCISE_DETAILS } from './workouts.js';
+
+/* ----------------------------------
+   STATE
+---------------------------------- */
+let currentWeekOffset = 0; // 0 = this week
+let selectedDayIndex = (new Date().getDay() + 6) % 7; // Monday = 0
+
+/* ----------------------------------
+   DOM REFERENCES
+---------------------------------- */
+const prevWeekBtn = document.getElementById('prev-week');
+const nextWeekBtn = document.getElementById('next-week');
+const weekLabelEl = document.getElementById('week-label');
+
+const intro = document.getElementById('forge-intro');
+const enterBtn = document.getElementById('enter-forge-btn');
+const listEl = document.getElementById('today-session-list');
+const titleEl = document.getElementById('today-session-title');
+const toast = document.getElementById('completion-toast');
+
+/* ----------------------------------
+   INTRO
+---------------------------------- */
+enterBtn.onclick = () => intro.style.display = 'none';
+
+/* ----------------------------------
+   PHASE + WORKOUT RESOLUTION
+---------------------------------- */
+function getCurrentPhase() {
+  const absoluteWeek = Math.abs(currentWeekOffset);
   let accumulated = 0;
 
   for (const phase of PHASES) {
@@ -27,6 +60,23 @@ function getTodayWorkout() {
 }
 
 /* ----------------------------------
+   UI HELPERS
+---------------------------------- */
+function renderWeekLabel() {
+  if (currentWeekOffset === 0) {
+    weekLabelEl.textContent = 'Current Week';
+  } else {
+    const sign = currentWeekOffset > 0 ? '+' : '';
+    weekLabelEl.textContent = `Week ${sign}${currentWeekOffset}`;
+  }
+}
+
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1200);
+}
+
+/* ----------------------------------
    RENDERING
 ---------------------------------- */
 function renderToday() {
@@ -44,16 +94,16 @@ function renderToday() {
     header.style.display = 'flex';
     header.style.justifyContent = 'space-between';
 
-    const titleEl = document.createElement('div');
-    titleEl.textContent = ex;
-    titleEl.style.cursor = 'pointer';
+    const exerciseTitle = document.createElement('div');
+    exerciseTitle.textContent = ex;
+    exerciseTitle.style.cursor = 'pointer';
 
     const check = document.createElement('div');
     check.textContent = '✓';
     check.style.cursor = 'pointer';
     check.style.opacity = completed.includes(i) ? '1' : '.3';
 
-    header.append(titleEl, check);
+    header.append(exerciseTitle, check);
     row.append(header);
 
     const key = Object.keys(EXERCISE_DETAILS).find(k => ex.startsWith(k));
@@ -61,31 +111,48 @@ function renderToday() {
       const d = EXERCISE_DETAILS[key];
       const details = document.createElement('div');
       details.className = 'exercise-details';
-      details.innerHTML =
-        `<strong>Tempo:</strong> ${d.tempo}
-         <ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>`;
+      details.innerHTML = `
+        <strong>Tempo:</strong> ${d.tempo}
+        <ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>
+      `;
       row.append(details);
 
-      titleEl.onclick = () => details.classList.toggle('show');
+      exerciseTitle.onclick = () => details.classList.toggle('show');
     }
 
+    if (completed.includes(i)) row.classList.add('complete-ex');
 
+    check.onclick = () => {
+      row.classList.toggle('complete-ex');
+      check.style.opacity = row.classList.contains('complete-ex') ? '1' : '.3';
+
+      const idx = completed.indexOf(i);
+      idx === -1 ? completed.push(i) : completed.splice(idx, 1);
+      localStorage.setItem('completed', JSON.stringify(completed));
+      showToast();
+    };
+
+    listEl.append(row);
+  });
+}
 
 /* ----------------------------------
-   STATE
+   WEEK NAVIGATION
 ---------------------------------- */
-let currentWeekOffset = 0; // 0 = this week
-let selectedDayIndex = (new Date().getDay() + 6) % 7; // Monday = 0
+prevWeekBtn.onclick = () => {
+  currentWeekOffset -= 1;
+  renderWeekLabel();
+  renderToday();
+};
 
-const intro = document.getElementById('forge-intro');
-const enterBtn = document.getElementById('enter-forge-btn');
-const listEl = document.getElementById('today-session-list');
-const titleEl = document.getElementById('today-session-title');
-const toast = document.getElementById('completion-toast');
-
-enterBtn.onclick = () => (intro.style.display = 'none');
+nextWeekBtn.onclick = () => {
+  currentWeekOffset += 1;
+  renderWeekLabel();
+  renderToday();
+};
 
 /* ----------------------------------
-   PHASE + WORKOUT RESOLUTION
+   INIT
 ---------------------------------- */
-function getCurrentPhase() {
+renderWeekLabel();
+renderToday();
