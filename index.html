@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Forged365</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Forged365">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Forged365" />
 
-  <!-- ✅ MUST be a real LINK tag -->
-  <link rel="stylesheet" href="./styles.css">
+  <!-- ✅ Correct CSS -->
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
@@ -28,12 +28,14 @@
 
   <div class="shell">
 
+    <!-- WEEK NAV -->
     <div class="week-header">
       <button id="prev-week" class="week-btn">←</button>
       <div id="week-label" class="sec-label">Current Week</div>
       <button id="next-week" class="week-btn">→</button>
     </div>
 
+    <!-- DAY PICKER -->
     <div id="day-picker" class="day-picker">
       <button data-day="0">Mon</button>
       <button data-day="1">Tue</button>
@@ -44,20 +46,21 @@
       <button data-day="6">Sun</button>
     </div>
 
+    <!-- STREAK -->
     <div id="streak-summary" class="streak-summary"></div>
 
+    <!-- TODAY -->
     <div class="sec-label">Today's Session</div>
     <div class="card">
       <div id="today-session-title"></div>
       <div id="today-session-list"></div>
     </div>
+
   </div>
 
   <div id="completion-toast">Session Forged.</div>
 
-  <!-- ✅ MUST be type="module" -->
+  <!-- ✅ THIS IS THE FIX -->
   <script type="module" src="./app.js"></script>
-
 </body>
 </html>
-``
