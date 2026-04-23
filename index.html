@@ -896,14 +896,14 @@ exercises.forEach((ex, i) => {
       if (idx > -1) completed.splice(idx, 1);
     }
 
-   exerciseState[todayKey] || []
+   exerciseState[todayKey] = completed;
     setExerciseCompletion(exerciseState);
     checkDayCompletion(dayIndex);
   });
 
   listEl.appendChild(row);
 });
-
+}
 function renderWeekView() {
   const weekEl = document.getElementById('week-view');
   const labelEl = document.getElementById('week-label');
