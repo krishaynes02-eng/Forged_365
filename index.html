@@ -1095,7 +1095,14 @@ const EXERCISE_DETAILS = {
       'Control the descent'
     ]
   },
-
+'Shoulder taps': {
+  tempo: '2–0–2',
+  cues: [
+    'Brace core throughout',
+    'Keep hips stable',
+    'Slow, controlled movement'
+  ]
+},
   'Bench dips': {
     tempo: '2–1–1',
     cues: [
@@ -1108,7 +1115,7 @@ const EXERCISE_DETAILS = {
 
 function getExerciseDetail(exerciseText) {
   const name = Object.keys(EXERCISE_DETAILS).find(key =>
-    exerciseText.startsWith(key)
+    exerciseText.trim().startsWith(key)
   );
   return name ? EXERCISE_DETAILS[name] : null;
 }
