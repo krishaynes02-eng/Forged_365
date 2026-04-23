@@ -12,10 +12,13 @@ let selectedDayIndex = (new Date().getDay() + 6) % 7;
 /* ---------- DOM ---------- */
 const intro = document.getElementById('forge-intro');
 const enterBtn = document.getElementById('enter-forge-btn');
+
 const titleEl = document.getElementById('today-session-title');
 const listEl = document.getElementById('today-session-list');
 const toast = document.getElementById('completion-toast');
+
 const streakEl = document.getElementById('streak-summary');
+const weeklySummaryEl = document.getElementById('weekly-summary-text');
 
 const prevWeekBtn = document.getElementById('prev-week');
 const nextWeekBtn = document.getElementById('next-week');
@@ -63,7 +66,7 @@ function getTodayWorkout() {
   };
 }
 
-/* ---------- UI ---------- */
+/* ---------- UI HELPERS ---------- */
 function renderWeekLabel() {
   weekLabelEl.textContent =
     currentWeekOffset === 0
@@ -92,13 +95,30 @@ function renderStreak() {
       : `🔥 ${s.current}-day streak (Best: ${s.best})`;
 }
 
+function renderWeeklySummary() {
+  const state = getExerciseState();
+  const weekKey = `week-${currentWeekOffset}`;
+
+  let completed = 0;
+  let total = 0;
+
+  WEEK_SPLIT.forEach((type, dayIdx) => {
+    if (type === 'Rest') return;
+    total++;
+    if (state[`${weekKey}-day-${dayIdx}`]?.completed) completed++;
+  });
+
+  weeklySummaryEl.textContent =
+    `✅ ${completed} of ${total} training sessions completed this week`;
+}
+
 function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 1200);
 }
 
-/* ---------- RENDER ---------- */
+/* ---------- RENDER TODAY ---------- */
 function renderToday() {
   const { title, exercises } = getTodayWorkout();
   titleEl.textContent = title;
@@ -126,74 +146,7 @@ function renderToday() {
     header.append(label, check);
     row.append(header);
 
-    const k = Object.keys(EXERCISE_DETAILS).find(x => ex.startsWith(x));
-    if (k) {
-      const d = EXERCISE_DETAILS[k];
-      const details = document.createElement('div');
-      details.className = 'exercise-details';
-      details.innerHTML =
-        `<strong>Tempo:</strong> ${d.tempo}<ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>`;
-      row.append(details);
-      label.onclick = () => details.classList.toggle('show');
-    }
-
     if (done.includes(i)) row.classList.add('complete-ex');
 
     check.onclick = () => {
       const idx = done.indexOf(i);
-      idx === -1 ? done.push(i) : done.splice(idx, 1);
-      state[key] = { items: done, completed: done.length === exercises.length };
-      setExerciseState(state);
-
-      if (state[key].completed) {
-        const today = new Date().toISOString().split('T')[0];
-        const streak = getStreakState();
-        streak.current =
-          streak.lastCompletedDate === today
-            ? streak.current
-            : streak.current + 1;
-        streak.best = Math.max(streak.best, streak.current);
-        streak.lastCompletedDate = today;
-        setStreakState(streak);
-        showToast('Day Forged.');
-      }
-
-      renderDayPicker();
-      renderStreak();
-      renderToday();
-    };
-
-    listEl.append(row);
-  });
-}
-
-/* ---------- EVENTS ---------- */
-dayPickerEl.onclick = e => {
-  const b = e.target.closest('button');
-  if (!b) return;
-  selectedDayIndex = Number(b.dataset.day);
-  renderDayPicker();
-  renderToday();
-};
-
-prevWeekBtn.onclick = () => {
-  currentWeekOffset--;
-  selectedDayIndex = 0;
-  renderWeekLabel();
-  renderDayPicker();
-  renderToday();
-};
-
-nextWeekBtn.onclick = () => {
-  currentWeekOffset++;
-  selectedDayIndex = 0;
-  renderWeekLabel();
-  renderDayPicker();
-  renderToday();
-};
-
-/* ---------- INIT ---------- */
-renderWeekLabel();
-renderDayPicker();
-renderToday();
-renderStreak();
