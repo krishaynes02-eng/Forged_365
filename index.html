@@ -1,241 +1,31 @@
-<!DOCTYPE html>< />
-
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <link rel="stylesheet" href="forged-logo.css" />
-
-  <style>
-    :root {
-      --bg-main:#0b0b0b;
-      --bg-card:#161616;
-      --bg-soft:#1f1f1f;
-      --border:#2b2b2b;
-      --text-primary:#f2f2f2;
-      --text-secondary:#cfcfcf;
-      --ember:#ff7a2f;
-      --ember-dark:#c94f11;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at top, rgba(255,122,47,.15), var(--bg-main) 55%);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
-
-    .shell { max-width: 680px; margin: 0 auto; position: relative; z-index: 2; }
-
-    .card {
-      background: linear-gradient(to bottom, var(--bg-soft), var(--bg-card));
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .sec-label {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    .exercise-details {
-      display: none;
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-    .exercise-details.show { display: block; }
-
-    .complete-ex {
-      opacity: 0.6;
-      text-decoration: line-through;
-    }
-
-    .start-btn {
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      background: linear-gradient(to bottom, var(--ember), var(--ember-dark));
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      color: #120600;
-    }
-
-    #completion-toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: linear-gradient(to bottom, var(--ember), var(--ember-dark));
-      color: #120600;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.4s;
-    }
-    #completion-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-  </style>
-</head>
-
-<body>
-
-<!-- INTRO -->
-<div id="forge-intro" class="card" style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#0b0b0b;">
-  <div style="text-align:center;">
-    <h1>Forged365</h1>
-    <p style="color:#cfcfcf; margin:12px 0 24px;">
-      The year is forged — one strike per day.
-    </p>
-    <button class="start-btn" onclick="enterForge()">Enter the Forge</button>
+<!DOCTYPE html>
+    <p>The year is forged — one strike per day.</p><html lang="en">
+    <button id="enter-forge-btn">Enter the Forge</button>
   </div>
 </div>
 
 <div class="shell">
+  <header class="topbar">
+    <div class="logo">Forged<span>365</span></div>
+  </header>
 
-  <div class="sec-label">Today's Session</div>
-  <div class="card">
-    <div id="today-session-title"></div>
-    <div id="today-session-list"></div>
-    <button class="start-btn">Strike the Iron →</button>
-  </div>
-
+  <section>
+    <div class="sec-label">Today’s Session</div>
+    <div class="card">
+      <div id="today-session-title"></div>
+      <div id="today-session-list"></div>
+      <button class="start-btn">Strike the Iron →</button>
+    </div>
+  </section>
 </div>
 
 <div id="completion-toast">Session Forged.</div>
 
-<script>
-/* -------------------------------------------------- */
-/* INTRO LOGIC                                        */
-/* -------------------------------------------------- */
-function enterForge() {
-  document.getElementById('forge-intro').style.display = 'none';
-}
-
-/* -------------------------------------------------- */
-/* DATA                                               */
-/* -------------------------------------------------- */
-const WEEK_SPLIT = ['Push','Pull','Legs','Mobility','Push','Pull','Rest'];
-
-const WORKOUTS = {
-  Push: [
-    'Push-ups — 3×10',
-    'Incline push-ups — 3×8',
-    'Shoulder taps — 3×20',
-    'Bench dips — 3×8'
-  ]
-};
-
-const EXERCISE_DETAILS = {
-  'Push-ups': {
-    tempo: '2–1–1',
-    cues: ['Brace core','Elbows ~45°','Full lockout']
-  },
-  'Incline push-ups': {
-    tempo: '2–1–1',
-    cues: ['Straight body','Controlled descent']
-  },
-  'Shoulder taps': {
-    tempo: '2–0–2',
-    cues: ['Stable hips','Slow control']
-  },
-  'Bench dips': {
-    tempo: '2–1–1',
-    cues: ['Shoulders back','No shoulder strain']
-  }
-};
-
-/* -------------------------------------------------- */
-/* RENDERING                                          */
-/* -------------------------------------------------- */
-function renderTodaySession() {
-  const listEl = document.getElementById('today-session-list');
-  const titleEl = document.getElementById('today-session-title');
-
-  titleEl.textContent = 'Push Session';
-  listEl.innerHTML = '';
-
-  const completedState = JSON.parse(localStorage.getItem('ex_done') || '[]');
-
-  WORKOUTS.Push.forEach((ex, i) => {
-    const row = document.createElement('div');
-    row.className = 'card';
-
-    const header = document.createElement('div');
-    header.style.display = 'flex';
-    header.style.justifyContent = 'space-between';
-
-    const title = document.createElement('div');
-    title.textContent = ex;
-    title.style.cursor = 'pointer';
-
-    const check = document.createElement('div');
-    check.textContent = '✓';
-    check.style.cursor = 'pointer';
-    check.style.opacity = completedState.includes(i) ? '1' : '0.3';
-
-    header.appendChild(title);
-    header.appendChild(check);
-    row.appendChild(header);
-
-    const key = Object.keys(EXERCISE_DETAILS).find(k => ex.startsWith(k));
-    if (key) {
-      const d = EXERCISE_DETAILS[key];
-      const el = document.createElement('div');
-      el.className = 'exercise-details';
-      el.innerHTML = `<strong>Tempo:</strong> ${d.tempo}<ul>${d.cues.map(c=>`<li>${c}</li>`).join('')}</ul>`;
-      row.appendChild(el);
-
-      title.onclick = () => el.classList.toggle('show');
-    }
-
-    if (completedState.includes(i)) row.classList.add('complete-ex');
-
-    check.onclick = () => {
-      row.classList.toggle('complete-ex');
-      check.style.opacity = row.classList.contains('complete-ex') ? '1' : '0.3';
-
-      const idx = completedState.indexOf(i);
-      if (idx === -1) completedState.push(i);
-      else completedState.splice(idx, 1);
-
-      localStorage.setItem('ex_done', JSON.stringify(completedState));
-      showToast();
-    };
-
-    listEl.appendChild(row);
-  });
-}
-
-function showToast() {
-  const t = document.getElementById('completion-toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 1200);
-}
-
-/* -------------------------------------------------- */
-/* INIT                                               */
-/* -------------------------------------------------- */
-renderTodaySession();
-</script>
-
+<script src="workouts.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
-``
-<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Forged365</title>
@@ -243,3 +33,16 @@ renderTodaySession();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Forged365" />
+
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="forge-intro" class="forge-intro">
+  <div class="forge-intro-inner">
+    <img src="assets/forged-logo.png" class="forge-logo" />
+    <h1>Forged365</h1>
