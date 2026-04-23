@@ -896,31 +896,13 @@ exercises.forEach((ex, i) => {
       if (idx > -1) completed.splice(idx, 1);
     }
 
-    exerciseState[todayKey] = completed;
+   exerciseState[todayKey] || []
     setExerciseCompletion(exerciseState);
     checkDayCompletion(dayIndex);
   });
 
   listEl.appendChild(row);
 });
-
-    const completed = exerciseState[todayKey]?.completed || [];
-    if (row.classList.contains('complete-ex')) {
-      if (!completed.includes(i)) completed.push(i);
-    } else {
-      const idx = completed.indexOf(i);
-      if (idx > -1) completed.splice(idx, 1);
-    }
-
-    exerciseState[todayKey] = completed;
-    setExerciseCompletion(exerciseState);
-
-    checkDayCompletion(dayIndex);
-  });
-
-  listEl.appendChild(row);
-});
-}
 
 function renderWeekView() {
   const weekEl = document.getElementById('week-view');
