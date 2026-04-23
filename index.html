@@ -877,19 +877,19 @@ header.appendChild(title);
 header.appendChild(check);
 row.appendChild(header);
 
-  const detail = getExerciseDetail(ex);
-  let detailsEl = null;
+const detail = getExerciseDetail(ex);
+let detailsEl = null;
 
-  if (detail) {
-    detailsEl = document.createElement('div');
-    detailsEl.className = 'exercise-details';
-    detailsEl.innerHTML = `
-      <div class="tempo">Tempo: ${detail.tempo}</div>
-      <ul>
-        ${detail.cues.map(c => `<li>${c}</li>`).join('')}
-      </ul>
-    `;
-  }
+if (detail) {
+  detailsEl = document.createElement('div');
+  detailsEl.className = 'exercise-details';
+  detailsEl.innerHTML = `
+    <div class="tempo">Tempo: ${detail.tempo}</div>
+    <ul>
+      ${detail.cues.map(c => `<li>${c}</li>`).join('')}
+    </ul>
+  `;
+}
 // Expand / collapse details when tapping the title
 title.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -897,8 +897,6 @@ title.addEventListener('click', (e) => {
     detailsEl.classList.toggle('show');
   }
 });
-  row.appendChild(title);
-  if (detailsEl) row.appendChild(detailsEl);
 
   // Restore completion state
   if (exerciseState[todayKey]?.includes(i)) {
@@ -908,8 +906,6 @@ title.addEventListener('click', (e) => {
   e.stopPropagation();
 
   row.classList.toggle('complete-ex');
-
-  const completed = exerciseState[todayKey] || [];
 
   if (row.classList.contains('complete-ex')) {
     if (!completed.includes(i)) completed.push(i);
