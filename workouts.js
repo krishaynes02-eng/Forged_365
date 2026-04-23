@@ -1,5 +1,36 @@
-/* =============================
-   PHASE {   PHASE DEFINITIONS
+export const PHASES = [
+  {
+    id: 'foundation',
+    name: 'Foundation',
+    weeks: 4,
+    description: 'Build movement quality and base capacity'
+  },
+  {
+    id: 'strength',
+    name: 'Strength',
+    weeks: 4,
+    description: 'Increase intensity and strength output'
+  },
+  {
+    id: 'hypertrophy',
+    name: 'Hypertrophy',
+    weeks: 4,
+    description: 'Increase volume and time under tension'
+  }
+];
+
+export const WEEK_SPLIT = [
+  'Push',
+  'Pull',
+  'Legs',
+  'Mobility',
+  'Push',
+  'Pull',
+  'Rest'
+];
+
+export const WORKOUTS = {
+  Push: {
     foundation: [
       'Push-ups — 3×10',
       'Incline push-ups — 3×8',
@@ -7,7 +38,7 @@
       'Bench dips — 3×8'
     ],
     strength: [
-      'Push-ups — 4×15',
+      'Push-ups — 4×12',
       'Decline push-ups — 3×10',
       'Pike push-ups — 3×8',
       'Bench dips — 4×12'
@@ -27,14 +58,14 @@
       'Dead hangs — 3×20s'
     ],
     strength: [
-      'Inverted rows — 4×12',
+      'Inverted rows — 4×10',
       'Negative pull-ups — 4×5',
-      'Dead hangs — 3×45s'
+      'Dead hangs — 3×30s'
     ],
     hypertrophy: [
       'Inverted rows — 4×15',
       'Band pull-aparts — 4×20',
-      'Dead hangs — 4×60s'
+      'Dead hangs — 4×45s'
     ]
   },
 
@@ -46,9 +77,9 @@
       'Calf raises — 3×20'
     ],
     strength: [
-      'Squats — 5×15',
+      'Squats — 5×10',
       'Walking lunges — 4×10/side',
-      'Single-leg glute bridges — 3×8/side',
+      'Single-leg glute bridges — 3×10/side',
       'Calf raises — 4×25'
     ],
     hypertrophy: [
@@ -78,81 +109,25 @@
   }
 };
 
-/* =============================
-   EXERCISE DETAIL LIBRARY
-============================= */
-
 export const EXERCISE_DETAILS = {
   'Push-ups': {
     tempo: '2–1–1',
-    cues: ['Brace core', 'Elbows ~45°', 'Full lockout']
+    cues: ['Brace core', 'Elbows at 45°', 'Full lockout']
   },
   'Incline push-ups': {
     tempo: '2–1–1',
-    cues: ['Straight body line', 'Slow descent']
-  },
-  'Shoulder taps': {
-    tempo: '2–0–2',
-    cues: ['Hips stable', 'Controlled movement']
+    cues: ['Straight body line', 'Control descent']
   },
   'Bench dips': {
     tempo: '2–1–1',
-    cues: ['Shoulders down/back', 'No shoulder strain']
+    cues: ['Shoulders down', 'No shoulder pain']
   },
-
   'Inverted rows': {
     tempo: '2–1–1',
-    cues: ['Chest to bar', 'Squeeze shoulder blades']
+    cues: ['Squeeze shoulder blades', 'Chest to bar']
   },
-  'Band pull-aparts': {
+  'Bodyweight squats': {
     tempo: '2–1–1',
-    cues: ['Arms straight', 'Pinch shoulder blades']
-  },
-  'Dead hangs': {
-    tempo: 'Timed',
-    cues: ['Relax grip', 'Breathe', 'No swing']
+    cues: ['Knees track toes', 'Brace core']
   }
 };
-``
-============================= */
-
-export const PHASES = [
-  {
-    id: 'foundation',
-    name: 'Foundation',
-    weeks: 4,
-    description: 'Build movement quality and work capacity.'
-  },
-  {
-    id: 'strength',
-    name: 'Strength',
-    weeks: 4,
-    description: 'Increase intensity and progressions.'
-  },
-  {
-    id: 'hypertrophy',
-    name: 'Hypertrophy',
-    weeks: 4,
-    description: 'Increase volume and time under tension.'
-  }
-];
-
-/* =============================
-   WEEKLY SPLIT
-============================= */
-
-export const WEEK_SPLIT = [
-  'Push',
-  'Pull',
-  'Legs',
-  'Mobility',
-  'Push',
-  'Pull',
-  'Rest'
-];
-
-/* =============================
-   YEAR PROGRAM
-============================= */
-
-export const WORKOUTS = {
