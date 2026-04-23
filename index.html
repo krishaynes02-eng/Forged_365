@@ -9,7 +9,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Forged365">
 
-  <!-- ✅ CORRECT, UNCORRUPTED CSS LINK -->
   <link rel="stylesheet" href="./styles.css">
 </head>
 
@@ -20,15 +19,13 @@
     <div class="forge-intro-inner">
       <h1>Forged365</h1>
       <p>The year is forged — one strike per day.</p>
-      <button id="enter-forge-btn" class="start-btn">
-        Enter the Forge
-      </button>
+      <button id="enter-forge-btn" class="start-btn">Enter the Forge</button>
     </div>
   </div>
 
   <div class="shell">
 
-    <!-- WEEK NAVIGATION -->
+    <!-- WEEK NAV -->
     <div class="week-header">
       <button id="prev-week" class="week-btn">←</button>
       <div id="week-label" class="sec-label">Current Week</div>
@@ -46,10 +43,15 @@
       <button data-day="6">Sun</button>
     </div>
 
-    <!-- STREAK SUMMARY -->
+    <!-- STREAK -->
     <div id="streak-summary" class="streak-summary"></div>
 
-    <!-- TODAY SESSION -->
+    <!-- ✅ NEW WEEKLY SUMMARY CARD -->
+    <div class="card weekly-summary">
+      <div id="weekly-summary-text"></div>
+    </div>
+
+    <!-- TODAY -->
     <div class="sec-label">Today's Session</div>
     <div class="card">
       <div id="today-session-title"></div>
@@ -58,10 +60,8 @@
 
   </div>
 
-  <!-- COMPLETION TOAST -->
   <div id="completion-toast">Session Forged.</div>
 
-  <!-- ✅ CORRECT MODULE SCRIPT (UNBROKEN) -->
   <script type="module" src="./app.js"></script>
 
 </body>
