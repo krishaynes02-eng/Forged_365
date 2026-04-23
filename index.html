@@ -594,13 +594,6 @@ function snapBackToTodayIfNeeded() {
   localStorage.setItem('forged_last_seen', todayKey);
 }
 
-function getExerciseDetail(exerciseText) {
-  const name = Object.keys(EXERCISE_DETAILS).find(key =>
-    exerciseText.startsWith(key)
-  );
-  return name ? EXERCISE_DETAILS[name] : null;
-}
-  
 function updateStreakIfNeeded(dayIndex) {
   const today = new Date();
   const todayKey = today.toISOString().split('T')[0];
@@ -887,8 +880,15 @@ if (detailsEl) row.appendChild(detailsEl);
     row.classList.add('complete-ex');
   }
 
-  row.addEventListener('click', () => {
-    row.classList.toggle('complete-ex');
+
+row.addEventListener('click', () => {
+  if (detailsEl) {
+    detailsEl.classList.toggle('show');
+  }
+
+  row.classList.toggle('complete-ex');
+  ...
+});
 
     const completed = exerciseState[todayKey]?.completed || [];
     if (row.classList.contains('complete-ex')) {
@@ -1081,7 +1081,55 @@ function setStreakState(state) {
 
   el.textContent = `Viewing: ${dayName} ${suffix}`.trim();
 }
+const EXERCISE_DETAILS = {
+  'Push-ups': {
+    tempo: '2–1–1',
+    cues: [
+      'Brace your core before each rep',
+      'Elbows at ~45°',
+      'Full lockout at the top'
+    ]
+  },
+  'Incline push-ups': {
+    tempo: '2–1–1',
+    cues: [
+      'Maintain a straight body line',
+      'Lower chest to hands',
+      'Control the descent'
+    ]
+  },
+  'Tempo push-ups': {
+    tempo: '3–1–1',
+    cues: [
+      'Slow, controlled descent',
+      'Pause briefly at the bottom',
+      'Explode up with control'
+    ]
+  },
+  'Inverted rows': {
+    tempo: '2–1–1',
+    cues: [
+      'Squeeze shoulder blades first',
+      'Keep body rigid',
+      'Pull chest to bar'
+    ]
+  },
+  'Bodyweight squats': {
+    tempo: '3–1–1',
+    cues: [
+      'Sit between your hips',
+      'Knees track over toes',
+      'Drive through mid‑foot'
+    ]
+  }
+};
 
+function getExerciseDetail(exerciseText) {
+  const name = Object.keys(EXERCISE_DETAILS).find(key =>
+    exerciseText.startsWith(key)
+  );
+  return name ? EXERCISE_DETAILS[name] : null;
+}
 const EXERCISE_DETAILS = {
   'Push-ups': {
     tempo: '2–1–1',
