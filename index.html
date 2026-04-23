@@ -854,8 +854,28 @@ exercises.forEach((ex, i) => {
   row.className = 'card';
   row.style.cursor = 'pointer';
 
-  const title = document.createElement('div');
-  title.textContent = ex;
+// Header row (title + checkmark)
+const header = document.createElement('div');
+header.style.display = 'flex';
+header.style.justifyContent = 'space-between';
+header.style.alignItems = 'center';
+
+// Exercise title (tap = expand)
+const title = document.createElement('div');
+title.textContent = ex;
+title.style.cursor = 'pointer';
+
+// Completion check (tap = complete)
+const check = document.createElement('div');
+check.textContent = '✓';
+check.style.opacity = '0.3';
+check.style.fontWeight = '700';
+check.style.cursor = 'pointer';
+
+// Assemble header
+header.appendChild(title);
+header.appendChild(check);
+row.appendChild(header);
 
   const detail = getExerciseDetail(ex);
   let detailsEl = null;
@@ -870,7 +890,13 @@ exercises.forEach((ex, i) => {
       </ul>
     `;
   }
-
+// Expand / collapse details when tapping the title
+title.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (detailsEl) {
+    detailsEl.classList.toggle('show');
+  }
+});
   row.appendChild(title);
   if (detailsEl) row.appendChild(detailsEl);
 
@@ -878,15 +904,26 @@ exercises.forEach((ex, i) => {
   if (exerciseState[todayKey]?.includes(i)) {
     row.classList.add('complete-ex');
   }
+// Mark completion when tapping the checkmark// Mark completion when tapping the checkEventListener('click', (e) => {
+  e.stopPropagation();
 
-  row.addEventListener('click', () => {
-    // ✅ toggle details
-    if (detailsEl) {
-      detailsEl.classList.toggle('show');
-    }
+  row.classList.toggle('complete-ex');
 
-    // ✅ toggle completion
-    row.classList.toggle('complete-ex');
+  const completed = exerciseState[todayKey] || [];
+
+  if (row.classList.contains('complete-ex')) {
+    if (!completed.includes(i)) completed.push(i);
+    check.style.opacity = '1';
+  } else {
+    const idx = completed.indexOf(i);
+    if (idx > -1) completed.splice(idx, 1);
+    check.style.opacity = '0.3';
+  }
+
+  exerciseState[todayKey] = completed;
+  setExerciseCompletion(exerciseState);
+  checkDayCompletion(dayIndex);
+});
 
     const completed = exerciseState[todayKey] || [];
     if (row.classList.contains('complete-ex')) {
