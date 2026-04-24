@@ -1,66 +1,96 @@
-import { WORKOUTS, WEEK_SPLIT } from './workouts.js';
+import { WORKOUTS, WEEK_SPLIT, EXERCISE_DETAILS } from './workouts.js';
 
-/* ---------- STATE ---------- */
+/* ===============================
+   SAFE DOM ACCESS HELPERS
+================================ */
+function $(id) {
+  return document.getElementById(id) || null;
+}
+
+/* ===============================
+   STATE
+================================ */
 let selectedDayIndex = 0;
 
-/* ---------- DOM ---------- */
-const listEl = document.getElementById('today-session-list');
-const titleEl = document.getElementById('today-session-title');
-const weeklyEl = document.getElementById('weekly-summary-text');
+/* ===============================
+   DOM (ALL OPTIONAL)
+================================ */
+const listEl = $('today-session-list');
+const titleEl = $('today-session-title');
+const weeklyEl = $('weekly-summary-text');
+const dayPickerEl = $('day-picker');
+const dayButtons = dayPickerEl
+  ? [...dayPickerEl.querySelectorAll('button')]
+  : [];
 
-const dayPickerEl = document.getElementById('day-picker');
-const dayButtons = [...dayPickerEl.querySelectorAll('button')];
+/* ===============================
+   STORAGE (SAFE)
+================================ */
+function getState() {
+  try {
+    return JSON.parse(localStorage.getItem('forged_state')) || {};
+  } catch {
+    return {};
+  }
+}
 
-/* ---------- STORAGE ---------- */
-const getState = () =>
-  JSON.parse(localStorage.getItem('forged_state') || '{}');
+function setState(state) {
+  localStorage.setItem('forged_state', JSON.stringify(state));
+}
 
-const setState = (s) =>
-  localStorage.setItem('forged_state', JSON.stringify(s));
-
-/* ---------- WEEKLY SUMMARY ---------- */
+/* ===============================
+   WEEKLY SUMMARY (OPTIONAL)
+================================ */
 function renderWeekly() {
-  const s = getState();
-  let done = 0;
-  let total = 0;
+  if (!weeklyEl) return;
+
+  const state = getState();
+  let done = 0, total = 0;
 
   WEEK_SPLIT.forEach((day, i) => {
     if (day === 'Rest') return;
     total++;
-    if (s[`day-${i}`]?.done) done++;
+    if (state[`day-${i}`]?.done) done++;
   });
 
   weeklyEl.textContent =
     `✅ ${done} of ${total} sessions completed this week`;
 }
 
-/* ---------- DAY PICKER ---------- */
+/* ===============================
+   DAY PICKER (OPTIONAL)
+================================ */
 function renderDayPicker() {
-  const s = getState();
+  if (!dayButtons.length) return;
+  const state = getState();
 
-  dayButtons.forEach((btn) => {
+  dayButtons.forEach(btn => {
     const idx = Number(btn.dataset.day);
     btn.classList.toggle('active', idx === selectedDayIndex);
-    btn.classList.toggle('completed', s[`day-${idx}`]?.done === true);
+    btn.classList.toggle('completed', state[`day-${idx}`]?.done);
   });
 }
 
-/* ---------- TODAY ---------- */
+/* ===============================
+   TODAY SESSION
+================================ */
 function renderToday() {
-  const type = WEEK_SPLIT[selectedDayIndex];
-  titleEl.textContent = `${type} — Foundation Phase`;
+  if (!listEl || !titleEl) return;
 
+  const dayType = WEEK_SPLIT[selectedDayIndex];
+  titleEl.textContent = `${dayType} — Foundation Phase`;
   listEl.innerHTML = '';
 
-  if (!WORKOUTS[type] || !WORKOUTS[type].foundation) {
+  const exercises = WORKOUTS[dayType]?.foundation || [];
+
+  if (!exercises.length) {
     listEl.innerHTML = '<p>Rest and recover today.</p>';
     return;
   }
 
-  const exercises = WORKOUTS[type].foundation;
-  const s = getState();
+  const state = getState();
   const key = `day-${selectedDayIndex}`;
-  const completed = s[key]?.items || [];
+  const completed = state[key]?.items || [];
 
   exercises.forEach((ex, i) => {
     const row = document.createElement('div');
@@ -78,10 +108,22 @@ function renderToday() {
     row.append(label, check);
     listEl.append(row);
 
-    /* ---------- DETAILS (LOCAL, NO RERENDER) ---------- */
+    /* ---------- DETAILS ---------- */
     const details = document.createElement('div');
     details.className = 'exercise-details';
-    details.innerHTML = '<em>Tap for detailed instructions above.</em>';
+
+    const detailKey =
+      Object.keys(EXERCISE_DETAILS)
+        .find(k => ex.startsWith(k));
+
+    if (detailKey) {
+      const d = EXERCISE_DETAILS[detailKey];
+      details.innerHTML = `
+        <strong>${d.overview}</strong>
+        <ol>${d.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
+        <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
+      `;
+    }
 
     label.onclick = () => {
       details.classList.toggle('show');
@@ -90,20 +132,17 @@ function renderToday() {
     listEl.append(details);
 
     /* ---------- COMPLETION ---------- */
-    check.onclick = (e) => {
-      e.stopPropagation();
-
+    check.onclick = () => {
       const idx = completed.indexOf(i);
-      idx === -1
-        ? completed.push(i)
-        : completed.splice(idx, 1);
+      if (idx === -1) completed.push(i);
+      else completed.splice(idx, 1);
 
-      s[key] = {
+      state[key] = {
         items: completed,
         done: completed.length === exercises.length
       };
 
-      setState(s);
+      setState(state);
       renderDayPicker();
       renderWeekly();
       renderToday();
@@ -111,16 +150,22 @@ function renderToday() {
   });
 }
 
-/* ---------- EVENTS ---------- */
-dayPickerEl.onclick = (e) => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  selectedDayIndex = Number(btn.dataset.day);
-  renderDayPicker();
-  renderToday();
-};
+/* ===============================
+   EVENTS (SAFE)
+================================ */
+if (dayPickerEl) {
+  dayPickerEl.onclick = e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    selectedDayIndex = Number(btn.dataset.day);
+    renderDayPicker();
+    renderToday();
+  };
+}
 
-/* ---------- INIT ---------- */
+/* ===============================
+   INIT
+================================ */
 renderDayPicker();
 renderWeekly();
 renderToday();
