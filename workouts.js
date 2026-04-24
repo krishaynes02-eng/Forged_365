@@ -1,72 +1,41 @@
-/* =========================================================
+/* =====================================================
    FORGED365 — PROGRAM CORE
    Quietly tough. Disciplined. Built to last.
-   Bodyweight only · Mat-friendly · Men 40+
-========================================================= */
-
-/* =======================
-   PHASES (Intent > Volume)
-======================= */
+   Bodyweight · Minimal space · Explicit coaching
+===================================================== */
 
 export const PHASES = [
   {
     id: 'foundation',
     name: 'Foundation',
     weeks: 4,
-    intent:
-      'Restore movement quality, joint capacity, and work tolerance. ' +
-      'Build discipline through consistency, not intensity.'
+    intent: 'Rebuild movement quality, joint comfort, and confidence.'
   },
   {
     id: 'resilience',
     name: 'Resilience',
     weeks: 4,
-    intent:
-      'Increase control in deeper ranges and under fatigue. ' +
-      'Strengthen hips, spine, and shoulders so effort feels safer.'
+    intent: 'Increase control in deeper ranges without joint stress.'
   },
   {
     id: 'capacity',
     name: 'Capacity',
     weeks: 4,
-    intent:
-      'Sustain effort with calm control. ' +
-      'You work harder now—but your joints stay quiet.'
+    intent: 'Sustain effort calmly. Work harder without paying for it.'
   }
 ];
 
-/* =======================
-   WEEK STRUCTURE
-======================= */
-
 export const WEEK_SPLIT = [
-  'Push',        // Monday
-  'Pull',        // Tuesday
-  'Lower',       // Wednesday
-  'Reset',       // Thursday (flexible)
-  'Full',        // Friday
-  'Conditioning',// Saturday (optional)
-  'Rest'         // Sunday
+  'Push',
+  'Pull',
+  'Lower',
+  'Reset',
+  'Full',
+  'Conditioning',
+  'Rest'
 ];
 
-/* =======================
-   PROGRAM PRINCIPLES
-======================= */
-/*
-- No equipment required beyond a mat
-- Submaximal sets (leave reps in reserve)
-- Tempo > speed
-- Mobility integrated, not isolated
-- Optional conditioning never affects streaks
-*/
-
-/* =======================
-   WORKOUTS
-======================= */
-
 export const WORKOUTS = {
-
-  /* ---------- PUSH (Shoulders + Pressing) ---------- */
   Push: {
     foundation: [
       'Incline push-ups — 3×8 (slow)',
@@ -75,92 +44,88 @@ export const WORKOUTS = {
       'Shoulder CARs — 2×5/side'
     ],
     resilience: [
-      'Push-ups — 4×8 (3–1–1 tempo)',
+      'Push-ups — 4×8 (3–1–1)',
       'Pike holds — 3×20s',
       'Scapular push-ups — 3×12',
       'Shoulder CARs — 2×6/side'
     ],
     capacity: [
-      'Push-ups — 5×10 (broken sets if needed)',
+      'Push-ups — 5×10',
       'Pike push-ups — 3×6',
       'Shoulder taps — 3×20',
       'Shoulder CARs — 2×8/side'
     ]
   },
 
-  /* ---------- PULL + CORE (Posture, Spine Relief) ---------- */
   Pull: {
     foundation: [
-      'Table rows / towel rows — 3×8',
-      'Dead bug — 3×6/side (slow)',
+      'Row (table or towel) — 3×8',
+      'Dead bug — 3×6/side',
       'Side plank — 2×20s/side',
       'Thoracic rotations — 2×8'
     ],
     resilience: [
-      'Rows — 4×10',
+      'Row — 4×10',
       'Dead bug — 4×8/side',
-      'Side plank — 3×30s/side',
+      'Side plank — 3×30s',
       'Thoracic rotations — 2×10'
     ],
     capacity: [
-      'Rows — 5×12',
+      'Row — 5×12',
       'Hollow hold — 3×30s',
       'Side plank reach-through — 3×10',
       'Thoracic rotations — 2×12'
     ]
   },
 
-  /* ---------- LOWER BODY FLOW (Hips, Groin, Glutes) ---------- */
   Lower: {
     foundation: [
-      'Box squats — 4×8',
-      'Reverse lunges — 3×6/side',
-      'Glute bridges — 3×12',
+      'Box squat — 4×8',
+      'Reverse lunge — 3×6/side',
+      'Glute bridge — 3×12',
       'Hip CARs — 2×5/side'
     ],
     resilience: [
-      'Split squats — 4×8/side',
-      'Lateral lunges (short range) — 3×6/side',
-      'Single‑leg glute bridges — 3×10',
+      'Split squat — 4×8/side',
+      'Lateral lunge — 3×6/side',
+      'Single-leg glute bridge — 3×10',
       'Hip CARs — 2×6/side'
     ],
     capacity: [
-      'Split squats — 5×10/side',
-      'Cossack squats (controlled) — 3×6/side',
-      'Tempo squats (3–1–2) — 3×12',
+      'Split squat — 5×10/side',
+      'Cossack squat — 3×6/side',
+      'Tempo squat — 3×12',
       'Hip CARs — 2×8/side'
     ]
   },
 
-  /* ---------- RESET / MOBILITY (Flexible Day) ---------- */
   Reset: {
     foundation: [
-      'Breathing reset (90/90) — 5 min',
+      'Breathing reset — 5 min',
       'Hip flexor stretch — 2×45s/side',
       'Adductor rocks — 2×10',
       'Spinal waves — 2×6'
     ],
     resilience: [
       'Breathing reset — 5 min',
-      'Half‑kneeling hip CARs — 2×6/side',
-      'Cossack stretch — 2×30s/side',
-      'Cat‑cow (slow) — 2×10'
+      'Hip CARs (slow) — 2×6/side',
+      'Cossack stretch — 2×30s',
+      'Cat-cow — 2×10'
     ],
     capacity: [
-      'Flow sequence (hips–spine) — 12–15 min',
+      'Full-body flow — 12–15 min',
       'Deep squat hold — 3×45s',
-      'Adductor stretch — 2×45s/side',
-      'Long exhale breathing — 5 min'
+      'Adductor stretch — 2×45s',
+      'Nasal breathing — 5 min'
     ]
   },
 
-  /* ---------- FULL BODY (Quiet Grind) ---------- */
   Full: {
     foundation: [
       'Push-ups — 3×10',
       'Rows — 3×10',
       'Squats — 3×12',
-      'Farmer carry (optional) — 5 min'
+      'Carry or march — 5 min'
     ],
     resilience: [
       'Push-ups — 4×10',
@@ -176,10 +141,9 @@ export const WORKOUTS = {
     ]
   },
 
-  /* ---------- OPTIONAL CONDITIONING ---------- */
   Conditioning: {
     foundation: [
-      'Walk — 20–30 min (easy)',
+      'Easy walk — 20–30 min',
       'OR light jog — 10–15 min'
     ],
     resilience: [
@@ -187,56 +151,50 @@ export const WORKOUTS = {
       'OR jog/walk intervals — 20 min'
     ],
     capacity: [
-      'Jog — 20–30 min (conversational pace)',
-      'OR loaded carry — 15 min'
+      'Jog — 20–30 min (conversational)',
+      'OR carry — 15 min'
     ]
   }
 };
 
-/* =======================
-   EXERCISE DETAILS
-   (Used in expansion UI)
-======================= */
-
 export const EXERCISE_DETAILS = {
-  'Push-ups': {
-    tempo: 'Controlled, stop shy of failure',
+  'Dead bug': {
+    how: 'Lie on your back with arms reaching straight up and knees bent at 90 degrees.',
+    why: 'This builds core control without stressing your lower back.',
     cues: [
-      'Brace lightly before lowering',
-      'Elbows about 45°',
-      'Move smoothly, no rushing'
+      'Slowly extend opposite arm and leg',
+      'Keep your lower back gently pressed down',
+      'Move with control, not speed'
     ]
   },
-  'Split squats': {
-    tempo: 'Slow down, control the bottom',
+
+  'Shoulder CARs': {
+    how: 'Stand tall. Slowly circle one arm through its full range while keeping your body still.',
+    why: 'Keeps shoulders healthy and restores lost range over time.',
     cues: [
-      'Stay tall through the torso',
-      'Feel the front glute engage',
-      'Depth over load'
+      'Move slow and smooth',
+      'No momentum',
+      'Stop short of pain'
     ]
   },
-  'Cossack squats': {
-    tempo: 'Deliberate, shallow is fine',
+
+  'Hip CARs': {
+    how: 'Stand holding support. Lift one knee and slowly rotate the hip through its full circle.',
+    why: 'Directly improves hip mobility and takes pressure off the lower back.',
     cues: [
-      'Only go as deep as control allows',
-      'Use hands for balance if needed',
-      'Groin strength comes before range'
+      'Slow is the goal',
+      'Only move the hip',
+      'Quality beats range'
     ]
   },
-  'Rows': {
-    tempo: 'Pause briefly at the top',
+
+  'Incline push-ups': {
+    how: 'Hands elevated on a bench or wall, body straight from head to heels.',
+    why: 'Joint‑friendly way to build pressing strength.',
     cues: [
-      'Chest proud',
-      'Squeeze shoulder blades',
-      'No jerking'
-    ]
-  },
-  'Breathing reset': {
-    tempo: 'Slow, nasal breathing',
-    cues: [
-      'Long exhales',
-      'Ribs down',
-      'Let tension drop'
+      'Elbows around 45 degrees',
+      'Brace lightly',
+      'Leave a few reps in reserve'
     ]
   }
 };
