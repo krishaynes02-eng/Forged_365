@@ -3,13 +3,13 @@ import { PHASES, WEEK_SPLIT, WORKOUTS, EXERCISE_DETAILS } from './workouts.js';
 /* ---------- STATE ---------- */
 let currentWeekOffset = 0;
 let selectedDayIndex = (new Date().getDay() + 6) % 7;
+let expandedExerciseIndex = null;
 
 /* ---------- DOM ---------- */
 const intro = document.getElementById('forge-intro');
 const enterBtn = document.getElementById('enter-forge-btn');
 const titleEl = document.getElementById('today-session-title');
 const listEl = document.getElementById('today-session-list');
-const streakEl = document.getElementById('streak-summary');
 const weeklyEl = document.getElementById('weekly-summary-text');
 
 const prevWeekBtn = document.getElementById('prev-week');
@@ -59,8 +59,7 @@ function renderWeekLabel() {
 function renderDayPicker() {
   const s = getState();
   const wk = `week-${currentWeekOffset}`;
-
-  dayButtons.forEach((b) => {
+  dayButtons.forEach(b => {
     const d = Number(b.dataset.day);
     b.classList.toggle('active', d === selectedDayIndex);
     b.classList.toggle('completed', s[`${wk}-day-${d}`]?.done === true);
@@ -71,17 +70,15 @@ function renderWeekly() {
   const s = getState();
   const wk = `week-${currentWeekOffset}`;
   let done = 0, total = 0;
-
-  WEEK_SPLIT.forEach((t, d) => {
+  WEEK_SPLIT.forEach((t,d) => {
     if (t === 'Rest') return;
     total++;
     if (s[`${wk}-day-${d}`]?.done) done++;
   });
-
   weeklyEl.textContent = `✅ ${done} of ${total} sessions completed this week`;
 }
 
-/* ---------- TODAY ---------- */
+/* ---------- TODAY SESSION ---------- */
 function renderToday() {
   const { title, exercises } = getWorkout();
   titleEl.textContent = title;
@@ -95,28 +92,42 @@ function renderToday() {
     const row = document.createElement('div');
     row.className = 'exercise-row' + (completed.includes(i) ? ' completed' : '');
 
-    const label = document.createElement('span');
-    label.textContent = ex;
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = ex;
+    titleSpan.style.cursor = 'pointer';
 
     const check = document.createElement('span');
     check.textContent = '✓';
     check.style.cursor = 'pointer';
 
-    /* ---------- EXPANSION ---------- */
-    const details = document.createElement('div');
-    details.className = 'exercise-details';
+    const container = document.createElement('div');
+    container.className = 'exercise-container';
 
+    row.append(titleSpan, check);
+    container.append(row);
+
+    /* ---------- DETAILS ---------- */
     const detailKey = Object.keys(EXERCISE_DETAILS)
       .find(k => ex.startsWith(k));
 
     if (detailKey) {
       const d = EXERCISE_DETAILS[detailKey];
+      const details = document.createElement('div');
+      details.className = 'exercise-details' +
+        (expandedExerciseIndex === i ? ' show' : '');
+
       details.innerHTML = `
-        <strong>Intent:</strong> ${d.tempo}
+        <strong>Focus:</strong> ${d.tempo}
         <ul>${d.cues.map(c => `<li>${c}</li>`).join('')}</ul>
       `;
-      label.onclick = () =>
-        details.classList.toggle('show');
+
+      titleSpan.onclick = () => {
+        expandedExerciseIndex =
+          expandedExerciseIndex === i ? null : i;
+        renderToday();
+      };
+
+      container.append(details);
     }
 
     /* ---------- COMPLETION ---------- */
@@ -137,17 +148,16 @@ function renderToday() {
       renderToday();
     };
 
-    row.append(label, check);
-    listEl.append(row);
-    if (detailKey) listEl.append(details);
+    listEl.append(container);
   });
 }
 
 /* ---------- EVENTS ---------- */
-dayPickerEl.onclick = (e) => {
+dayPickerEl.onclick = e => {
   const b = e.target.closest('button');
   if (!b) return;
   selectedDayIndex = Number(b.dataset.day);
+  expandedExerciseIndex = null;
   renderDayPicker();
   renderToday();
 };
@@ -155,6 +165,7 @@ dayPickerEl.onclick = (e) => {
 prevWeekBtn.onclick = () => {
   currentWeekOffset--;
   selectedDayIndex = 0;
+  expandedExerciseIndex = null;
   renderWeekLabel();
   renderDayPicker();
   renderWeekly();
@@ -164,6 +175,7 @@ prevWeekBtn.onclick = () => {
 nextWeekBtn.onclick = () => {
   currentWeekOffset++;
   selectedDayIndex = 0;
+  expandedExerciseIndex = null;
   renderWeekLabel();
   renderDayPicker();
   renderWeekly();
@@ -175,3 +187,4 @@ renderWeekLabel();
 renderDayPicker();
 renderWeekly();
 renderToday();
+``
