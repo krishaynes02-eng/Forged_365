@@ -1,7 +1,7 @@
 /* =====================================================
    FORGED365 — PROGRAM CORE
-   Quietly tough. Disciplined. Built to last.
-   Bodyweight · Minimal space · Explicit coaching
+   Quietly tough. Disciplined. Explicit coaching.
+   Bodyweight · Mat · Garage-ready · Men 40+
 ===================================================== */
 
 export const PHASES = [
@@ -9,19 +9,19 @@ export const PHASES = [
     id: 'foundation',
     name: 'Foundation',
     weeks: 4,
-    intent: 'Rebuild movement quality, joint comfort, and confidence.'
+    intent: 'Restore movement quality, joint comfort, and confidence.'
   },
   {
     id: 'resilience',
     name: 'Resilience',
     weeks: 4,
-    intent: 'Increase control in deeper ranges without joint stress.'
+    intent: 'Build strength and control in deeper, safer ranges.'
   },
   {
     id: 'capacity',
     name: 'Capacity',
     weeks: 4,
-    intent: 'Sustain effort calmly. Work harder without paying for it.'
+    intent: 'Sustain effort calmly. Work hard without paying for it.'
   }
 ];
 
@@ -45,7 +45,7 @@ export const WORKOUTS = {
     ],
     resilience: [
       'Push-ups — 4×8 (3–1–1)',
-      'Pike holds — 3×20s',
+      'Pike hold — 3×20s',
       'Scapular push-ups — 3×12',
       'Shoulder CARs — 2×6/side'
     ],
@@ -67,7 +67,7 @@ export const WORKOUTS = {
     resilience: [
       'Row — 4×10',
       'Dead bug — 4×8/side',
-      'Side plank — 3×30s',
+      'Side plank — 3×30s/side',
       'Thoracic rotations — 2×10'
     ],
     capacity: [
@@ -125,7 +125,7 @@ export const WORKOUTS = {
       'Push-ups — 3×10',
       'Rows — 3×10',
       'Squats — 3×12',
-      'Carry or march — 5 min'
+      'March or carry — 5 min'
     ],
     resilience: [
       'Push-ups — 4×10',
@@ -157,44 +157,108 @@ export const WORKOUTS = {
   }
 };
 
+/* =====================================================
+   EXERCISE DETAILS — STEP BY STEP COACHING
+===================================================== */
+
 export const EXERCISE_DETAILS = {
-  'Dead bug': {
-    how: 'Lie on your back with arms reaching straight up and knees bent at 90 degrees.',
-    why: 'This builds core control without stressing your lower back.',
+  'Row': {
+    how:
+      'Anchor a towel around a sturdy object or use the edge of a table. ' +
+      'Hold on, walk your feet forward, and lean back so your body is straight.',
+    why:
+      'This strengthens your upper back and helps improve posture, which takes strain off your neck and lower back.',
     cues: [
-      'Slowly extend opposite arm and leg',
-      'Keep your lower back gently pressed down',
-      'Move with control, not speed'
+      'Pull your chest toward your hands',
+      'Squeeze shoulder blades together',
+      'Move slow, lower with control'
+    ]
+  },
+
+  'Dead bug': {
+    how:
+      'Lie on your back with arms straight up and knees bent at 90 degrees. ' +
+      'Slowly extend one arm and the opposite leg while keeping your lower back flat.',
+    why:
+      'Builds core strength without stressing your spine. Excellent for protecting the lower back.',
+    cues: [
+      'Keep your ribs down',
+      'Move slow and controlled',
+      'Stop if your back arches'
     ]
   },
 
   'Shoulder CARs': {
-    how: 'Stand tall. Slowly circle one arm through its full range while keeping your body still.',
-    why: 'Keeps shoulders healthy and restores lost range over time.',
+    how:
+      'Stand tall. Raise one arm and slowly draw the biggest circle you can with it. ' +
+      'Your torso stays still the entire time.',
+    why:
+      'Restores shoulder mobility and keeps joints healthy as you age.',
     cues: [
-      'Move slow and smooth',
+      'Slow, smooth movement',
       'No momentum',
-      'Stop short of pain'
+      'Only move what you can control'
     ]
   },
 
   'Hip CARs': {
-    how: 'Stand holding support. Lift one knee and slowly rotate the hip through its full circle.',
-    why: 'Directly improves hip mobility and takes pressure off the lower back.',
+    how:
+      'Stand holding support. Lift one knee and slowly rotate your hip in a full circle.',
+    why:
+      'Improves hip range and reduces pressure on the lower back.',
     cues: [
-      'Slow is the goal',
-      'Only move the hip',
-      'Quality beats range'
+      'Move slowly',
+      'Keep pelvis steady',
+      'Pain-free range only'
+    ]
+  },
+
+  'Box squat': {
+    how:
+      'Stand in front of a chair or box. Sit back onto it under control, then stand up.',
+    why:
+      'Builds leg strength while teaching safe squat mechanics.',
+    cues: [
+      'Push through heels',
+      'Stay tall',
+      'Control the descent'
+    ]
+  },
+
+  'Push-ups': {
+    how:
+      'Start in a plank with hands under shoulders. Lower chest to the floor, then press up.',
+    why:
+      'Builds upper-body strength and core stability.',
+    cues: [
+      'Keep body straight',
+      'Elbows at 45 degrees',
+      'Leave reps in reserve'
     ]
   },
 
   'Incline push-ups': {
-    how: 'Hands elevated on a bench or wall, body straight from head to heels.',
-    why: 'Joint‑friendly way to build pressing strength.',
+    how:
+      'Place hands on a bench or wall. Keep body straight as you lower and press up.',
+    why:
+      'Joint-friendly way to build pressing strength.',
     cues: [
-      'Elbows around 45 degrees',
-      'Brace lightly',
-      'Leave a few reps in reserve'
+      'Smooth tempo',
+      'Controlled range',
+      'Breathe steadily'
+    ]
+  },
+
+  'Cossack squat': {
+    how:
+      'Stand wide. Shift weight to one side, bending that knee while the other leg stays straight.',
+    why:
+      'Strengthens groin and hips, improving flexibility safely.',
+    cues: [
+      'Only go as low as control allows',
+      'Move slowly',
+      'Use hands for balance if needed'
     ]
   }
 };
+``
