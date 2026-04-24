@@ -85,6 +85,18 @@ function renderWeekly() {
     `✅ ${done} of ${total} sessions completed this week`;
 }
 
+/* ---------- DEFAULT COACHING (IMPORTANT) ---------- */
+function getFallbackDetails() {
+  return {
+    focus: 'Controlled movement. Maintain good positions.',
+    cues: [
+      'Move deliberately',
+      'Stay within comfortable range',
+      'Leave 1–2 reps in reserve'
+    ]
+  };
+}
+
 /* ---------- TODAY ---------- */
 function renderToday() {
   const { title, exercises } = getWorkout();
@@ -113,26 +125,31 @@ function renderToday() {
     row.append(label, check);
     listEl.append(row);
 
-    /* ---------- DETAILS (EXPAND) ---------- */
-    const detailKey =
+    /* ---------- DETAILS (ALWAYS EXISTS) ---------- */
+    const details = document.createElement('div');
+    details.className = 'exercise-details';
+
+    const key =
       Object.keys(EXERCISE_DETAILS)
         .find(k => ex.startsWith(k));
 
-    if (detailKey) {
-      const info = EXERCISE_DETAILS[detailKey];
-      const details = document.createElement('div');
-      details.className = 'exercise-details';
-      details.innerHTML = `
-        <strong>Focus:</strong> ${info.tempo}
-        <ul>${info.cues.map(c => `<li>${c}</li>`).join('')}</ul>
-      `;
+    const data = key
+      ? {
+          focus: EXERCISE_DETAILS[key].tempo,
+          cues: EXERCISE_DETAILS[key].cues
+        }
+      : getFallbackDetails();
 
-      label.onclick = () => {
-        details.classList.toggle('show');
-      };
+    details.innerHTML = `
+      <strong>Focus:</strong> ${data.focus}
+      <ul>${data.cues.map(c => `<li>${c}</li>`).join('')}</ul>
+    `;
 
-      listEl.append(details);
-    }
+    label.onclick = () => {
+      details.classList.toggle('show');
+    };
+
+    listEl.append(details);
 
     /* ---------- COMPLETION ---------- */
     check.onclick = (e) => {
