@@ -1,7 +1,7 @@
 import { WORKOUTS, WEEK_SPLIT, EXERCISE_DETAILS } from './workouts.js';
 
 /* ===============================
-   SAFE DOM ACCESS HELPERS
+   SAFE DOM ACCESS
 ================================ */
 function $(id) {
   return document.getElementById(id) || null;
@@ -13,18 +13,31 @@ function $(id) {
 let selectedDayIndex = 0;
 
 /* ===============================
-   DOM (ALL OPTIONAL)
+   DOM
 ================================ */
+const intro = $('forge-intro');
+const enterBtn = $('enter-forge-btn');
+
 const listEl = $('today-session-list');
 const titleEl = $('today-session-title');
 const weeklyEl = $('weekly-summary-text');
+
 const dayPickerEl = $('day-picker');
 const dayButtons = dayPickerEl
   ? [...dayPickerEl.querySelectorAll('button')]
   : [];
 
 /* ===============================
-   STORAGE (SAFE)
+   INTRO DISMISSAL (FIX)
+================================ */
+if (enterBtn && intro) {
+  enterBtn.onclick = () => {
+    intro.style.display = 'none';
+  };
+}
+
+/* ===============================
+   STORAGE
 ================================ */
 function getState() {
   try {
@@ -39,7 +52,7 @@ function setState(state) {
 }
 
 /* ===============================
-   WEEKLY SUMMARY (OPTIONAL)
+   WEEKLY SUMMARY
 ================================ */
 function renderWeekly() {
   if (!weeklyEl) return;
@@ -58,7 +71,7 @@ function renderWeekly() {
 }
 
 /* ===============================
-   DAY PICKER (OPTIONAL)
+   DAY PICKER
 ================================ */
 function renderDayPicker() {
   if (!dayButtons.length) return;
@@ -151,7 +164,7 @@ function renderToday() {
 }
 
 /* ===============================
-   EVENTS (SAFE)
+   EVENTS
 ================================ */
 if (dayPickerEl) {
   dayPickerEl.onclick = e => {
