@@ -1,51 +1,53 @@
 /* =====================================================
-   FORGED365 — MODERN INDUSTRIAL (REFINED CONTRAST)
-   Light Steel Workshop + Refined Forge Entry
+   FORGED365 — MODERN INDUSTRIAL (CORRECTED)
+   Fixes:
+   - Lighter Forge intro
+   - Restored spacing
+   - Improved contrast
+   - Unsquished controls
 ===================================================== */
 
-/* ================= DESIGN TOKENS ================= */
+/* ================= TOKENS ================= */
 
 :root {
-  /* Workshop Mode */
-  --bg-main: #eef1f4;           /* light neutral steel */
-  --bg-panel: #ffffff;         /* card surface */
+  --bg-main: #eef1f4;
+  --bg-panel: #ffffff;
   --bg-panel-soft: #f3f5f7;
 
-  --text-main: #111827;        /* deep graphite (strong contrast) */
-  --text-muted: #4b5563;       /* readable secondary text */
+  --text-main: #111827;
+  --text-muted: #4b5563;
 
-  /* Accent */
   --accent-ember: #d46a2c;
   --accent-ember-soft: #b8571f;
 
-  /* Borders & Elevation */
-  --border-strong: rgba(0, 0, 0, 0.18);
-  --border-soft: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0,0,0,0.22);
+  --border-soft: rgba(0,0,0,0.14);
 
-  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.12);
-
-  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
-               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --shadow-soft: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 /* ================= BASE ================= */
 
 body {
   margin: 0;
-  font-family: var(--font-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background: linear-gradient(180deg, #f4f6f9, var(--bg-main));
   color: var(--text-main);
 }
 
-/* ================= FORGE INTRO (LIGHTENED) ================= */
+/* ================= FORGE INTRO (LIGHTER) ================= */
 
 .forge-intro {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at center, rgba(212,106,44,0.24), transparent 60%),
-    linear-gradient(180deg, #1c1b19, #2a2825);
+    radial-gradient(circle at center,
+      rgba(212,106,44,0.22),
+      rgba(212,106,44,0.08) 40%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, #2a2f36, #1f2328);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,25 +56,28 @@ body {
 
 .forge-intro-inner {
   text-align: center;
-  padding: 2.5rem;
-  color: #f3f4f6;
+  padding: 3rem;
+  color: #f9fafb;
 }
 
 .forge-intro h1 {
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
+  margin-bottom: 0.5rem;
 }
 
 .forge-intro p {
   color: #d1d5db;
+  max-width: 420px;
 }
 
 .start-btn {
+  margin-top: 2rem;
   background: linear-gradient(180deg, var(--accent-ember), var(--accent-ember-soft));
   color: #111;
-  border-radius: 6px;
-  padding: 0.85rem 1.75rem;
-  font-weight: 700;
   border: none;
+  padding: 0.9rem 2rem;
+  font-weight: 700;
+  border-radius: 7px;
   cursor: pointer;
 }
 
@@ -86,61 +91,53 @@ body {
 .topbar-inner {
   max-width: 960px;
   margin: 0 auto;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   display: flex;
   justify-content: space-between;
 }
 
-.brand-name {
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.brand-name span {
-  color: var(--accent-ember);
-}
-
-/* ================= NAV TABS ================= */
+/* ================= NAV ================= */
 
 .nav-tab {
-  background: transparent;
   border: 1px solid var(--border-strong);
   color: var(--text-muted);
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 6px;
-  cursor: pointer;
 }
 
 .nav-tab.active {
   border-color: var(--accent-ember);
-  color: var(--text-main);
   font-weight: 600;
+  color: var(--text-main);
 }
 
-/* ================= LAYOUT ================= */
+/* ================= WEEK HEADER ================= */
 
-.shell {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.75rem 0 1.25rem 0;
 }
 
 /* ================= DAY PICKER ================= */
 
+.day-picker {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
 .day-picker button {
   background: var(--bg-panel-soft);
   border: 1px solid var(--border-strong);
-  color: var(--text-muted);
-  padding: 0.45rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  cursor: pointer;
 }
 
 .day-picker button.active {
   background: linear-gradient(180deg, var(--accent-ember), var(--accent-ember-soft));
-  color: #111;
   border-color: transparent;
-  font-weight: 600;
 }
 
 /* ================= CARDS ================= */
@@ -149,50 +146,37 @@ body {
   background: var(--bg-panel);
   border: 1px solid var(--border-strong);
   border-radius: 12px;
-  padding: 1.1rem;
-  margin-bottom: 1rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
   box-shadow: var(--shadow-soft);
 }
 
 /* ================= EXERCISES ================= */
 
 .exercise-row {
-  padding: 0.6rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-soft);
 }
 
+.exercise-row span:last-child {
+  margin-left: 1.25rem;
+}
+
 .exercise-details {
-  display: none;
   margin-top: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.6;
+  padding-bottom: 1rem;
+  line-height: 1.65;
 }
 
-.exercise-details.show {
-  display: block;
-}
-
-.exercise-details strong {
-  color: var(--text-main);
-}
-
-/* ================= TYPOGRAPHY ================= */
+/* ================= SECTION LABEL ================= */
 
 .sec-label {
-  margin: 1.5rem 0 0.5rem;
+  margin: 2rem 0 0.75rem;
   letter-spacing: 0.12em;
   font-size: 0.75rem;
   color: #374151;
   font-weight: 600;
 }
-
-/* ================= WEEK NAV ================= */
-
-.week-btn {
-  border: 1px solid var(--border-strong);
-  color: var(--text-muted);
-  background: transparent;
-  border-radius: 6px;
-  padding: 0.35rem 0.9rem;
-}
-``
