@@ -5,14 +5,26 @@
   <title>Forged365</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ✅ CORRECT CSS LOAD -->
-  <link rel="stylesheet" href="./styles.css============ INTRO OVERLAY ================= -->
+  <!-- ✅ CRITICAL FOR GITHUB PAGES SUB-PATH -->
+  <base href="/Forged_365/">
+
+  <!-- ✅ CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ================= INTRO OVERLAY ================= -->
   <div id="forge-intro" class="forge-intro">
     <div class="forge-intro-inner">
       <div class="forge-logo">⚒️</div>
       <h1>Forged365</h1>
-      <p>The year is not consumed.<br />It is forged — one strike per day.</p>
-      <button id="enter-forge-btn" class="start-btn">Enter the Forge</button>
+      <p>
+        The year is not consumed.<br />
+        It is forged — one strike per day.
+      </p>
+      <button id="enter-forge-btn" class="start-btn">
+        Enter the Forge
+      </button>
     </div>
   </div>
 
@@ -40,15 +52,17 @@
     <!-- =============== MAIN CONTENT =============== -->
     <main class="shell">
 
-      <!-- TODAY VIEW -->
+      <!-- ===== TODAY VIEW ===== -->
       <section id="view-today">
 
+        <!-- WEEK HEADER -->
         <div class="week-header">
           <button id="prev-week" class="week-btn">←</button>
           <div id="week-label" class="sec-label">Current Week</div>
           <button id="next-week" class="week-btn">→</button>
         </div>
 
+        <!-- DAY PICKER -->
         <div id="day-picker" class="day-picker">
           <button data-day="0">Mon</button>
           <button data-day="1">Tue</button>
@@ -59,12 +73,14 @@
           <button data-day="6">Sun</button>
         </div>
 
+        <!-- STREAK + WEEKLY SUMMARY -->
         <div id="streak-summary" class="streak-summary"></div>
 
         <div class="card weekly-summary">
           <div id="weekly-summary-text"></div>
         </div>
 
+        <!-- TODAY SESSION -->
         <div class="sec-label">Today’s Session</div>
 
         <div class="card">
@@ -74,7 +90,7 @@
 
       </section>
 
-      <!-- EXERCISES VIEW -->
+      <!-- ===== EXERCISES VIEW ===== -->
       <section id="view-exercises" style="display:none;">
         <div class="sec-label">Exercise Library</div>
         <div class="card">
@@ -82,12 +98,28 @@
         </div>
       </section>
 
-      <!-- PLACEHOLDERS -->
-      <section id="view-year" style="display:none;"></section>
-      <section id="view-recovery" style="display:none;"></section>
+      <!-- ===== YEAR PLAN (PLACEHOLDER) ===== -->
+      <section id="view-year" style="display:none;">
+        <div class="sec-label">Year Plan</div>
+        <div class="card">
+          <p>Year plan coming soon.</p>
+        </div>
+      </section>
+
+      <!-- ===== RECOVERY (PLACEHOLDER) ===== -->
+      <section id="view-recovery" style="display:none;">
+        <div class="sec-label">Recovery</div>
+        <div class="card">
+          <p>Recovery guidance coming soon.</p>
+        </div>
+      </section>
 
     </main>
+
   </div>
 
-  <!-- ✅ CORRECT JS LOAD -->
-  <script type="module" src="./app.js
+  <!-- ✅ JAVASCRIPT (MODULE) -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
