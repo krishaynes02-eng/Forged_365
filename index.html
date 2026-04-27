@@ -1,71 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Forged365</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Forged365">
-
-  <!-- ✅ REAL CSS LINK (DO NOT MODIFY) -->
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css" />
 </head>
-
 <body>
 
-  <!-- INTRO OVERLAY -->
+  <!-- ================= INTRO OVERLAY ================= -->
   <div id="forge-intro" class="forge-intro">
     <div class="forge-intro-inner">
+      <div class="forge-logo">⚒️</div>
       <h1>Forged365</h1>
-      <p>The year is forged — one strike per day.</p>
+      <p>The year is not consumed.<br/>It is forged — one strike per day.</p>
       <button id="enter-forge-btn" class="start-btn">
         Enter the Forge
       </button>
     </div>
   </div>
 
-  <div class="shell">
+  <!-- ================= APP SHELL ================= -->
+  <div class="app-shell">
 
-    <!-- WEEK NAV -->
-    <div class="week-header">
-      <button id="prev-week" class="week-btn">←</button>
-      <div id="week-label" class="sec-label">Current Week</div>
-      <button id="next-week" class="week-btn">→</button>
-    </div>
+    <!-- =============== TOP NAV BAR =============== -->
+    <header class="topbar">
+      <div class="topbar-inner">
 
-    <!-- DAY PICKER -->
-    <div id="day-picker" class="day-picker">
-      <button data-day="0">Mon</button>
-      <button data-day="1">Tue</button>
-      <button data-day="2">Wed</button>
-      <button data-day="3">Thu</button>
-      <button data-day="4">Fri</button>
-      <button data-day="5">Sat</button>
-      <button data-day="6">Sun</button>
-    </div>
+        <div class="brand">
+          <span class="brand-name">Forged<span>365</span></span>
+        </div>
 
-    <!-- STREAK -->
-    <div id="streak-summary" class="streak-summary"></div>
+        <nav class="nav-tabs">
+          <button class="nav-tab active">Today</button>
+          <button class="nav-tab">Year Plan</button>
+          <button class="nav-tab">Exercises</button>
+          <button class="nav-tab">Recovery</button>
+        </nav>
 
-    <!-- ✅ WEEKLY SUMMARY CARD -->
-    <div class="card weekly-summary">
-      <div id="weekly-summary-text"></div>
-    </div>
+      </div>
+    </header>
 
-    <!-- TODAY -->
-    <div class="sec-label">Today's Session</div>
-    <div class="card">
-      <div id="today-session-title"></div>
-      <div id="today-session-list"></div>
-    </div>
+    <!-- =============== MAIN CONTENT =============== -->
+    <main class="shell">
+
+      <!-- WEEK HEADER -->
+      <div class="week-header">
+        <button id="prev-week" class="week-btn">←</button>
+        <div id="week-label" class="sec-label">Current Week</div>
+        <button id="next-week" class="week-btn">→</button>
+      </div>
+
+      <!-- DAY PICKER -->
+      <div id="day-picker" class="day-picker">
+        <button data-day="0">Mon</button>
+        <button data-day="1">Tue</button>
+        <button data-day="2">Wed</button>
+        <button data-day="3">Thu</button>
+        <button data-day="4">Fri</button>
+        <button data-day="5">Sat</button>
+        <button data-day="6">Sun</button>
+      </div>
+
+      <!-- STREAK + WEEK SUMMARY -->
+      <div id="streak-summary" class="streak-summary"></div>
+
+      <div class="card weekly-summary">
+        <div id="weekly-summary-text"></div>
+      </div>
+
+      <!-- TODAY SESSION -->
+      <div class="sec-label">Today’s Session</div>
+
+      <div class="card">
+        <div id="today-session-title"></div>
+        <div id="today-session-list"></div>
+      </div>
+
+    </main>
 
   </div>
 
-  <div id="completion-toast">Session Forged.</div>
-
-  <!-- ✅ REAL ES MODULE SCRIPT (DO NOT MODIFY) -->
+  <!-- ================= SCRIPT ================= -->
   <script type="module" src="./app.js"></script>
 
 </body>
