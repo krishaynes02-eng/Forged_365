@@ -5,7 +5,7 @@
   <title>Forged365</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="stylesheet" href="./styles.css" />
+  ./styles.css
 </head>
 <body>
 
@@ -14,10 +14,8 @@
     <div class="forge-intro-inner">
       <div class="forge-logo">⚒️</div>
       <h1>Forged365</h1>
-      <p>The year is not consumed.<br/>It is forged — one strike per day.</p>
-      <button id="enter-forge-btn" class="start-btn">
-        Enter the Forge
-      </button>
+      <p>The year is not consumed.<br />It is forged — one strike per day.</p>
+      <button id="enter-forge-btn" class="start-btn">Enter the Forge</button>
     </div>
   </div>
 
@@ -33,10 +31,10 @@
         </div>
 
         <nav class="nav-tabs">
-          <button class="nav-tab active">Today</button>
-          <button class="nav-tab">Year Plan</button>
-          <button class="nav-tab">Exercises</button>
-          <button class="nav-tab">Recovery</button>
+          <button class="nav-tab active" data-tab="today">Today</button>
+          <button class="nav-tab" data-tab="year">Year Plan</button>
+          <button class="nav-tab" data-tab="exercises">Exercises</button>
+          <button class="nav-tab" data-tab="recovery">Recovery</button>
         </nav>
 
       </div>
@@ -45,45 +43,61 @@
     <!-- =============== MAIN CONTENT =============== -->
     <main class="shell">
 
-      <!-- WEEK HEADER -->
-      <div class="week-header">
-        <button id="prev-week" class="week-btn">←</button>
-        <div id="week-label" class="sec-label">Current Week</div>
-        <button id="next-week" class="week-btn">→</button>
-      </div>
+      <!-- ===== TODAY VIEW ===== -->
+      <section id="view-today">
 
-      <!-- DAY PICKER -->
-      <div id="day-picker" class="day-picker">
-        <button data-day="0">Mon</button>
-        <button data-day="1">Tue</button>
-        <button data-day="2">Wed</button>
-        <button data-day="3">Thu</button>
-        <button data-day="4">Fri</button>
-        <button data-day="5">Sat</button>
-        <button data-day="6">Sun</button>
-      </div>
+        <div class="week-header">
+          <button id="prev-week" class="week-btn">←</button>
+          <div id="week-label" class="sec-label">Current Week</div>
+          <button id="next-week" class="week-btn">→</button>
+        </div>
 
-      <!-- STREAK + WEEK SUMMARY -->
-      <div id="streak-summary" class="streak-summary"></div>
+        <div id="day-picker" class="day-picker">
+          <button data-day="0">Mon</button>
+          <button data-day="1">Tue</button>
+          <button data-day="2">Wed</button>
+          <button data-day="3">Thu</button>
+          <button data-day="4">Fri</button>
+          <button data-day="5">Sat</button>
+          <button data-day="6">Sun</button>
+        </div>
 
-      <div class="card weekly-summary">
-        <div id="weekly-summary-text"></div>
-      </div>
+        <div id="streak-summary" class="streak-summary"></div>
 
-      <!-- TODAY SESSION -->
-      <div class="sec-label">Today’s Session</div>
+        <div class="card weekly-summary">
+          <div id="weekly-summary-text"></div>
+        </div>
 
-      <div class="card">
-        <div id="today-session-title"></div>
-        <div id="today-session-list"></div>
-      </div>
+        <div class="sec-label">Today’s Session</div>
+
+        <div class="card">
+          <div id="today-session-title"></div>
+          <div id="today-session-list"></div>
+        </div>
+
+      </section>
+
+      <!-- ===== EXERCISES VIEW ===== -->
+      <section id="view-exercises" style="display:none;">
+
+        <div class="sec-label">Exercise Library</div>
+
+        <div class="card">
+          <div id="exercise-library"></div>
+        </div>
+
+      </section>
+
+      <!-- ===== PLACEHOLDERS FOR FUTURE ===== -->
+      <section id="view-year" style="display:none;"></section>
+      <section id="view-recovery" style="display:none;"></section>
 
     </main>
 
   </div>
 
   <!-- ================= SCRIPT ================= -->
-  <script type="module" src="./app.js"></script>
+  ./app.jsscript>
 
 </body>
 </html>
