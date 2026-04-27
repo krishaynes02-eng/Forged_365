@@ -1,41 +1,37 @@
 import { WORKOUTS, WEEK_SPLIT, EXERCISE_DETAILS } from './workouts.js';
 
-/* ===============================
-   SAFE DOM
-================================ */
+/* ================= SAFE DOM ================= */
 function $(id) {
   return document.getElementById(id);
 }
 
-/* ===============================
-   STATE
-================================ */
+/* ================= STATE ================= */
 let selectedDayIndex = 0;
 
-/* ===============================
-   DOM
-================================ */
+/* ================= DOM ================= */
 const intro = $('forge-intro');
 const enterBtn = $('enter-forge-btn');
+
+const viewToday = $('view-today');
+const viewExercises = $('view-exercises');
+
 const listEl = $('today-session-list');
 const titleEl = $('today-session-title');
 const weeklyEl = $('weekly-summary-text');
+
+const exerciseLibraryEl = $('exercise-library');
+
 const dayPickerEl = $('day-picker');
+const dayButtons = dayPickerEl ? [...dayPickerEl.querySelectorAll('button')] : [];
 
-const dayButtons = dayPickerEl
-  ? [...dayPickerEl.querySelectorAll('button')]
-  : [];
+const navTabs = [...document.querySelectorAll('.nav-tab')];
 
-/* ===============================
-   INTRO
-================================ */
+/* ================= INTRO ================= */
 if (intro && enterBtn) {
   enterBtn.onclick = () => intro.style.display = 'none';
 }
 
-/* ===============================
-   STORAGE
-================================ */
+/* ================= STORAGE ================= */
 function getState() {
   try {
     return JSON.parse(localStorage.getItem('forged_state')) || {};
@@ -48,78 +44,25 @@ function setState(state) {
   localStorage.setItem('forged_state', JSON.stringify(state));
 }
 
-/* ===============================
-   HELPERS
-================================ */
-function normalize(name) {
-  return name
-    .toLowerCase()
-    .replace(/—.*$/, '')
-    .replace(/[^a-z\s]/g, '')
-    .trim();
-}
+/* ================= TAB SWITCHING ================= */
+function switchTab(tab) {
+  viewToday.style.display = tab === 'today' ? 'block' : 'none';
+  viewExercises.style.display = tab === 'exercises' ? 'block' : 'none';
 
-function getExerciseDetails(exerciseName) {
-  const clean = normalize(exerciseName);
+  navTabs.forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === tab)
+  );
 
-  for (const key in EXERCISE_DETAILS) {
-    if (clean.includes(normalize(key))) {
-      return EXERCISE_DETAILS[key];
-    }
+  if (tab === 'exercises') {
+    renderExerciseLibrary();
   }
-
-  /* ✅ Fallback coaching — never vague */
-  return {
-    overview:
-      'This is a foundational movement used to build strength, control, and durability.',
-    instructions: [
-      'Set yourself up in a strong, balanced position.',
-      'Move through the range under control.',
-      'Return to the start before beginning the next repetition.'
-    ],
-    tips: [
-      'Move slowly and deliberately.',
-      'Stay within a range you can control.',
-      'Leave a few reps in reserve.'
-    ]
-  };
 }
 
-/* ===============================
-   WEEKLY SUMMARY
-================================ */
-function renderWeekly() {
-  if (!weeklyEl) return;
+navTabs.forEach(btn => {
+  btn.onclick = () => switchTab(btn.dataset.tab);
+});
 
-  const state = getState();
-  let done = 0, total = 0;
-
-  WEEK_SPLIT.forEach((day, i) => {
-    if (day === 'Rest') return;
-    total++;
-    if (state[`day-${i}`]?.done) done++;
-  });
-
-  weeklyEl.textContent =
-    `✅ ${done} of ${total} sessions completed this week`;
-}
-
-/* ===============================
-   DAY PICKER
-================================ */
-function renderDayPicker() {
-  const state = getState();
-
-  dayButtons.forEach(btn => {
-    const idx = Number(btn.dataset.day);
-    btn.classList.toggle('active', idx === selectedDayIndex);
-    btn.classList.toggle('completed', state[`day-${idx}`]?.done);
-  });
-}
-
-/* ===============================
-   TODAY
-================================ */
+/* ================= TODAY ================= */
 function renderToday() {
   if (!listEl || !titleEl) return;
 
@@ -140,77 +83,78 @@ function renderToday() {
 
   exercises.forEach((ex, i) => {
     const row = document.createElement('div');
-    row.className =
-      'exercise-row' + (completed.includes(i) ? ' completed' : '');
+    row.className = 'exercise-row';
 
     const label = document.createElement('span');
     label.textContent = ex;
-    label.style.cursor = 'pointer';
 
     const check = document.createElement('span');
     check.textContent = '✓';
-    check.style.cursor = 'pointer';
 
     row.append(label, check);
     listEl.append(row);
 
-    /* ---------- DETAILS ---------- */
-    const d = getExerciseDetails(ex);
+    const d = Object.values(EXERCISE_DETAILS)
+      .find(e => ex.toLowerCase().includes(e.overview.split(' ')[1]?.toLowerCase()));
+
+    const details = document.createElement('div');
+    details.className = 'exercise-details';
+
+    if (d) {
+      details.innerHTML = `
+        <strong>Overview</strong>
+        <p>${d.overview}</p>
+        <strong>Instructions</strong>
+        <ol>${d.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
+        <strong>Coaching Tips</strong>
+        <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
+      `;
+    }
+
+    label.onclick = () => details.classList.toggle('show');
+    listEl.append(details);
+  });
+}
+
+/* ================= EXERCISES LIBRARY ================= */
+function renderExerciseLibrary() {
+  if (!exerciseLibraryEl) return;
+
+  exerciseLibraryEl.innerHTML = '';
+
+  Object.entries(EXERCISE_DETAILS).forEach(([name, d]) => {
+    const row = document.createElement('div');
+    row.className = 'exercise-row';
+
+    const label = document.createElement('strong');
+    label.textContent = name;
+    label.style.cursor = 'pointer';
 
     const details = document.createElement('div');
     details.className = 'exercise-details';
     details.innerHTML = `
-      <strong>Overview</strong>
       <p>${d.overview}</p>
-
       <strong>Instructions</strong>
-      <ol>${d.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
-
+      <ol>${d.instructions.map(i => `<li>${i}</li>`).join('')}</ol>
       <strong>Coaching Tips</strong>
       <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
     `;
 
-    label.onclick = () => {
-      details.classList.toggle('show');
-    };
+    label.onclick = () => details.classList.toggle('show');
 
-    listEl.append(details);
-
-    /* ---------- COMPLETION ---------- */
-    check.onclick = () => {
-      const idx = completed.indexOf(i);
-      if (idx === -1) completed.push(i);
-      else completed.splice(idx, 1);
-
-      state[key] = {
-        items: completed,
-        done: completed.length === exercises.length
-      };
-
-      setState(state);
-      renderDayPicker();
-      renderWeekly();
-      renderToday();
-    };
+    exerciseLibraryEl.append(label, details);
   });
 }
 
-/* ===============================
-   EVENTS
-================================ */
+/* ================= DAY PICKER ================= */
 if (dayPickerEl) {
   dayPickerEl.onclick = e => {
     const btn = e.target.closest('button');
     if (!btn) return;
     selectedDayIndex = Number(btn.dataset.day);
-    renderDayPicker();
     renderToday();
   };
 }
 
-/* ===============================
-   INIT
-================================ */
-renderDayPicker();
-renderWeekly();
+/* ================= INIT ================= */
 renderToday();
