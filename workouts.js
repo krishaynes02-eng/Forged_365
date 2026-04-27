@@ -1,300 +1,293 @@
 /* =====================================================
-   FORGED365 — FOUNDATION EXERCISE LIBRARY
-   Full coaching explanations for ALL Foundation movements
+   FORGED365 — PROGRAM DATA + EXERCISE LIBRARY
+   (Authoritative, stable exports)
 ===================================================== */
+
+/* ================= WEEK STRUCTURE ================= */
+
+export const WEEK_SPLIT = [
+  'Push',        // Monday
+  'Pull',        // Tuesday
+  'Lower',       // Wednesday
+  'Reset',       // Thursday
+  'Full',        // Friday
+  'Conditioning',// Saturday
+  'Rest'         // Sunday
+];
+
+/* ================= WORKOUT PROGRAM ================= */
+
+export const WORKOUTS = {
+
+  Push: {
+    foundation: [
+      'Incline push-ups — 3×8',
+      'Kneeling push-ups — 3×6',
+      'Scapular push-ups — 2×10',
+      'Shoulder CARs — 2×5/side'
+    ]
+  },
+
+  Pull: {
+    foundation: [
+      'Row — 3×8',
+      'Dead bug — 3×6/side',
+      'Side plank — 2×20s/side',
+      'Thoracic rotations — 2×8'
+    ]
+  },
+
+  Lower: {
+    foundation: [
+      'Box squat — 4×8',
+      'Reverse lunge — 3×6/side',
+      'Glute bridge — 3×12',
+      'Hip CARs — 2×5/side'
+    ]
+  },
+
+  Reset: {
+    foundation: [
+      'Breathing reset — 5 min',
+      'Hip flexor stretch — 2×45s/side',
+      'Adductor rocks — 2×10',
+      'Spinal waves — 2×6'
+    ]
+  },
+
+  Full: {
+    foundation: [
+      'Push-ups — 3×10',
+      'Rows — 3×10',
+      'Bodyweight squats — 3×12',
+      'Bear crawl — 3×20 steps'
+    ]
+  },
+
+  Conditioning: {
+    foundation: [
+      'Easy walk — 20–30 min',
+      'OR light jog — 10–15 min'
+    ]
+  },
+
+  Rest: {
+    foundation: []
+  }
+};
+
+/* ================= EXERCISE DETAILS ================= */
 
 export const EXERCISE_DETAILS = {
 
-  /* ================= CORE ================= */
+  /* ---------- CORE ---------- */
 
-  "Dead bug": {
+  'Dead bug': {
     overview:
-      "The dead bug is a core stability exercise used to strengthen the abdominal muscles while protecting the lower back.",
+      'The dead bug is a core stability exercise used to strengthen the abs while protecting the lower back.',
     instructions: [
-      "Lie on your back with your arms extended straight up toward the ceiling.",
-      "Bend your hips and knees to about 90 degrees.",
-      "Gently press your lower back into the floor and keep it there.",
-      "Slowly extend the opposite arm and leg away from your body.",
-      "Return to the starting position and repeat on the other side."
+      'Lie on your back with arms reaching toward the ceiling.',
+      'Bend hips and knees to 90 degrees.',
+      'Press lower back gently into the floor.',
+      'Extend opposite arm and leg slowly.',
+      'Return and switch sides.'
     ],
     tips: [
-      "Move slowly and with control.",
-      "Exhale as the arm and leg extend.",
-      "If your back arches, shorten the range of motion."
+      'Move slowly.',
+      'Exhale during extension.',
+      'Shorten range if your back arches.'
     ]
   },
 
-  "Side plank": {
+  'Side plank': {
     overview:
-      "The side plank strengthens the muscles along the side of the torso, helping stabilize the spine and protect the lower back.",
+      'The side plank strengthens the muscles along the side of the torso to stabilize the spine.',
     instructions: [
-      "Lie on your side with your elbow under your shoulder.",
-      "Stack your legs or bend them if needed for support.",
-      "Lift your hips so your body forms a straight line.",
-      "Hold this position while breathing steadily."
+      'Lie on your side with elbow under shoulder.',
+      'Lift hips to create a straight line.',
+      'Hold while breathing steadily.'
     ],
     tips: [
-      "Do not let your hips sag.",
-      "Keep your neck relaxed.",
-      "Bend the bottom knee to make it easier."
+      'Do not let hips sag.',
+      'Keep neck relaxed.',
+      'Bend knees to regress.'
     ]
   },
 
-  /* ================= PUSH ================= */
+  /* ---------- PUSH ---------- */
 
-  "Incline push-ups": {
+  'Incline push-ups': {
     overview:
-      "Incline push-ups are a joint-friendly pressing exercise that builds upper-body strength.",
+      'Incline push-ups build pressing strength with less joint stress.',
     instructions: [
-      "Place your hands on a bench, box, or wall.",
-      "Step your feet back and form a straight line from head to heels.",
-      "Lower your chest toward your hands.",
-      "Press back up to the starting position."
+      'Place hands on a bench, box, or wall.',
+      'Step feet back into a straight body line.',
+      'Lower chest toward hands.',
+      'Press back up.'
     ],
     tips: [
-      "Keep your elbows about 45 degrees from your body.",
-      "Brace through the torso.",
-      "Move with control, not speed."
+      'Elbows about 45 degrees.',
+      'Brace lightly.',
+      'Control the descent.'
     ]
   },
 
-  "Kneeling push-ups": {
+  'Kneeling push-ups': {
     overview:
-      "Kneeling push-ups reduce load while reinforcing good push-up mechanics.",
+      'Kneeling push-ups reinforce good push-up mechanics with reduced load.',
     instructions: [
-      "Kneel on the floor and place hands under shoulders.",
-      "Form a straight line from knees to head.",
-      "Lower chest toward the floor.",
-      "Press back up until arms are straight."
+      'Kneel on the floor with hands under shoulders.',
+      'Keep body straight from knees to head.',
+      'Lower chest.',
+      'Press back up.'
     ],
     tips: [
-      "Avoid flaring elbows.",
-      "Keep your core lightly braced.",
-      "Control the descent."
+      'Avoid flared elbows.',
+      'Control the tempo.',
+      'Breathe steadily.'
     ]
   },
 
-  "Push-ups": {
+  'Push-ups': {
     overview:
-      "Push-ups are a foundational upper-body exercise that builds strength and core stability.",
+      'Push-ups build upper-body and core strength.',
     instructions: [
-      "Start in a plank position with hands under shoulders.",
-      "Lower your chest toward the floor.",
-      "Press back up to full arm extension."
+      'Start in a plank position.',
+      'Lower chest toward the floor.',
+      'Press back to full arm extension.'
     ],
     tips: [
-      "Keep your body in a straight line.",
-      "Stop 1–2 reps before failure.",
-      "Move smoothly."
+      'Keep body straight.',
+      'Stop before failure.',
+      'Move smoothly.'
     ]
   },
 
-  "Scapular push-ups": {
+  'Scapular push-ups': {
     overview:
-      "Scapular push-ups strengthen the shoulder blades and improve shoulder stability.",
+      'Scapular push-ups strengthen the shoulder blades for shoulder health.',
     instructions: [
-      "Start in a plank position with arms locked straight.",
-      "Let your chest sink slightly as shoulder blades come together.",
-      "Push the floor away, spreading the shoulder blades apart."
+      'Start in plank with arms straight.',
+      'Let chest sink slightly.',
+      'Push floor away, spreading shoulder blades.'
     ],
     tips: [
-      "Arms stay straight the entire time.",
-      "Move slowly.",
-      "Focus on shoulder motion, not elbows."
+      'Arms stay straight.',
+      'Small controlled motion.',
+      'No rushing.'
     ]
   },
 
-  "Shoulder CARs": {
+  'Shoulder CARs': {
     overview:
-      "Shoulder Controlled Articular Rotations maintain and restore shoulder mobility.",
+      'Shoulder CARs maintain shoulder mobility and joint strength.',
     instructions: [
-      "Stand tall with feet hip-width apart.",
-      "Raise one arm straight in front of you.",
-      "Slowly rotate it overhead, out to the side, and behind you.",
-      "Return to the starting position."
+      'Stand tall.',
+      'Raise one arm.',
+      'Slowly circle it overhead and behind you.'
     ],
     tips: [
-      "Move as slowly as possible.",
-      "No momentum.",
-      "Pain-free range only."
+      'Slow and controlled.',
+      'No momentum.',
+      'Pain-free range.'
     ]
   },
 
-  /* ================= PULL ================= */
+  /* ---------- PULL ---------- */
 
-  "Row": {
+  'Row': {
     overview:
-      "Rows strengthen the upper back and arms, supporting posture and shoulder health.",
+      'Rows strengthen the upper back and support posture.',
     instructions: [
-      "Hold onto a sturdy surface or towel.",
-      "Lean back with arms extended.",
-      "Pull your chest toward your hands.",
-      "Lower back under control."
+      'Hold a sturdy surface or towel.',
+      'Lean back with arms extended.',
+      'Pull chest toward hands.',
+      'Lower under control.'
     ],
     tips: [
-      "Squeeze shoulder blades together.",
-      "Keep body straight.",
-      "Walk feet closer to regress."
+      'Squeeze shoulder blades.',
+      'Keep body straight.',
+      'Walk feet closer to scale down.'
     ]
   },
 
-  "Thoracic rotations": {
+  'Thoracic rotations': {
     overview:
-      "Thoracic rotations improve upper-back mobility, reducing strain on the lower back and shoulders.",
+      'Thoracic rotations improve upper-back mobility.',
     instructions: [
-      "Lie on your side or set up on hands and knees.",
-      "Rotate your upper back open.",
-      "Return to start and repeat."
+      'Lie on side or set up on all fours.',
+      'Rotate upper back open.',
+      'Return under control.'
     ],
     tips: [
-      "Move slowly.",
-      "Breathe as you rotate.",
-      "Keep hips stable."
+      'Move slowly.',
+      'Breathe with motion.',
+      'Keep hips stable.'
     ]
   },
 
-  /* ================= LOWER ================= */
+  /* ---------- LOWER ---------- */
 
-  "Box squat": {
+  'Box squat': {
     overview:
-      "Box squats teach safe squat mechanics while reducing knee and back strain.",
+      'Box squats teach safe squat mechanics.',
     instructions: [
-      "Stand in front of a chair or box.",
-      "Push hips back and sit down slowly.",
-      "Lightly touch the box.",
-      "Stand back up by driving through your heels."
+      'Stand in front of a box or chair.',
+      'Sit back under control.',
+      'Lightly touch.',
+      'Stand through heels.'
     ],
     tips: [
-      "Control the descent.",
-      "Do not collapse at the bottom.",
-      "Raise the box if needed."
+      'Control descent.',
+      'Chest tall.',
+      'Raise box if needed.'
     ]
   },
 
-  "Bodyweight squats": {
+  'Glute bridge': {
     overview:
-      "Bodyweight squats build leg strength through a basic functional movement.",
+      'Glute bridges strengthen the hips and protect the lower back.',
     instructions: [
-      "Stand with feet about shoulder-width apart.",
-      "Sit back and down into a squat.",
-      "Stand back up."
+      'Lie on back with knees bent.',
+      'Press feet into floor.',
+      'Lift hips.',
+      'Lower slowly.'
     ],
     tips: [
-      "Keep chest tall.",
-      "Do not rush reps.",
-      "Stay controlled."
+      'Squeeze glutes.',
+      'No arching.',
+      'Controlled reps.'
     ]
   },
 
-  "Reverse lunge": {
+  'Reverse lunge': {
     overview:
-      "Reverse lunges strengthen the legs while being easier on the knees than forward lunges.",
+      'Reverse lunges build leg strength with less knee stress.',
     instructions: [
-      "Stand tall.",
-      "Step one leg back into a lunge.",
-      "Lower under control.",
-      "Return to standing."
+      'Stand tall.',
+      'Step one foot back.',
+      'Lower into a lunge.',
+      'Return to standing.'
     ],
     tips: [
-      "Keep torso upright.",
-      "Use balance support if needed.",
-      "Move slowly."
+      'Upright torso.',
+      'Slow movement.',
+      'Use support if needed.'
     ]
   },
 
-  "Glute bridge": {
+  'Bear crawl': {
     overview:
-      "Glute bridges strengthen the hips and protect the lower back.",
+      'Bear crawls develop full-body coordination and core strength.',
     instructions: [
-      "Lie on your back with knees bent.",
-      "Press feet into the floor.",
-      "Lift hips up.",
-      "Lower under control."
+      'Start on hands and knees.',
+      'Lift knees slightly.',
+      'Move opposite hand and foot.'
     ],
     tips: [
-      "Squeeze glutes at the top.",
-      "Do not arch the back.",
-      "Move deliberately."
-    ]
-  },
-
-  /* ================= FULL BODY ================= */
-
-  "Bear crawl": {
-    overview:
-      "Bear crawls build full-body coordination and core strength.",
-    instructions: [
-      "Start on hands and knees.",
-      "Lift knees slightly off the floor.",
-      "Move opposite hand and foot forward.",
-      "Continue slowly."
-    ],
-    tips: [
-      "Move slowly.",
-      "Stay low.",
-      "Breathe normally."
-    ]
-  },
-
-  /* ================= RESET / RECOVERY ================= */
-
-  "Breathing reset": {
-    overview:
-      "Breathing resets calm the nervous system and restore posture.",
-    instructions: [
-      "Lie on your back or sit comfortably.",
-      "Breathe slowly through the nose.",
-      "Exhale fully."
-    ],
-    tips: [
-      "Long exhales.",
-      "Relax shoulders.",
-      "No rush."
-    ]
-  },
-
-  "Hip flexor stretch": {
-    overview:
-      "This stretch reduces tension in the front of the hips.",
-    instructions: [
-      "Kneel on one knee.",
-      "Gently shift hips forward.",
-      "Hold while breathing."
-    ],
-    tips: [
-      "Do not arch the lower back.",
-      "Stay relaxed.",
-      "Pain-free stretch only."
-    ]
-  },
-
-  "Adductor rocks": {
-    overview:
-      "Adductor rocks gently mobilize the inner thighs.",
-    instructions: [
-      "Start on all fours.",
-      "Extend one leg to the side.",
-      "Shift hips back and forth."
-    ],
-    tips: [
-      "Move gently.",
-      "Stay controlled.",
-      "Breathe through reps."
-    ]
-  },
-
-  "Spinal waves": {
-    overview:
-      "Spinal waves help restore smooth spinal movement.",
-    instructions: [
-      "Start standing or on all fours.",
-      "Slowly round and extend the spine.",
-      "Move one vertebra at a time."
-    ],
-    tips: [
-      "Move slowly.",
-      "No forcing range.",
-      "Focus on smooth motion."
+      'Move slowly.',
+      'Stay low.',
+      'Control breathing.'
     ]
   }
 };
