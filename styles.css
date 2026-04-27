@@ -1,29 +1,33 @@
 /* =====================================================
-   FORGED365 — DUAL MODE THEME
-   Forge Mode (ceremony) + Workshop Mode (daily use)
-   Industrial & Warm · Evening Shop
+   FORGED365 — MODERN INDUSTRIAL (DAYLIGHT STEEL)
+   Dual-Mode:
+   - Forge Mode (Intro): dark, ceremonial
+   - Workshop Mode (App): light, crisp, industrial
 ===================================================== */
 
-/* ================= ROOT ================= */
+/* ================= DESIGN TOKENS ================= */
 
 :root {
-  /* Workshop Mode */
-  --bg-main: #2b2a28;           /* warm graphite */
-  --bg-panel: #35332f;          /* steel bench surface */
-  --bg-panel-soft: #3d3a35;
-  --text-main: #e6e2dd;         /* warm off-white */
-  --text-muted: #b9b4ac;
+  /* Workshop Mode (Primary App) */
+  --bg-main: #eef1f4;           /* very light neutral steel */
+  --bg-panel: #ffffff;         /* card surface */
+  --bg-panel-soft: #f6f8fa;
 
-  /* Ember Accent */
-  --accent-ember: #d46a2c;
-  --accent-ember-soft: #a85022;
+  --text-main: #1f2933;        /* deep graphite */
+  --text-muted: #6b7280;       /* cool gray */
 
-  /* Borders & Shadows */
-  --border-soft: rgba(255, 255, 255, 0.06);
-  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.45);
+  /* Accent */
+  --accent-ember: #d46a2c;     /* controlled warmth */
+  --accent-ember-soft: #b8571f;
+
+  /* Borders & Elevation */
+  --border-soft: rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.12);
 
   /* Typography */
-  --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* ================= BASE ================= */
@@ -35,11 +39,10 @@
 body {
   margin: 0;
   font-family: var(--font-main);
-  background: radial-gradient(
-    circle at top,
-    #2f2d2a 0%,
-    var(--bg-main) 55%,
-    #1f1e1c 100%
+  background: linear-gradient(
+    180deg,
+    #f2f4f7 0%,
+    var(--bg-main) 100%
   );
   color: var(--text-main);
 }
@@ -51,7 +54,7 @@ body {
   inset: 0;
   background:
     radial-gradient(circle at center, rgba(212,106,44,0.18), transparent 55%),
-    linear-gradient(#0f0f0f, #1a1917);
+    linear-gradient(#0f0f0f, #1c1b19);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,6 +64,7 @@ body {
 .forge-intro-inner {
   text-align: center;
   padding: 2.5rem;
+  color: #e6e2dd;
 }
 
 .forge-logo {
@@ -70,11 +74,11 @@ body {
 
 .forge-intro h1 {
   margin: 0.25rem 0;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
 }
 
 .forge-intro p {
-  color: var(--text-muted);
+  color: #b9b4ac;
   margin-bottom: 2rem;
 }
 
@@ -103,8 +107,8 @@ body {
 .topbar {
   background: linear-gradient(
     180deg,
-    #1d1c19,
-    #232220
+    #ffffff,
+    #f5f6f8
   );
   border-bottom: 1px solid var(--border-soft);
 }
@@ -170,7 +174,7 @@ body {
   background: var(--bg-panel-soft);
   border: 1px solid var(--border-soft);
   color: var(--text-muted);
-  padding: 0.35rem;
+  padding: 0.4rem;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -182,21 +186,22 @@ body {
     var(--accent-ember-soft)
   );
   color: #111;
+  border-color: transparent;
 }
 
 /* ================= CARDS ================= */
 
 .card {
-  background: linear-gradient(
-    180deg,
-    var(--bg-panel),
-    var(--bg-panel-soft)
-  );
+  background: var(--bg-panel);
   border: 1px solid var(--border-soft);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1rem;
   margin-bottom: 1rem;
   box-shadow: var(--shadow-soft);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
 }
 
 /* ================= EXERCISES ================= */
@@ -204,7 +209,7 @@ body {
 .exercise-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.55rem 0;
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -216,7 +221,7 @@ body {
   display: none;
   margin: 0.75rem 0 1rem 0;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .exercise-details.show {
@@ -231,13 +236,13 @@ body {
 
 .sec-label {
   margin: 1.25rem 0 0.5rem 0;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   font-size: 0.75rem;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
-/* ================= MISC ================= */
+/* ================= WEEK NAV ================= */
 
 .week-header {
   display: flex;
@@ -252,4 +257,5 @@ body {
   color: var(--text-muted);
   padding: 0.3rem 0.75rem;
   border-radius: 4px;
+  cursor: pointer;
 }
