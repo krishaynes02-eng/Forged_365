@@ -1,228 +1,255 @@
+/* =====================================================
+   FORGED365 — DUAL MODE THEME
+   Forge Mode (ceremony) + Workshop Mode (daily use)
+   Industrial & Warm · Evening Shop
+===================================================== */
+
+/* ================= ROOT ================= */
+
 :root {
-  --bg-main:#0b0b0b;
-  --bg-card:#171717;
-  --bg-soft:#222;
-  --border:#333;
+  /* Workshop Mode */
+  --bg-main: #2b2a28;           /* warm graphite */
+  --bg-panel: #35332f;          /* steel bench surface */
+  --bg-panel-soft: #3d3a35;
+  --text-main: #e6e2dd;         /* warm off-white */
+  --text-muted: #b9b4ac;
 
-  --text-primary:#f4f4f4;
-  --text-secondary:#d2d2d2;
-  --text-muted:#a5a5a5;
+  /* Ember Accent */
+  --accent-ember: #d46a2c;
+  --accent-ember-soft: #a85022;
 
-  --ember:#ff7a2f;
-  --ember-dark:#c94f11;
+  /* Borders & Shadows */
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.45);
+
+  /* Typography */
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-* { box-sizing: border-box; }
+/* ================= BASE ================= */
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  margin:0;
-  min-height:100vh;
-  font-family:system-ui,-apple-system,sans-serif;
-  color:var(--text-primary);
-
-  background:
-    radial-gradient(
-      circle at center 20%,
-      rgba(255,122,47,0.28),
-      rgba(255,122,47,0.10) 35%,
-      var(--bg-main) 70%
-    );
+  margin: 0;
+  font-family: var(--font-main);
+  background: radial-gradient(
+    circle at top,
+    #2f2d2a 0%,
+    var(--bg-main) 55%,
+    #1f1e1c 100%
+  );
+  color: var(--text-main);
 }
 
-/* ---------------- TOP BAR ---------------- */
-
-.topbar {
-  background: linear-gradient(to bottom, #141414, #0d0d0d);
-  border-bottom:1px solid var(--border);
-  padding:14px 18px;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.topbar-inner {
-  max-width:680px;
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo-mark {
-  width:22px;
-  height:22px;
-  background:radial-gradient(circle, var(--ember), var(--ember-dark));
-  border-radius:50%;
-  box-shadow:0 0 6px rgba(255,122,47,.7);
-}
-
-.logo-text {
-  font-weight:700;
-  font-size:18px;
-}
-
-.logo-text span { color:var(--ember); }
-
-/* ---------------- LAYOUT ---------------- */
-
-.shell {
-  max-width:680px;
-  margin:0 auto;
-  padding:16px;
-}
-
-/* ---------------- INTRO ---------------- */
+/* ================= FORGE MODE (INTRO) ================= */
 
 .forge-intro {
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  position: fixed;
+  inset: 0;
   background:
-    radial-gradient(circle at top,
-      rgba(255,122,47,0.30),
-      #0b0b0b 60%);
-  z-index:100;
+    radial-gradient(circle at center, rgba(212,106,44,0.18), transparent 55%),
+    linear-gradient(#0f0f0f, #1a1917);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .forge-intro-inner {
-  text-align:center;
-  padding:32px;
+  text-align: center;
+  padding: 2.5rem;
+}
+
+.forge-logo {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.forge-intro h1 {
+  margin: 0.25rem 0;
+  letter-spacing: 0.12em;
+}
+
+.forge-intro p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
 }
 
 .start-btn {
-  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
-  color:#120600;
-  border:none;
-  border-radius:12px;
-  padding:14px 28px;
-  font-size:15px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(255,122,47,.6);
+  background: linear-gradient(
+    180deg,
+    var(--accent-ember),
+    var(--accent-ember-soft)
+  );
+  color: #111;
+  border: none;
+  padding: 0.85rem 1.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* ---------------- WEEK NAV ---------------- */
+/* ================= APP SHELL ================= */
 
-.week-header {
-  background:rgba(0,0,0,.35);
-  border-radius:10px;
-  padding:6px 10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:8px;
+.app-shell {
+  padding-bottom: 3rem;
 }
 
-.week-btn {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:6px 12px;
-  color:var(--text-primary);
-  cursor:pointer;
+/* ================= TOP BAR ================= */
+
+.topbar {
+  background: linear-gradient(
+    180deg,
+    #1d1c19,
+    #232220
+  );
+  border-bottom: 1px solid var(--border-soft);
 }
 
-/* ---------------- DAY PICKER ---------------- */
+.topbar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-name {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.brand-name span {
+  color: var(--accent-ember);
+}
+
+/* ================= NAV ================= */
+
+.nav-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav-tab {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  padding: 0.4rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-tab.active {
+  border-color: var(--accent-ember);
+  color: var(--text-main);
+}
+
+/* ================= LAYOUT ================= */
+
+.shell {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* ================= DAY PICKER ================= */
 
 .day-picker {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:6px;
-  margin-bottom:14px;
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .day-picker button {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:8px 4px;
-  font-size:11px;
-  color:var(--text-muted);
+  flex: 1;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  padding: 0.35rem;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-.day-picker .active {
-  border-color:var(--ember);
-  background:rgba(255,122,47,.18);
-  color:var(--text-primary);
+.day-picker button.active {
+  background: linear-gradient(
+    180deg,
+    var(--accent-ember),
+    var(--accent-ember-soft)
+  );
+  color: #111;
 }
 
-.day-picker .completed {
-  background:rgba(255,122,47,.28);
-}
-
-/* ---------------- TEXT ---------------- */
-
-.sec-label {
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin-bottom:10px;
-}
-
-.streak-summary {
-  font-size:13px;
-  color:var(--text-secondary);
-  margin-bottom:10px;
-}
-
-/* ---------------- CARDS ---------------- */
+/* ================= CARDS ================= */
 
 .card {
-  background:linear-gradient(to bottom,var(--bg-soft),var(--bg-card));
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:12px;
+  background: linear-gradient(
+    180deg,
+    var(--bg-panel),
+    var(--bg-panel-soft)
+  );
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-soft);
 }
 
-.weekly-summary {
-  border-left:4px solid var(--ember);
-  background:linear-gradient(to right,rgba(255,122,47,.2),var(--bg-card));
-}
-
-/* ---------------- EXERCISES ---------------- */
+/* ================= EXERCISES ================= */
 
 .exercise-row {
-  cursor:pointer;
-  padding:8px 0;
-  display:flex;
-  justify-content:space-between;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-.exercise-row.completed {
-  text-decoration:line-through;
-  opacity:.55;
+.exercise-row:last-child {
+  border-bottom: none;
 }
 
 .exercise-details {
-  display:none;
-  font-size:13px;
-  color:var(--text-secondary);
-  margin-top:8px;
-  padding-top:8px;
-  border-top:1px solid var(--border);
+  display: none;
+  margin: 0.75rem 0 1rem 0;
+  color: var(--text-muted);
+  line-height: 1.55;
 }
 
-.exercise-details.show { display:block; }
-
-/* ---------------- TOAST ---------------- */
-
-#completion-toast {
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%) translateY(20px);
-  opacity:0;
-  background:linear-gradient(to bottom,var(--ember),var(--ember-dark));
-  padding:12px 18px;
-  border-radius:12px;
-  transition:.35s;
+.exercise-details.show {
+  display: block;
 }
 
-#completion-toast.show {
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.exercise-details strong {
+  color: var(--text-main);
 }
-``
+
+/* ================= TYPOGRAPHY ================= */
+
+.sec-label {
+  margin: 1.25rem 0 0.5rem 0;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ================= MISC ================= */
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.week-btn {
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  color: var(--text-muted);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+}
