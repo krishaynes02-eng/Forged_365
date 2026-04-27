@@ -18,12 +18,10 @@ const viewExercises = $('view-exercises');
 const listEl = $('today-session-list');
 const titleEl = $('today-session-title');
 const weeklyEl = $('weekly-summary-text');
-
 const exerciseLibraryEl = $('exercise-library');
 
 const dayPickerEl = $('day-picker');
 const dayButtons = dayPickerEl ? [...dayPickerEl.querySelectorAll('button')] : [];
-
 const navTabs = [...document.querySelectorAll('.nav-tab')];
 
 /* ================= INTRO ================= */
@@ -44,6 +42,41 @@ function setState(state) {
   localStorage.setItem('forged_state', JSON.stringify(state));
 }
 
+/* ================= HELPERS ================= */
+function normalize(name) {
+  return name
+    .toLowerCase()
+    .replace(/—.*$/g, '')
+    .replace(/[^a-z\s]/g, '')
+    .trim();
+}
+
+function getExerciseDetails(exerciseName) {
+  const cleaned = normalize(exerciseName);
+
+  for (const key in EXERCISE_DETAILS) {
+    if (cleaned.includes(normalize(key))) {
+      return EXERCISE_DETAILS[key];
+    }
+  }
+
+  // This should rarely be hit now, but avoids empty expansions
+  return {
+    overview:
+      'This is a foundational movement used to build strength, control, and durability.',
+    instructions: [
+      'Set up in a stable position.',
+      'Move through the motion under control.',
+      'Return to the start before the next repetition.'
+    ],
+    tips: [
+      'Move deliberately.',
+      'Breathe naturally.',
+      'Stop short of fatigue.'
+    ]
+  };
+}
+
 /* ================= TAB SWITCHING ================= */
 function switchTab(tab) {
   viewToday.style.display = tab === 'today' ? 'block' : 'none';
@@ -62,7 +95,7 @@ navTabs.forEach(btn => {
   btn.onclick = () => switchTab(btn.dataset.tab);
 });
 
-/* ================= TODAY ================= */
+/* ================= TODAY VIEW ================= */
 function renderToday() {
   if (!listEl || !titleEl) return;
 
@@ -71,7 +104,6 @@ function renderToday() {
   listEl.innerHTML = '';
 
   const exercises = WORKOUTS[dayType]?.foundation || [];
-
   if (!exercises.length) {
     listEl.innerHTML = '<p>Rest and recover today.</p>';
     return;
@@ -83,66 +115,79 @@ function renderToday() {
 
   exercises.forEach((ex, i) => {
     const row = document.createElement('div');
-    row.className = 'exercise-row';
+    row.className =
+      'exercise-row' + (completed.includes(i) ? ' completed' : '');
 
     const label = document.createElement('span');
     label.textContent = ex;
+    label.style.cursor = 'pointer';
 
     const check = document.createElement('span');
     check.textContent = '✓';
+    check.style.cursor = 'pointer';
 
     row.append(label, check);
     listEl.append(row);
 
-    const d = Object.values(EXERCISE_DETAILS)
-      .find(e => ex.toLowerCase().includes(e.overview.split(' ')[1]?.toLowerCase()));
-
-    const details = document.createElement('div');
-    details.className = 'exercise-details';
-
-    if (d) {
-      details.innerHTML = `
-        <strong>Overview</strong>
-        <p>${d.overview}</p>
-        <strong>Instructions</strong>
-        <ol>${d.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
-        <strong>Coaching Tips</strong>
-        <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
-      `;
-    }
-
-    label.onclick = () => details.classList.toggle('show');
-    listEl.append(details);
-  });
-}
-
-/* ================= EXERCISES LIBRARY ================= */
-function renderExerciseLibrary() {
-  if (!exerciseLibraryEl) return;
-
-  exerciseLibraryEl.innerHTML = '';
-
-  Object.entries(EXERCISE_DETAILS).forEach(([name, d]) => {
-    const row = document.createElement('div');
-    row.className = 'exercise-row';
-
-    const label = document.createElement('strong');
-    label.textContent = name;
-    label.style.cursor = 'pointer';
-
+    const d = getExerciseDetails(ex);
     const details = document.createElement('div');
     details.className = 'exercise-details';
     details.innerHTML = `
+      <strong>Overview</strong>
       <p>${d.overview}</p>
+
       <strong>Instructions</strong>
-      <ol>${d.instructions.map(i => `<li>${i}</li>`).join('')}</ol>
+      <ol>${d.instructions.map(s => `<li>${s}</li>`).join('')}</ol>
+
       <strong>Coaching Tips</strong>
       <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
     `;
 
     label.onclick = () => details.classList.toggle('show');
+    listEl.append(details);
 
-    exerciseLibraryEl.append(label, details);
+    check.onclick = () => {
+      const idx = completed.indexOf(i);
+      if (idx === -1) completed.push(i);
+      else completed.splice(idx, 1);
+
+      state[key] = {
+        items: completed,
+        done: completed.length === exercises.length
+      };
+
+      setState(state);
+      renderToday();
+    };
+  });
+}
+
+/* ================= EXERCISES TAB ================= */
+function renderExerciseLibrary() {
+  exerciseLibraryEl.innerHTML = '';
+
+  Object.entries(EXERCISE_DETAILS).forEach(([name, d]) => {
+    const header = document.createElement('div');
+    header.className = 'exercise-row';
+    header.textContent = name;
+    header.style.cursor = 'pointer';
+
+    const details = document.createElement('div');
+    details.className = 'exercise-details';
+    details.innerHTML = `
+      <strong>Overview</strong>
+      <p>${d.overview}</p>
+
+      <strong>Instructions</strong>
+      <ol>${d.instructions.map(i => `<li>${i}</li>`).join('')}</ol>
+
+      <strong>Coaching Tips</strong>
+      <ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>
+    `;
+
+    header.onclick = () => details.classList.toggle('show');
+
+    exerciseLibraryEl.append(header, details);
   });
 }
 
